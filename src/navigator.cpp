@@ -12,7 +12,7 @@
 #include "motorControl.h"
 #include "math.h"
 
-//Navigator navigator = Navigator();
+Navigator navigator = Navigator();
 
 Navigator::Navigator(){
 	turn_done = false;

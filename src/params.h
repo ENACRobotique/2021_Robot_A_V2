@@ -9,6 +9,8 @@
 #define PARAMS_H_
 #include "Arduino.h"
 
+const int ARUCO_ID = 1;
+
 const unsigned long TIME_RACE = 100000;
 
 

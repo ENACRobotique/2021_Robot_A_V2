@@ -6,6 +6,7 @@
 #include "navigator.h"
 #include "communication.h"
 #include "./FMSSupervisor.h"
+#include "raspberryParser.h"
 #include <string.h>     // std::string, std::to_string
 
 Metro controlTime = Metro((unsigned long)(CONTROL_PERIOD * 1000));
@@ -14,7 +15,7 @@ Metro navTime = Metro((unsigned long)(NAVIGATOR_PERIOD * 1000)); //2000
 Metro TestTime = Metro(1000);
 Metro commXBee = Metro((unsigned long)(COMMUNICATION_PERIOD * 1000));
 Metro stateTime = Metro((unsigned long)(STATE_PERIOD * 1000));
-Navigator navigator = Navigator();
+
 
 //The setup function is called once at startup of the sketch
 void setup()
@@ -64,7 +65,8 @@ void loop()
 	}
 
 	if (commXBee.check()) {
-		Communication::update();
+		//Communication::update();
+		raspberryparser.update();
 		//tostr=String(Communication::get_value());
 		//Serial1.print(tostr);
 		//MotorControl::set_cons(10*Communication::get_value(),0);
@@ -84,7 +86,7 @@ void loop()
 		//Serial1.println(Odometry::get_pos_x());
 	}
 	if(stateTime.check()){
-		fmsSupervisor.update();
+		//fmsSupervisor.update();
 	}
 
 	} else {

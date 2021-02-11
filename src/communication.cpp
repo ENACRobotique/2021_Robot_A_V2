@@ -13,7 +13,6 @@ namespace Communication {
 
     char buffer[50];
     int buff_index=0;
-    int value;
     void update() {
         int a;
         a = Serial1.available();
@@ -41,13 +40,7 @@ namespace Communication {
         }
 
 
-        
-        
 
-    }
-
-    int get_value() {
-        return value;
     }
 
     static void parse_data(){
