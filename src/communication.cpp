@@ -4,6 +4,7 @@
 #include "motorControl.h"
 #include "navigator.h"
 #include "odometry.h"
+#include "raspberryParser.h"
 
 #define COM_DEBUG
 
@@ -78,6 +79,9 @@ namespace Communication {
             if(nb == 1) {
                 navigator.turn_to(angle);
             }
+        }
+        else if(buffer[0] == 'i'){
+            raspberryparser.parseData(buffer);
         }
 
         buff_index = 0;

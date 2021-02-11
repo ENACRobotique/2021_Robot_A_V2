@@ -65,8 +65,7 @@ void loop()
 	}
 
 	if (commXBee.check()) {
-		//Communication::update();
-		raspberryparser.update();
+		Communication::update();
 		//tostr=String(Communication::get_value());
 		//Serial1.print(tostr);
 		//MotorControl::set_cons(10*Communication::get_value(),0);
