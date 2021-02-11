@@ -7,8 +7,8 @@
 
 #include "FMSSupervisor.h"
 #include "Arduino.h"
-#include "AbstractState.h"
-#include "CaptureEcocup.h"
+#include "./stateMachine/AbstractState.h"
+#include "./stateMachine/CaptureEcocup.h"
 
 FMSSupervisor fmsSupervisor = FMSSupervisor();
 
