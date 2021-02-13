@@ -85,7 +85,7 @@ void loop()
 		//Serial1.println(Odometry::get_pos_x());
 	}
 	if(stateTime.check()){
-		//fmsSupervisor.update();
+		fmsSupervisor.update();
 	}
 
 	} else {

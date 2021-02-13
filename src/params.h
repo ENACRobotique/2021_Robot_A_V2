@@ -31,7 +31,7 @@ const int MOT2_DIR = 28;
 
 // const int SERVO1 = 39;
 // const int SERVO2 = 15;
-// const int SERVO3 = 37;
+const int SERVO3 = 37;
 
 // const int MOT_GALET_L = 35;
 // const int MOT_LIDAR = 35;

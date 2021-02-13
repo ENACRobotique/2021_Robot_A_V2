@@ -16,7 +16,7 @@ void ControlServo::defInitAngle(int angle){
 void ControlServo::init(int ServoPIN){
     servo.attach(ServoPIN);
     servo.write(init_angle);
-    delay(500);    
+    delay(15);
 }
 
 void ControlServo::moveServo(int angle){

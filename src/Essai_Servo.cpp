@@ -16,9 +16,9 @@ ControlServo servoCupFront1, servoCupFront2, servoCupFront3, servoCupBack1, serv
 ControlServo servoCup[NB_SERVO];
 ControlServo servoFlag;
 
-int i = 0;
 
-void setup(){
+
+void setup1(){
     // Mettre à jour les valeurs avec les bons pins
     PIN_SERVO_CUP[0];
     PIN_SERVO_CUP[1];
@@ -33,7 +33,7 @@ void setup(){
 
     Serial.begin(115200);
     Serial.println("Init...");
-
+int i = 0;
     for(i=0; i<NB_SERVO; i++)
     {
         servoCup[i].init(PIN_SERVO_CUP[i]); 
@@ -42,8 +42,8 @@ void setup(){
     
 }
 
-void loop()
-{
+void loop1()
+{int i = 0;
     //tester un branchement et une séquence avec 6 servo pour les verres et un servo de Flag
     for(i=0; i<NB_SERVO; i++)
     {
@@ -65,6 +65,7 @@ void initServoTest()
 
 void testServoRotation()
 {
+    int i = 0;
    servoTest.moveServo(i);
     if (i == 1){
         delay(500);
