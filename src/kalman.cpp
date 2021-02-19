@@ -1,301 +1,205 @@
 #include "arm_math.h"
 
-
-//Kalman: voir namespace
-
-/*
-    AFAIRE:
-    supprimer inutile ci_dessous
-    kalman_correct
-    fonction principale, appelée par navigator?
-*/
-
-/* ----------------------------------------------------------------------
-* Copyright (C) 2010-2012 ARM Limited. All rights reserved.
-*
-* $Date:         17. January 2013
-* $Revision:     V1.4.0
-*
-* Project:       CMSIS DSP Library
-* Title:         arm_matrix_example_f32.c
-*
-* Description:   Example code demonstrating least square fit to data
-*                using matrix functions:
-*                    The linear combination of parameters considered is as follows: 
-*                    A * X = B, where X is the unknown value and can be estimated from A & B. 
-*                    The least squares estimate X is given by the following equation: 
-*                    X = Inverse(AT * A) * AT * B
-*
-* Target Processor: Cortex-M4/Cortex-M3
-*
-* Redistribution and use in source and binary forms, with or without
-* modification, are permitted provided that the following conditions
-* are met:
-*   - Redistributions of source code must retain the above copyright
-*     notice, this list of conditions and the following disclaimer.
-*   - Redistributions in binary form must reproduce the above copyright
-*     notice, this list of conditions and the following disclaimer in
-*     the documentation and/or other materials provided with the
-*     distribution.
-*   - Neither the name of ARM LIMITED nor the names of its contributors
-*     may be used to endorse or promote products derived from this
-*     software without specific prior written permission.
-*
-* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-* "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-* LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
-* FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
-* COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
-* INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
-* BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-* LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-* CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
-* LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
-* ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-* POSSIBILITY OF SUCH DAMAGE.
- * -------------------------------------------------------------------- */
 #include "arm_math.h"
 #include "math_helper.h"
 #if defined(SEMIHOSTING)
 #include <stdio.h>
 #endif
-#define SNR_THRESHOLD   90
-/* --------------------------------------------------------------------------------
-* Test input data(Cycles) taken from FIR Q15 module for differant cases of blockSize
-* and tapSize
-* --------------------------------------------------------------------------------- */
-const float32_t B_f32[4] =
+#define SNR_THRESHOLD 90
+
+namespace kalman
 {
-  782.0, 7577.0, 470.0, 4505.0
-};
-/* --------------------------------------------------------------------------------
-* Formula to fit is  C1 + C2 * numTaps + C3 * blockSize + C4 * numTaps * blockSize
-* -------------------------------------------------------------------------------- */
-const float32_t A_f32[16] =
-{
-  /* Const,   numTaps,   blockSize,   numTaps*blockSize */
-  1.0,     32.0,      4.0,     128.0,
-  1.0,     32.0,     64.0,    2048.0,
-  1.0,     16.0,      4.0,      64.0,
-  1.0,     16.0,     64.0,    1024.0,
-};
-/* ----------------------------------------------------------------------
-* Temporary buffers  for storing intermediate values
-* ------------------------------------------------------------------- */
-/* Transpose of A Buffer */
-float32_t AT_f32[16];
-/* (Transpose of A * A) Buffer */
-float32_t ATMA_f32[16];
-/* Inverse(Transpose of A * A)  Buffer */
-float32_t ATMAI_f32[16];
-/* Test Output Buffer */
-float32_t X_f32[4];
-/* ----------------------------------------------------------------------
-* Reference ouput buffer C1, C2, C3 and C4 taken from MATLAB
-* ------------------------------------------------------------------- */
-const float32_t xRef_f32[4] = {73.0, 8.0, 21.25, 2.875};
-float32_t snr;
-/* ----------------------------------------------------------------------
-* Max magnitude FFT Bin test
-* ------------------------------------------------------------------- */
-int32_t main(void)
-{
-  arm_matrix_instance_f32 A;      /* Matrix A Instance */
-  arm_matrix_instance_f32 AT;     /* Matrix AT(A transpose) instance */
-  arm_matrix_instance_f32 ATMA;   /* Matrix ATMA( AT multiply with A) instance */
-  arm_matrix_instance_f32 ATMAI;  /* Matrix ATMAI(Inverse of ATMA) instance */
-  arm_matrix_instance_f32 B;      /* Matrix B instance */
-  arm_matrix_instance_f32 X;      /* Matrix X(Unknown Matrix) instance */
-  uint32_t srcRows, srcColumns;  /* Temporary variables */
-  arm_status status;
-  /* Initialise A Matrix Instance with numRows, numCols and data array(A_f32) */
-  srcRows = 4;
-  srcColumns = 4;
-  arm_mat_init_f32(&A, srcRows, srcColumns, (float32_t *)A_f32);
-  /* Initialise Matrix Instance AT with numRows, numCols and data array(AT_f32) */
-  srcRows = 4;
-  srcColumns = 4;
-  arm_mat_init_f32(&AT, srcRows, srcColumns, AT_f32);
-  /* calculation of A transpose */
-  status = arm_mat_trans_f32(&A, &AT);
-  /* Initialise ATMA Matrix Instance with numRows, numCols and data array(ATMA_f32) */
-  srcRows = 4;
-  srcColumns = 4;
-  arm_mat_init_f32(&ATMA, srcRows, srcColumns, ATMA_f32);
-  /* calculation of AT Multiply with A */
-  status = arm_mat_mult_f32(&AT, &A, &ATMA);
-  /* Initialise ATMAI Matrix Instance with numRows, numCols and data array(ATMAI_f32) */
-  srcRows = 4;
-  srcColumns = 4;
-  arm_mat_init_f32(&ATMAI, srcRows, srcColumns, ATMAI_f32);
-  /* calculation of Inverse((Transpose(A) * A) */
-  status = arm_mat_inverse_f32(&ATMA, &ATMAI);
-  /* calculation of (Inverse((Transpose(A) * A)) *  Transpose(A)) */
-  status = arm_mat_mult_f32(&ATMAI, &AT, &ATMA);
-  /* Initialise B Matrix Instance with numRows, numCols and data array(B_f32) */
-  srcRows = 4;
-  srcColumns = 1;
-  arm_mat_init_f32(&B, srcRows, srcColumns, (float32_t *)B_f32);
-  /* Initialise X Matrix Instance with numRows, numCols and data array(X_f32) */
-  srcRows = 4;
-  srcColumns = 1;
-  arm_mat_init_f32(&X, srcRows, srcColumns, X_f32);
-  /* calculation ((Inverse((Transpose(A) * A)) *  Transpose(A)) * B) */
-  status = arm_mat_mult_f32(&ATMA, &B, &X);
-  /* Comparison of reference with test output */
-  snr = arm_snr_f32((float32_t *)xRef_f32, X_f32, 4);
-  /*------------------------------------------------------------------------------
-  *            Initialise status depending on SNR calculations
-  *------------------------------------------------------------------------------*/
-  status = (snr < SNR_THRESHOLD) ? ARM_MATH_TEST_FAILURE : ARM_MATH_SUCCESS;
-  
-  if (status != ARM_MATH_SUCCESS)
-  {
-#if defined (SEMIHOSTING)
-    printf("FAILURE\n");
-#else
-    while (1);                             /* main function does not return */
-#endif
-  }
-  else
-  {
-#if defined (SEMIHOSTING)
-    printf("SUCCESS\n");
-#else
-    while (1);                             /* main function does not return */
-#endif
-  }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-namespace kalman{
-    /* X: etat
+  /* X: etat
     *  P: Cov état
     *  F: systeme linearisé
     *  B,U: mat commande et commande
     *  Q: bruit sur commande
+    *  *_data ou calc* indique un buffer de float32_t, *_c indique une arm_matrix:pour calculs
     */
 
-    //public:
-    const uint16_t dim_etat=4, dim_cmde=1;
-    float32_t *X=NULL;//état du systeme, alias X_data
-    float32_t *P=NULL;//idem P_A, P_B
-    float32_t *U=NULL;//commande
+  //public:
+  const uint16_t dim_etat = 3, dim_cmde = 2; //modifier ici si état ou commande de taille différente
+  const uint16_t dim_mesure1 = 3;            //ajouter ici si mesure de taille différente + ajouter H_data(estimation mesure) si linéaire + ajouter buffers calculs+ modifier/ajouter kalman_maj(mise à jour)
+  float32_t *X = NULL;                       //état du systeme, alias X_data: x,y,theta
+  float32_t *P = NULL;                       //idem P_A, P_B
+  float32_t *U = NULL;                       //commande
+  Dt = 0.01;                                 //intervalle de temps
 
-    //privé:
-    arm_status statut;
-    //à créer, ou déjà en mémoire? -> supprimer lesz allocations statiques de X,P,U
-    float32_t X_data[dim_etat];//c'est possible, ça ? [dim_etat]
-    arm_matrix_instance_f32 *X_c;//calculs
+  //privé:
+  arm_status statut;
 
-    float32_t U_data[dim_cmde];
-    arm_matrix_instance_f32 *U_c;
-    float32_t P_data[dim_etat];
-    arm_matrix_instance_f32 *P_c;
+  //à créer, ou déjà en mémoire? -> supprimer les allocations statiques de X,P,U???
+  float32_t U_data[dim_cmde];
+  arm_matrix_instance_f32 *U_c;
+  float32_t Mesure1_data[dim_mesure1];
+  arm_matrix_instance_f32 *Mesure1_c;
+  /* 
+  
+  
+  
+  état du système */
+  float32_t X_data[dim_etat * 1] =
+      {
+          /* état initial du système */
+          0.f, 0.f, 0.f};
+  arm_matrix_instance_f32 *X_c;
 
-    
-    int idbuff;
+  float32_t P_data[dim_etat * dim_etat] =
+      {
+          /* matrice de covariance initiale de l'état */
+          1.f, 0.f, 0.f,
+          0.f, 1.f, 0.f,
+          0.f, 0.f, 1.f};
+  arm_matrix_instance_f32 *P_c;
 
-    /* description du systeme */
-    const float32_t B_data[dim_etat*dim_cmde] =
-    {
-    782.0, 7577.0, 470.0, 4505.0
-    };
-    arm_matrix_instance_f32 *B;
-    arm_matrix_instance_f32 *BT;
+  /* 
+  
+  
+  
+  description du systeme */
 
-    const float32_t F_data[dim_etat*dim_etat] =
-    {
-    /* systeme linearisé */
-    1.0,     32.0,      4.0,     128.0,
-    1.0,     32.0,     64.0,    2048.0,
-    1.0,     16.0,      4.0,      64.0,
-    1.0,     16.0,     64.0,    1024.0,
-    };
-    arm_matrix_instance_f32 *F;
-    arm_matrix_instance_f32 *FT;
+  const float32_t B_data[dim_etat * dim_cmde] =
+      {
+          /* matrice de commande */
+          1.f, 0.f,
+          0.f, 1.f};
+  arm_matrix_instance_f32 *B;
+  arm_matrix_instance_f32 *BT;
+  // B non utilisée car non linéaire. --> à supprimer
 
-    const float32_t Q_data[dim_cmde*dim_cmde] =
-    {
-        1.0
-    };
-    arm_matrix_instance_f32 *Q;
-    /* ----------------------------------------------------------------------
+  const float32_t F_data[dim_etat * dim_etat] =
+      {
+          /* systeme linearisé */
+          1.f, 0.f, 0.f,
+          0.f, 1.f, 0.f,
+          0.f, 0.f, 1.f};
+  arm_matrix_instance_f32 *F;
+  arm_matrix_instance_f32 *FT;
+
+  const float32_t H1_data[dim_mesure1 * dim_etat] =
+      {
+          /* matrice d'estimation de la mesure à partir du vecteur d'état*/
+          1.f, 0.f, 0.f,
+          0.f, 1.f, 0.f,
+          0.f, 0.f, 1.f};
+  arm_matrix_instance_f32 *H1;
+  arm_matrix_instance_f32 *H1T;
+
+  const float32_t R1_data[dim_mesure1 * dim_mesure1] =
+      {
+          /* matrice de bruit de la mesure */
+          1.f, 0.f, 0.f,
+          0.f, 1.f, 0.f,
+          0.f, 0.f, 1.f};
+  arm_matrix_instance_f32 *R1;
+
+  const float32_t Q_data[dim_cmde * dim_cmde] =
+      {
+          1.0};
+  arm_matrix_instance_f32 *Q;
+
+  /* ----------------------------------------------------------------------
     * Temporary buffers  for storing intermediate values
     * ------------------------------------------------------------------- */
 
-    /* buffers de calculs */
-    // taille X
-    float32_t calc1_data[dim_etat];
-    float32_t calc2_data[dim_etat];
-    arm_matrix_instance_f32 *calc1;
-    arm_matrix_instance_f32 *calc2;
-    // taille P
-    float32_t calc3_data[dim_etat*dim_etat];
-    float32_t calc4_data[dim_etat*dim_etat];
-    arm_matrix_instance_f32 *calc3;
-    arm_matrix_instance_f32 *calc4;
-    // taille cmde*dim_etat
-    float32_t calc5_data[dim_cmde*dim_etat];
-    arm_matrix_instance_f32 *calc5;
+  /* buffers de calculs */
+  // taille X
+  float32_t calc1_data[dim_etat];
+  float32_t calc2_data[dim_etat];
+  arm_matrix_instance_f32 *calc1;
+  arm_matrix_instance_f32 *calc2;
+  // taille P
+  float32_t calc3_data[dim_etat * dim_etat];
+  float32_t calc4_data[dim_etat * dim_etat];
+  arm_matrix_instance_f32 *calc3;
+  arm_matrix_instance_f32 *calc4;
+  // taille cmde*dim_etat
+  float32_t calc5_data[dim_cmde * dim_etat];
+  arm_matrix_instance_f32 *calc5;
+  // taille dim_mesure1
+  float32_t calc6_data[dim_mesure1];
+  float32_t calc7_data[dim_mesure1];
+  arm_matrix_instance_f32 *calc6;
+  arm_matrix_instance_f32 *calc7;
+  // taille dim_etat*dim_mesure1
+  float32_t calc8_data[dim_etat * dim_mesure1];
+  arm_matrix_instance_f32 *calc8;
+  // taille dim_mesure1*dim_mesure1
+  float32_t calc9_data[dim_mesure1 * dim_mesure1];
+  float32_t calc10_data[dim_mesure1 * dim_mesure1];
+  arm_matrix_instance_f32 *calc9;
+  arm_matrix_instance_f32 *calc10;
 
-    void init(){
-        arm_mat_init_f32(F, dim_etat, dim_etat, (float32_t *)F_data);
-        arm_mat_trans_f32(F, FT);
-        arm_mat_init_f32(B, dim_etat, dim_cmde, (float32_t *)B_data);
-        arm_mat_trans_f32(B, BT);
-        arm_mat_init_f32(Q, dim_cmde, dim_cmde, (float32_t *)Q_data);
-        
+  void init()
+  {
+    arm_mat_init_f32(X_c, dim_etat, 1, X_data);
+    arm_mat_init_f32(U_c, dim_cmde, 1, U_data);
+    arm_mat_init_f32(P_c, dim_etat, dim_etat, P_data);
+    X = X_data;
+    P = P_data;
 
-        arm_mat_init_f32(calc1, dim_etat, 1, calc1_data);
-        arm_mat_init_f32(calc2, dim_etat, 1, calc2_data);
-        arm_mat_init_f32(calc3, dim_etat, dim_etat, calc3_data);
-        arm_mat_init_f32(calc4, dim_etat, dim_etat, calc4_data);
-        arm_mat_init_f32(calc5, dim_cmde, dim_etat, calc5_data);
+    arm_mat_init_f32(F, dim_etat, dim_etat, (float32_t *)F_data);
+    arm_mat_trans_f32(F, FT);
+    arm_mat_init_f32(Q, dim_cmde, dim_cmde, (float32_t *)Q_data);
+    arm_mat_init_f32(H1, dim_etat, dim_mesure1, H1_data);
+    arm_mat_trans_f32(H1, H1T);
+    arm_mat_init_f32(R1, dim_mesure1, dim_mesure1, R1_data);
 
-        arm_mat_init_f32(X_c, dim_etat, 1, X_data);
-        arm_mat_init_f32(U_c, dim_cmde, 1, U_data);
-        arm_mat_init_f32(P_c, dim_etat, dim_etat, P_data);
-        
-    }
+    arm_mat_init_f32(calc1, dim_etat, 1, calc1_data);
+    arm_mat_init_f32(calc2, dim_etat, 1, calc2_data);
+    arm_mat_init_f32(calc3, dim_etat, dim_etat, calc3_data);
+    arm_mat_init_f32(calc4, dim_etat, dim_etat, calc4_data);
+    arm_mat_init_f32(calc5, dim_cmde, dim_etat, calc5_data);
+    arm_mat_init_f32(calc6, dim_mesure1, 1, calc6_data);
+    arm_mat_init_f32(calc7, dim_mesure1, 1, calc7_data);
+    arm_mat_init_f32(calc8, dim_etat, dim_mesure1, calc8_data);
+    arm_mat_init_f32(calc9, dim_mesure1, dim_mesure1, calc9_data);
+    arm_mat_init_f32(calc10, dim_mesure1, dim_mesure1, calc10_data);
+  }
 
-    void kalman_predict(){
-        //Xkp1m = F*Xk +B*U
-        statut=arm_mat_mult_f32(F, X_c, calc1);
-        statut=arm_mat_mult_f32(B, U_c, calc2);
-        statut=arm_mat_add_f32(calc1, calc2, X_c);
+  void kalman_predict()
+  {
+    /* 
+    * Prédiction de la position (= état du système) à l'instant t+Dt à partir de la consigne en vitesse U.
+    * Rappel (ou pas): U=[U[0], U[1]]=[vitesse, vitesse de rotation]
+    *                  X=[x, y, theta]=[abscisse, ordonnée, angle/orientation du robot]
+    *                  B: non utilisé, système non linéaire en commande
+    */
 
-        //Pkp1m = F*(Pk*FT) + B*(Q*BT)
-        statut=arm_mat_mult_f32(P_c, FT, calc3);
-        statut=arm_mat_mult_f32(F, calc3, calc4);
-        statut=arm_mat_mult_f32(Q, BT, calc5);
-        statut=arm_mat_mult_f32(B, calc5, calc3);
-        statut=arm_mat_add_f32(calc3, calc4, P_c);
-        //débug: vérifier si statut = ARM_MATH_SUCCESS;
-    }
+    //Xkp1m = F*Xk +B*U
+    //statut=arm_mat_mult_f32(F, X_c, calc1);
+    //statut=arm_mat_mult_f32(B, U_c, calc2);
+    //statut=arm_mat_add_f32(calc1, calc2, X_c);
+    float X[0] += U[0] * Dt * cos(X[2]);
+    float X[1] += U[0] * Dt * sin(X[2]);
+    float X[2] += U[1] * Dt;
 
-}
+    F_data[2] = -U[0] * Dt * sin(X[2]);
+    F_data[dim_etat + 2] = -U[0] * Dt * cos(X[2]);
+
+    //Pkp1m = F*(Pk*FT) + Q
+    statut = arm_mat_mult_f32(P_c, FT, calc3);
+    statut = arm_mat_mult_f32(F, calc3, calc4);
+    statut = arm_mat_add_f32(Q, calc4, P_c);
+    //débug: vérifier si statut = ARM_MATH_SUCCESS;
+  }
+
+  void kalman_maj(arm_mat_instance_f32 *Mesure_c, arm_mat_instance_f32 *H = H1, arm_mat_instance_f32 *R = R1)
+  {
+    /* 
+    * Met à jour X et P à partir de Mesure, pointeur vers mesure de position.
+    * Mesure est un pointeur, issu indifféremment de l'odométrie ou de la caméra 
+    * H : matrice d'observation, par défaut à H1 (=identité)
+    */
+    arm_mat_mult_f32(H, X_c, calc6);
+    arm_mat_sub_f32(Mesure_c, calc6, calc7); //calcul résidu
+
+    arm_mat_mult_f32(P_c, H1T, calc8);  //calc8=P*Ht
+    arm_mat_mult_f32(H1, calc8, calc9); //calc9=H*P*Ht
+
+    arm_mat_add_f32(calc9, R1, calc10); //S = H*P*Ht+R1
+    arm_mat_inv_f32(calc10, calc9);
+    //à poursuivre... pas le temps aujourd'hui ..
+    arm_mat_mult_f32(calc8, calc9, ); //calcul gain Kalman
+  }
+} // namespace kalman
