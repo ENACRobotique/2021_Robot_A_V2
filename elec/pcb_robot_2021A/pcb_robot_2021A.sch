@@ -245,26 +245,26 @@ Wire Wire Line
 Connection ~ 8350 4450
 Wire Wire Line
 	8350 4450 8350 4400
-Text Label 8050 5100 0    50   ~ 0
+Text Label 7450 5100 0    50   ~ 0
 lidar_in1
-Text Label 8050 5200 0    50   ~ 0
+Text Label 7450 5200 0    50   ~ 0
 lidar_in2
-Text Label 8050 5300 0    50   ~ 0
+Text Label 7450 5300 0    50   ~ 0
 lidar_in3
-Text Label 8050 5400 0    50   ~ 0
+Text Label 7450 5400 0    50   ~ 0
 lidar_in4
-Text Label 8050 5500 0    50   ~ 0
+Text Label 7450 5500 0    50   ~ 0
 lidar_in5
 Wire Wire Line
-	8050 5100 8500 5100
+	7450 5100 7900 5100
 Wire Wire Line
-	8500 5200 8050 5200
+	7900 5200 7450 5200
 Wire Wire Line
-	8050 5300 8500 5300
+	7450 5300 7900 5300
 Wire Wire Line
-	8500 5400 8050 5400
+	7900 5400 7450 5400
 Wire Wire Line
-	8050 5500 8500 5500
+	7450 5500 7900 5500
 Wire Wire Line
 	8500 5900 8050 5900
 Wire Wire Line
