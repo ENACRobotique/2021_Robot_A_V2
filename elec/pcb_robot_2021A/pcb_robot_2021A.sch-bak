@@ -1,0 +1,225 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title "Carte principale Robot 2021 A"
+Date "2021-02-19"
+Rev "v0.1"
+Comp "ENAC Robotique"
+Comment1 "Création du projet sous KiCad"
+Comment2 "Ajout des premiers composants"
+Comment3 ""
+Comment4 ""
+$EndDescr
+Wire Wire Line
+	6100 6000 6550 6000
+Text Label 6550 5900 2    50   ~ 0
+lidar_out2
+Text Label 6550 6000 2    50   ~ 0
+lidar_out3
+Text Label 6550 5800 2    50   ~ 0
+lidar_out1
+Wire Wire Line
+	6550 5900 6100 5900
+Wire Wire Line
+	6100 5800 6550 5800
+Text Label 3800 3400 0    50   ~ 0
+couleur
+Wire Wire Line
+	4100 3400 3800 3400
+Text Label 3800 3300 0    50   ~ 0
+tirette
+$Comp
+L mySymbols:Teensy3.5 U?
+U 1 1 602FE161
+P 5100 3900
+F 0 "U?" H 5100 6287 60  0000 C CNN
+F 1 "Teensy3.5" H 5100 6181 60  0000 C CNN
+F 2 "" H 5100 3900 60  0000 C CNN
+F 3 "" H 5100 3900 60  0000 C CNN
+	1    5100 3900
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4100 3300 3800 3300
+$Comp
+L power:GND #PWR?
+U 1 1 60325F98
+P 2050 1200
+F 0 "#PWR?" H 2050 950 50  0001 C CNN
+F 1 "GND" H 2055 1027 50  0000 C CNN
+F 2 "" H 2050 1200 50  0001 C CNN
+F 3 "" H 2050 1200 50  0001 C CNN
+	1    2050 1200
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+5V #PWR?
+U 1 1 60326623
+P 2650 800
+F 0 "#PWR?" H 2650 650 50  0001 C CNN
+F 1 "+5V" H 2665 973 50  0000 C CNN
+F 2 "" H 2650 800 50  0001 C CNN
+F 3 "" H 2650 800 50  0001 C CNN
+	1    2650 800 
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2050 1200 2050 1100
+$Comp
+L power:+12V #PWR?
+U 1 1 6032D599
+P 1450 800
+F 0 "#PWR?" H 1450 650 50  0001 C CNN
+F 1 "+12V" H 1465 973 50  0000 C CNN
+F 2 "" H 1450 800 50  0001 C CNN
+F 3 "" H 1450 800 50  0001 C CNN
+	1    1450 800 
+	1    0    0    -1  
+$EndComp
+$Comp
+L Regulator_Switching:R-78E5.0-1.0 U?
+U 1 1 60322C14
+P 2050 800
+F 0 "U?" H 2050 1042 50  0000 C CNN
+F 1 "R-78E5.0-1.0" H 2050 951 50  0000 C CNN
+F 2 "Converter_DCDC:Converter_DCDC_RECOM_R-78E-0.5_THT" H 2100 550 50  0001 L CIN
+F 3 "https://www.recom-power.com/pdf/Innoline/R-78Exx-1.0.pdf" H 2050 800 50  0001 C CNN
+	1    2050 800 
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C?
+U 1 1 6033DDD9
+P 1600 1050
+F 0 "C?" H 1715 1096 50  0000 L CNN
+F 1 "10µF" H 1715 1005 50  0000 L CNN
+F 2 "" H 1638 900 50  0001 C CNN
+F 3 "~" H 1600 1050 50  0001 C CNN
+	1    1600 1050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2650 800  2500 800 
+Wire Wire Line
+	2500 1200 2050 1200
+Connection ~ 2050 1200
+$Comp
+L Device:C C?
+U 1 1 6033D5EF
+P 2500 1050
+F 0 "C?" H 2615 1096 50  0000 L CNN
+F 1 "10µF" H 2615 1005 50  0000 L CNN
+F 2 "" H 2538 900 50  0001 C CNN
+F 3 "~" H 2500 1050 50  0001 C CNN
+	1    2500 1050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2500 900  2500 800 
+Connection ~ 2500 800 
+Wire Wire Line
+	2500 800  2350 800 
+Wire Wire Line
+	1450 800  1600 800 
+Wire Wire Line
+	1600 900  1600 800 
+Connection ~ 1600 800 
+Wire Wire Line
+	1600 800  1750 800 
+Wire Wire Line
+	1600 1200 2050 1200
+$Comp
+L power:+5V #PWR?
+U 1 1 6034478E
+P 6550 5100
+F 0 "#PWR?" H 6550 4950 50  0001 C CNN
+F 1 "+5V" H 6565 5273 50  0000 C CNN
+F 2 "" H 6550 5100 50  0001 C CNN
+F 3 "" H 6550 5100 50  0001 C CNN
+	1    6550 5100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6100 5100 6550 5100
+$Comp
+L Connector:Conn_01x03_Male J?
+U 1 1 603453B5
+P 8700 5900
+F 0 "J?" H 8672 5924 50  0000 R CNN
+F 1 "lidar_out" H 8672 5833 50  0000 R CNN
+F 2 "" H 8700 5900 50  0001 C CNN
+F 3 "~" H 8700 5900 50  0001 C CNN
+	1    8700 5900
+	-1   0    0    -1  
+$EndComp
+Text Label 7850 5800 0    50   ~ 0
+lidar_out1
+Text Label 7850 5900 0    50   ~ 0
+lidar_out2
+Text Label 7850 6000 0    50   ~ 0
+lidar_out3
+Wire Wire Line
+	7850 5800 8500 5800
+Wire Wire Line
+	7850 5900 8500 5900
+Wire Wire Line
+	7850 6000 8500 6000
+$Comp
+L Connector:Conn_01x03_Male J?
+U 1 1 6035D393
+P 1600 2000
+F 0 "J?" H 1708 2281 50  0000 C CNN
+F 1 "Conn_01x03_Male" H 1708 2190 50  0000 C CNN
+F 2 "" H 1600 2000 50  0001 C CNN
+F 3 "~" H 1600 2000 50  0001 C CNN
+	1    1600 2000
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:Conn_01x03_Male J?
+U 1 1 6035F9CE
+P 1600 2750
+F 0 "J?" H 1708 3031 50  0000 C CNN
+F 1 "Conn_01x03_Male" H 1708 2940 50  0000 C CNN
+F 2 "" H 1600 2750 50  0001 C CNN
+F 3 "~" H 1600 2750 50  0001 C CNN
+	1    1600 2750
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:Conn_01x03_Male J?
+U 1 1 60360591
+P 1600 3500
+F 0 "J?" H 1708 3781 50  0000 C CNN
+F 1 "Conn_01x03_Male" H 1708 3690 50  0000 C CNN
+F 2 "" H 1600 3500 50  0001 C CNN
+F 3 "~" H 1600 3500 50  0001 C CNN
+	1    1600 3500
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:Conn_01x04_Male J?
+U 1 1 60362C28
+P 8700 4550
+F 0 "J?" H 8672 4524 50  0000 R CNN
+F 1 "Lidar_alim" H 8672 4433 50  0000 R CNN
+F 2 "" H 8700 4550 50  0001 C CNN
+F 3 "~" H 8700 4550 50  0001 C CNN
+	1    8700 4550
+	-1   0    0    -1  
+$EndComp
+$Comp
+L Connector:Conn_01x05_Male J?
+U 1 1 60363C7E
+P 8700 5300
+F 0 "J?" H 8672 5324 50  0000 R CNN
+F 1 "lidar_in" H 8672 5233 50  0000 R CNN
+F 2 "" H 8700 5300 50  0001 C CNN
+F 3 "~" H 8700 5300 50  0001 C CNN
+	1    8700 5300
+	-1   0    0    -1  
+$EndComp
+$EndSCHEMATC
