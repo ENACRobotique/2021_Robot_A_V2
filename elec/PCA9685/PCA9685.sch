@@ -6,24 +6,13 @@ encoding utf-8
 Sheet 1 1
 Title "Robot 2021 A PCA9685"
 Date "2021-02-21"
-Rev "0.1"
+Rev "1.0"
 Comp "ENAC Robotique"
 Comment1 "Carte de gestion des servo moteurs"
 Comment2 ""
 Comment3 ""
 Comment4 ""
 $EndDescr
-$Comp
-L Driver_LED:PCA9685PW U?
-U 1 1 60323C75
-P 4450 3250
-F 0 "U?" H 4450 4431 50  0000 C CNN
-F 1 "PCA9685PW" H 4450 4340 50  0000 C CNN
-F 2 "Package_SO:TSSOP-28_4.4x9.7mm_P0.65mm" H 4475 2275 50  0001 L CNN
-F 3 "http://www.nxp.com/documents/data_sheet/PCA9685.pdf" H 4050 3950 50  0001 C CNN
-	1    4450 3250
-	1    0    0    -1  
-$EndComp
 $Comp
 L power:+5V #PWR?
 U 1 1 603270C7
@@ -561,12 +550,6 @@ Wire Wire Line
 	3450 2550 3750 2550
 Wire Wire Line
 	3750 2650 3450 2650
-NoConn ~ 3750 3450
-NoConn ~ 3750 3550
-NoConn ~ 3750 3650
-NoConn ~ 3750 3750
-NoConn ~ 3750 3850
-NoConn ~ 3750 3950
 NoConn ~ 3750 2750
 NoConn ~ 3750 2850
 NoConn ~ 5150 3350
@@ -604,4 +587,325 @@ Wire Wire Line
 	6200 2000 6200 3100
 Wire Wire Line
 	4450 1850 4450 2000
+$Comp
+L Driver_LED:PCA9685PW U?
+U 1 1 60323C75
+P 4450 3250
+F 0 "U?" H 4450 4431 50  0000 C CNN
+F 1 "PCA9685PW" H 4450 4340 50  0000 C CNN
+F 2 "Package_SO:TSSOP-28_4.4x9.7mm_P0.65mm" H 4475 2275 50  0001 L CNN
+F 3 "http://www.nxp.com/documents/data_sheet/PCA9685.pdf" H 4050 3950 50  0001 C CNN
+	1    4450 3250
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 6032FA18
+P 3700 900
+F 0 "R?" H 3770 946 50  0000 L CNN
+F 1 "R" H 3770 855 50  0000 L CNN
+F 2 "" V 3630 900 50  0001 C CNN
+F 3 "~" H 3700 900 50  0001 C CNN
+	1    3700 900 
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:LED D?
+U 1 1 60330014
+P 3700 1300
+F 0 "D?" V 3739 1182 50  0000 R CNN
+F 1 "LED" V 3648 1182 50  0000 R CNN
+F 2 "" H 3700 1300 50  0001 C CNN
+F 3 "~" H 3700 1300 50  0001 C CNN
+	1    3700 1300
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 60330593
+P 3700 1550
+F 0 "#PWR?" H 3700 1300 50  0001 C CNN
+F 1 "GND" H 3705 1377 50  0000 C CNN
+F 2 "" H 3700 1550 50  0001 C CNN
+F 3 "" H 3700 1550 50  0001 C CNN
+	1    3700 1550
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3350 750  3700 750 
+Connection ~ 3350 750 
+Wire Wire Line
+	3700 1050 3700 1150
+Wire Wire Line
+	3700 1550 3700 1450
+$Comp
+L Connector_Generic:Conn_01x03 J?
+U 1 1 603478F6
+P 1300 3400
+F 0 "J?" H 1218 3717 50  0000 C CNN
+F 1 "capt_IR_1.1" H 1218 3626 50  0000 C CNN
+F 2 "" H 1300 3400 50  0001 C CNN
+F 3 "~" H 1300 3400 50  0001 C CNN
+	1    1300 3400
+	-1   0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x03 J?
+U 1 1 603491D6
+P 1300 3950
+F 0 "J?" H 1218 4267 50  0000 C CNN
+F 1 "capt_IR_1.2" H 1218 4176 50  0000 C CNN
+F 2 "" H 1300 3950 50  0001 C CNN
+F 3 "~" H 1300 3950 50  0001 C CNN
+	1    1300 3950
+	-1   0    0    -1  
+$EndComp
+$Comp
+L power:+5V #PWR?
+U 1 1 6034A956
+P 2000 3300
+F 0 "#PWR?" H 2000 3150 50  0001 C CNN
+F 1 "+5V" H 2015 3473 50  0000 C CNN
+F 2 "" H 2000 3300 50  0001 C CNN
+F 3 "" H 2000 3300 50  0001 C CNN
+	1    2000 3300
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+5V #PWR?
+U 1 1 6034BF6B
+P 2000 3850
+F 0 "#PWR?" H 2000 3700 50  0001 C CNN
+F 1 "+5V" H 2015 4023 50  0000 C CNN
+F 2 "" H 2000 3850 50  0001 C CNN
+F 3 "" H 2000 3850 50  0001 C CNN
+	1    2000 3850
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 60352C75
+P 2000 3950
+F 0 "#PWR?" H 2000 3700 50  0001 C CNN
+F 1 "GND" V 2005 3822 50  0000 R CNN
+F 2 "" H 2000 3950 50  0001 C CNN
+F 3 "" H 2000 3950 50  0001 C CNN
+	1    2000 3950
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 60353062
+P 2000 3400
+F 0 "#PWR?" H 2000 3150 50  0001 C CNN
+F 1 "GND" V 2005 3272 50  0000 R CNN
+F 2 "" H 2000 3400 50  0001 C CNN
+F 3 "" H 2000 3400 50  0001 C CNN
+	1    2000 3400
+	0    -1   -1   0   
+$EndComp
+Text Label 1900 3500 2    50   ~ 0
+outIR_1.1
+Text Label 1900 4050 2    50   ~ 0
+outIR_1.2
+Wire Wire Line
+	1500 3300 2000 3300
+Wire Wire Line
+	2000 3400 1500 3400
+Wire Wire Line
+	1500 3500 1900 3500
+Wire Wire Line
+	2000 3850 1500 3850
+Wire Wire Line
+	1500 3950 2000 3950
+Wire Wire Line
+	1900 4050 1500 4050
+$Comp
+L Connector_Generic:Conn_01x03 J?
+U 1 1 60368AC4
+P 1300 4500
+F 0 "J?" H 1218 4817 50  0000 C CNN
+F 1 "capt_IR_1.3" H 1218 4726 50  0000 C CNN
+F 2 "" H 1300 4500 50  0001 C CNN
+F 3 "~" H 1300 4500 50  0001 C CNN
+	1    1300 4500
+	-1   0    0    -1  
+$EndComp
+$Comp
+L power:+5V #PWR?
+U 1 1 60368ACA
+P 2000 4400
+F 0 "#PWR?" H 2000 4250 50  0001 C CNN
+F 1 "+5V" H 2015 4573 50  0000 C CNN
+F 2 "" H 2000 4400 50  0001 C CNN
+F 3 "" H 2000 4400 50  0001 C CNN
+	1    2000 4400
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 60368AD0
+P 2000 4500
+F 0 "#PWR?" H 2000 4250 50  0001 C CNN
+F 1 "GND" V 2005 4372 50  0000 R CNN
+F 2 "" H 2000 4500 50  0001 C CNN
+F 3 "" H 2000 4500 50  0001 C CNN
+	1    2000 4500
+	0    -1   -1   0   
+$EndComp
+Text Label 1900 4600 2    50   ~ 0
+outIR_1.3
+Wire Wire Line
+	2000 4400 1500 4400
+Wire Wire Line
+	1500 4500 2000 4500
+Wire Wire Line
+	1900 4600 1500 4600
+$Comp
+L Connector_Generic:Conn_01x03 J?
+U 1 1 6036C4DB
+P 1300 5200
+F 0 "J?" H 1218 5517 50  0000 C CNN
+F 1 "capt_IR_2.1" H 1218 5426 50  0000 C CNN
+F 2 "" H 1300 5200 50  0001 C CNN
+F 3 "~" H 1300 5200 50  0001 C CNN
+	1    1300 5200
+	-1   0    0    -1  
+$EndComp
+$Comp
+L power:+5V #PWR?
+U 1 1 6036C4E1
+P 2000 5100
+F 0 "#PWR?" H 2000 4950 50  0001 C CNN
+F 1 "+5V" H 2015 5273 50  0000 C CNN
+F 2 "" H 2000 5100 50  0001 C CNN
+F 3 "" H 2000 5100 50  0001 C CNN
+	1    2000 5100
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 6036C4E7
+P 2000 5200
+F 0 "#PWR?" H 2000 4950 50  0001 C CNN
+F 1 "GND" V 2005 5072 50  0000 R CNN
+F 2 "" H 2000 5200 50  0001 C CNN
+F 3 "" H 2000 5200 50  0001 C CNN
+	1    2000 5200
+	0    -1   -1   0   
+$EndComp
+Text Label 1900 5300 2    50   ~ 0
+outIR_2.1
+Wire Wire Line
+	2000 5100 1500 5100
+Wire Wire Line
+	1500 5200 2000 5200
+Wire Wire Line
+	1900 5300 1500 5300
+$Comp
+L Connector_Generic:Conn_01x03 J?
+U 1 1 6036F1ED
+P 1300 5750
+F 0 "J?" H 1218 6067 50  0000 C CNN
+F 1 "capt_IR_2.2" H 1218 5976 50  0000 C CNN
+F 2 "" H 1300 5750 50  0001 C CNN
+F 3 "~" H 1300 5750 50  0001 C CNN
+	1    1300 5750
+	-1   0    0    -1  
+$EndComp
+$Comp
+L power:+5V #PWR?
+U 1 1 6036F1F3
+P 2000 5650
+F 0 "#PWR?" H 2000 5500 50  0001 C CNN
+F 1 "+5V" H 2015 5823 50  0000 C CNN
+F 2 "" H 2000 5650 50  0001 C CNN
+F 3 "" H 2000 5650 50  0001 C CNN
+	1    2000 5650
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 6036F1F9
+P 2000 5750
+F 0 "#PWR?" H 2000 5500 50  0001 C CNN
+F 1 "GND" V 2005 5622 50  0000 R CNN
+F 2 "" H 2000 5750 50  0001 C CNN
+F 3 "" H 2000 5750 50  0001 C CNN
+	1    2000 5750
+	0    -1   -1   0   
+$EndComp
+Text Label 1900 5850 2    50   ~ 0
+outIR_2.2
+Wire Wire Line
+	2000 5650 1500 5650
+Wire Wire Line
+	1500 5750 2000 5750
+Wire Wire Line
+	1900 5850 1500 5850
+$Comp
+L Connector_Generic:Conn_01x03 J?
+U 1 1 6037253C
+P 1300 6300
+F 0 "J?" H 1218 6617 50  0000 C CNN
+F 1 "capt_IR_2.3" H 1218 6526 50  0000 C CNN
+F 2 "" H 1300 6300 50  0001 C CNN
+F 3 "~" H 1300 6300 50  0001 C CNN
+	1    1300 6300
+	-1   0    0    -1  
+$EndComp
+$Comp
+L power:+5V #PWR?
+U 1 1 60372542
+P 2000 6200
+F 0 "#PWR?" H 2000 6050 50  0001 C CNN
+F 1 "+5V" H 2015 6373 50  0000 C CNN
+F 2 "" H 2000 6200 50  0001 C CNN
+F 3 "" H 2000 6200 50  0001 C CNN
+	1    2000 6200
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 60372548
+P 2000 6300
+F 0 "#PWR?" H 2000 6050 50  0001 C CNN
+F 1 "GND" V 2005 6172 50  0000 R CNN
+F 2 "" H 2000 6300 50  0001 C CNN
+F 3 "" H 2000 6300 50  0001 C CNN
+	1    2000 6300
+	0    -1   -1   0   
+$EndComp
+Text Label 1900 6400 2    50   ~ 0
+outIR_2.3
+Wire Wire Line
+	2000 6200 1500 6200
+Wire Wire Line
+	1500 6300 2000 6300
+Wire Wire Line
+	1900 6400 1500 6400
+Text Label 3350 3450 0    50   ~ 0
+outIR_1.1
+Wire Wire Line
+	3350 3450 3750 3450
+Text Label 3350 3550 0    50   ~ 0
+outIR_1.2
+Wire Wire Line
+	3350 3550 3750 3550
+Text Label 3350 3650 0    50   ~ 0
+outIR_1.3
+Wire Wire Line
+	3350 3650 3750 3650
+Text Label 3350 3750 0    50   ~ 0
+outIR_2.1
+Wire Wire Line
+	3350 3750 3750 3750
+Text Label 3350 3850 0    50   ~ 0
+outIR_2.2
+Wire Wire Line
+	3350 3850 3750 3850
+Text Label 3350 3950 0    50   ~ 0
+outIR_2.3
+Wire Wire Line
+	3350 3950 3750 3950
 $EndSCHEMATC
