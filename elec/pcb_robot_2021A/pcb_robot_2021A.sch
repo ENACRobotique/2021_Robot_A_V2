@@ -58,12 +58,12 @@ $EndComp
 $Comp
 L power:+5V #PWR?
 U 1 1 60326623
-P 2950 800
-F 0 "#PWR?" H 2950 650 50  0001 C CNN
-F 1 "+5V" H 2965 973 50  0000 C CNN
-F 2 "" H 2950 800 50  0001 C CNN
-F 3 "" H 2950 800 50  0001 C CNN
-	1    2950 800 
+P 3050 800
+F 0 "#PWR?" H 3050 650 50  0001 C CNN
+F 1 "+5V" H 3065 973 50  0000 C CNN
+F 2 "" H 3050 800 50  0001 C CNN
+F 3 "" H 3050 800 50  0001 C CNN
+	1    3050 800 
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
@@ -102,8 +102,6 @@ F 3 "~" H 1900 1050 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	2950 800  2800 800 
-Wire Wire Line
 	2800 1200 2350 1200
 Connection ~ 2350 1200
 $Comp
@@ -119,7 +117,6 @@ F 3 "~" H 2800 1050 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	2800 900  2800 800 
-Connection ~ 2800 800 
 Wire Wire Line
 	2800 800  2650 800 
 Wire Wire Line
@@ -925,4 +922,47 @@ F 3 "" H 3200 2850 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	3200 2850 3550 2850
+$Comp
+L Device:R R?
+U 1 1 606656D7
+P 3300 950
+F 0 "R?" H 3370 996 50  0000 L CNN
+F 1 "1k" H 3370 905 50  0000 L CNN
+F 2 "" V 3230 950 50  0001 C CNN
+F 3 "~" H 3300 950 50  0001 C CNN
+	1    3300 950 
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2800 800  3050 800 
+Connection ~ 2800 800 
+Wire Wire Line
+	3050 800  3300 800 
+Connection ~ 3050 800 
+$Comp
+L Device:LED D?
+U 1 1 60675F57
+P 3300 1300
+F 0 "D?" V 3339 1182 50  0000 R CNN
+F 1 "LED" V 3248 1182 50  0000 R CNN
+F 2 "" H 3300 1300 50  0001 C CNN
+F 3 "~" H 3300 1300 50  0001 C CNN
+	1    3300 1300
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 60676A3D
+P 3300 1550
+F 0 "#PWR?" H 3300 1300 50  0001 C CNN
+F 1 "GND" H 3305 1377 50  0000 C CNN
+F 2 "" H 3300 1550 50  0001 C CNN
+F 3 "" H 3300 1550 50  0001 C CNN
+	1    3300 1550
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3300 1100 3300 1150
+Wire Wire Line
+	3300 1450 3300 1550
 $EndSCHEMATC

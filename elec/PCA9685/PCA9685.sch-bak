@@ -1,0 +1,153 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title "Robot 2021 A PCA9685"
+Date "2021-02-21"
+Rev "0.1"
+Comp "ENAC Robotique"
+Comment1 "Carte de gestion des servo moteurs"
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L Driver_LED:PCA9685PW U?
+U 1 1 60323C75
+P 4450 3250
+F 0 "U?" H 4450 4431 50  0000 C CNN
+F 1 "PCA9685PW" H 4450 4340 50  0000 C CNN
+F 2 "Package_SO:TSSOP-28_4.4x9.7mm_P0.65mm" H 4475 2275 50  0001 L CNN
+F 3 "http://www.nxp.com/documents/data_sheet/PCA9685.pdf" H 4050 3950 50  0001 C CNN
+	1    4450 3250
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+5V #PWR?
+U 1 1 603270C7
+P 4450 1850
+F 0 "#PWR?" H 4450 1700 50  0001 C CNN
+F 1 "+5V" H 4465 2023 50  0000 C CNN
+F 2 "" H 4450 1850 50  0001 C CNN
+F 3 "" H 4450 1850 50  0001 C CNN
+	1    4450 1850
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 60327BA4
+P 4450 4600
+F 0 "#PWR?" H 4450 4350 50  0001 C CNN
+F 1 "GND" H 4455 4427 50  0000 C CNN
+F 2 "" H 4450 4600 50  0001 C CNN
+F 3 "" H 4450 4600 50  0001 C CNN
+	1    4450 4600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4450 4350 4450 4600
+Wire Wire Line
+	4450 1850 4450 2250
+$Comp
+L Connector:Screw_Terminal_01x02 J?
+U 1 1 60328CE8
+P 1150 800
+F 0 "J?" H 1230 792 50  0000 L CNN
+F 1 "Conn_bat_power" H 1230 701 50  0000 L CNN
+F 2 "" H 1150 800 50  0001 C CNN
+F 3 "~" H 1150 800 50  0001 C CNN
+	1    1150 800 
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+12V #PWR?
+U 1 1 6032ADB6
+P 850 800
+F 0 "#PWR?" H 850 650 50  0001 C CNN
+F 1 "+12V" H 865 973 50  0000 C CNN
+F 2 "" H 850 800 50  0001 C CNN
+F 3 "" H 850 800 50  0001 C CNN
+	1    850  800 
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 6032B201
+P 850 900
+F 0 "#PWR?" H 850 650 50  0001 C CNN
+F 1 "GND" H 855 727 50  0000 C CNN
+F 2 "" H 850 900 50  0001 C CNN
+F 3 "" H 850 900 50  0001 C CNN
+	1    850  900 
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	850  800  950  800 
+Wire Wire Line
+	950  900  850  900 
+$Comp
+L mySymbols:LM2596 U?
+U 1 1 6032CBBF
+P 2800 850
+F 0 "U?" H 2800 1175 50  0000 C CNN
+F 1 "LM2596" H 2800 1084 50  0000 C CNN
+F 2 "" H 2800 850 50  0001 C CNN
+F 3 "" H 2800 850 50  0001 C CNN
+	1    2800 850 
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 6032D66C
+P 2250 950
+F 0 "#PWR?" H 2250 700 50  0001 C CNN
+F 1 "GND" H 2255 777 50  0000 C CNN
+F 2 "" H 2250 950 50  0001 C CNN
+F 3 "" H 2250 950 50  0001 C CNN
+	1    2250 950 
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 6032DAC7
+P 3350 950
+F 0 "#PWR?" H 3350 700 50  0001 C CNN
+F 1 "GND" H 3355 777 50  0000 C CNN
+F 2 "" H 3350 950 50  0001 C CNN
+F 3 "" H 3350 950 50  0001 C CNN
+	1    3350 950 
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+12V #PWR?
+U 1 1 6032DDE2
+P 2250 750
+F 0 "#PWR?" H 2250 600 50  0001 C CNN
+F 1 "+12V" H 2265 923 50  0000 C CNN
+F 2 "" H 2250 750 50  0001 C CNN
+F 3 "" H 2250 750 50  0001 C CNN
+	1    2250 750 
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+5V #PWR?
+U 1 1 6032E132
+P 3350 750
+F 0 "#PWR?" H 3350 600 50  0001 C CNN
+F 1 "+5V" H 3365 923 50  0000 C CNN
+F 2 "" H 3350 750 50  0001 C CNN
+F 3 "" H 3350 750 50  0001 C CNN
+	1    3350 750 
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3200 750  3350 750 
+Wire Wire Line
+	2400 750  2250 750 
+Wire Wire Line
+	2250 950  2400 950 
+Wire Wire Line
+	3200 950  3350 950 
+$EndSCHEMATC
