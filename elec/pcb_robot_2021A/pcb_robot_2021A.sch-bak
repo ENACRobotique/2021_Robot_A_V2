@@ -6,9 +6,9 @@ encoding utf-8
 Sheet 1 1
 Title "Carte principale Robot 2021 A"
 Date "2021-02-21"
-Rev "v0.2"
+Rev "v0.3"
 Comp "ENAC Robotique"
-Comment1 "Connectique du lidar Hokuyo"
+Comment1 ""
 Comment2 ""
 Comment3 ""
 Comment4 ""
@@ -864,4 +864,12 @@ Wire Wire Line
 	7950 1700 8300 1700
 Wire Wire Line
 	8300 1800 7950 1800
+Text Label 3200 3350 0    50   ~ 0
+PCA_SDA
+Text Label 3200 3250 0    50   ~ 0
+PCA_SCL
+Wire Wire Line
+	3200 3350 3550 3350
+Wire Wire Line
+	3550 3250 3200 3250
 $EndSCHEMATC

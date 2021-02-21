@@ -6,9 +6,9 @@ encoding utf-8
 Sheet 1 1
 Title "Carte principale Robot 2021 A"
 Date "2021-02-21"
-Rev "v0.2"
+Rev "v0.3"
 Comp "ENAC Robotique"
-Comment1 "Connectique du lidar Hokuyo"
+Comment1 ""
 Comment2 ""
 Comment3 ""
 Comment4 ""
@@ -872,4 +872,57 @@ Wire Wire Line
 	3200 3350 3550 3350
 Wire Wire Line
 	3550 3250 3200 3250
+Text Label 3200 3050 0    50   ~ 0
+Xbee_TX
+Text Label 3200 2950 0    50   ~ 0
+Xbee_RX
+Wire Wire Line
+	3200 3050 3550 3050
+Wire Wire Line
+	3550 2950 3200 2950
+Text Label 3000 6150 0    50   ~ 0
+enc2_A
+Text Label 3000 6250 0    50   ~ 0
+enc2_B
+Wire Wire Line
+	3550 6150 3000 6150
+Wire Wire Line
+	3000 6250 3550 6250
+Text Label 3000 5950 0    50   ~ 0
+enc1_A
+Text Label 3000 6050 0    50   ~ 0
+enc1_B
+Wire Wire Line
+	3550 5950 3000 5950
+Wire Wire Line
+	3000 6050 3550 6050
+Text Label 3000 3850 0    50   ~ 0
+mot2_PWM
+Text Label 3000 3750 0    50   ~ 0
+mot2_dir
+Wire Wire Line
+	3550 3850 3000 3850
+Wire Wire Line
+	3550 3750 3000 3750
+Text Label 3000 3550 0    50   ~ 0
+mot1_PWM
+Text Label 3000 3650 0    50   ~ 0
+mot1_dir
+Wire Wire Line
+	3550 3550 3000 3550
+Wire Wire Line
+	3550 3650 3000 3650
+$Comp
+L power:GND #PWR?
+U 1 1 605E2831
+P 3200 2850
+F 0 "#PWR?" H 3200 2600 50  0001 C CNN
+F 1 "GND" V 3205 2722 50  0000 R CNN
+F 2 "" H 3200 2850 50  0001 C CNN
+F 3 "" H 3200 2850 50  0001 C CNN
+	1    3200 2850
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	3200 2850 3550 2850
 $EndSCHEMATC
