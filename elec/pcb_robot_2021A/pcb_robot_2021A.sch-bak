@@ -5,11 +5,11 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 1
 Title "Carte principale Robot 2021 A"
-Date "2021-02-19"
-Rev "v0.1"
+Date "2021-02-21"
+Rev "v0.2"
 Comp "ENAC Robotique"
-Comment1 "Création du projet sous KiCad"
-Comment2 "Ajout des premiers composants"
+Comment1 "Connectique du lidar Hokuyo"
+Comment2 ""
 Comment3 ""
 Comment4 ""
 $EndDescr
@@ -197,12 +197,12 @@ $EndComp
 $Comp
 L Connector:Conn_01x05_Male J?
 U 1 1 60363C7E
-P 8500 2800
-F 0 "J?" V 8472 2824 50  0000 R CNN
-F 1 "lidar_in" V 8472 2733 50  0000 R CNN
-F 2 "" H 8500 2800 50  0001 C CNN
-F 3 "~" H 8500 2800 50  0001 C CNN
-	1    8500 2800
+P 8500 3700
+F 0 "J?" V 8472 3724 50  0000 R CNN
+F 1 "lidar_in" V 8472 3633 50  0000 R CNN
+F 2 "" H 8500 3700 50  0001 C CNN
+F 3 "~" H 8500 3700 50  0001 C CNN
+	1    8500 3700
 	0    -1   1    0   
 $EndComp
 $Comp
@@ -591,56 +591,56 @@ Wire Wire Line
 $Comp
 L mySymbols:IRLML6344 U?
 U 1 1 60381462
-P 8500 3800
-F 0 "U?" H 8606 3846 50  0000 L CNN
-F 1 "mosfet_lid_I3" H 8606 3755 50  0000 L CNN
-F 2 "mosfets:SOT-23" H 8850 3650 50  0001 C CNN
-F 3 "https://docs-emea.rs-online.com/webdocs/0f87/0900766b80f8731b.pdf" H 8550 4250 50  0001 C CNN
-	1    8500 3800
+P 8500 4700
+F 0 "U?" H 8606 4746 50  0000 L CNN
+F 1 "mosfet_lid_I3" H 8606 4655 50  0000 L CNN
+F 2 "mosfets:SOT-23" H 8850 4550 50  0001 C CNN
+F 3 "https://docs-emea.rs-online.com/webdocs/0f87/0900766b80f8731b.pdf" H 8550 5150 50  0001 C CNN
+	1    8500 4700
 	1    0    0    -1  
 $EndComp
 $Comp
 L mySymbols:IRLML6344 U?
 U 1 1 6037E9ED
-P 10500 3800
-F 0 "U?" H 10606 3846 50  0000 L CNN
-F 1 "mosfet_lid_I5" H 10606 3755 50  0000 L CNN
-F 2 "mosfets:SOT-23" H 10850 3650 50  0001 C CNN
-F 3 "https://docs-emea.rs-online.com/webdocs/0f87/0900766b80f8731b.pdf" H 10550 4250 50  0001 C CNN
-	1    10500 3800
+P 10500 4700
+F 0 "U?" H 10606 4746 50  0000 L CNN
+F 1 "mosfet_lid_I5" H 10606 4655 50  0000 L CNN
+F 2 "mosfets:SOT-23" H 10850 4550 50  0001 C CNN
+F 3 "https://docs-emea.rs-online.com/webdocs/0f87/0900766b80f8731b.pdf" H 10550 5150 50  0001 C CNN
+	1    10500 4700
 	1    0    0    -1  
 $EndComp
 $Comp
 L mySymbols:IRLML6344 U?
 U 1 1 6037BEE6
-P 9500 3800
-F 0 "U?" H 9606 3846 50  0000 L CNN
-F 1 "mosfet_lid_I4" H 9606 3755 50  0000 L CNN
-F 2 "mosfets:SOT-23" H 9850 3650 50  0001 C CNN
-F 3 "https://docs-emea.rs-online.com/webdocs/0f87/0900766b80f8731b.pdf" H 9550 4250 50  0001 C CNN
-	1    9500 3800
+P 9500 4700
+F 0 "U?" H 9606 4746 50  0000 L CNN
+F 1 "mosfet_lid_I4" H 9606 4655 50  0000 L CNN
+F 2 "mosfets:SOT-23" H 9850 4550 50  0001 C CNN
+F 3 "https://docs-emea.rs-online.com/webdocs/0f87/0900766b80f8731b.pdf" H 9550 5150 50  0001 C CNN
+	1    9500 4700
 	1    0    0    -1  
 $EndComp
 $Comp
 L mySymbols:IRLML6344 U?
 U 1 1 603797FB
-P 6500 3800
-F 0 "U?" H 6606 3846 50  0000 L CNN
-F 1 "mosfet_lid_I1" H 6606 3755 50  0000 L CNN
-F 2 "mosfets:SOT-23" H 6850 3650 50  0001 C CNN
-F 3 "https://docs-emea.rs-online.com/webdocs/0f87/0900766b80f8731b.pdf" H 6550 4250 50  0001 C CNN
-	1    6500 3800
+P 6500 4700
+F 0 "U?" H 6606 4746 50  0000 L CNN
+F 1 "mosfet_lid_I1" H 6606 4655 50  0000 L CNN
+F 2 "mosfets:SOT-23" H 6850 4550 50  0001 C CNN
+F 3 "https://docs-emea.rs-online.com/webdocs/0f87/0900766b80f8731b.pdf" H 6550 5150 50  0001 C CNN
+	1    6500 4700
 	1    0    0    -1  
 $EndComp
 $Comp
 L mySymbols:IRLML6344 U?
 U 1 1 603755FA
-P 7500 3800
-F 0 "U?" H 7606 3846 50  0000 L CNN
-F 1 "mosfet_lid_I2" H 7606 3755 50  0000 L CNN
-F 2 "mosfets:SOT-23" H 7850 3650 50  0001 C CNN
-F 3 "https://docs-emea.rs-online.com/webdocs/0f87/0900766b80f8731b.pdf" H 7550 4250 50  0001 C CNN
-	1    7500 3800
+P 7500 4700
+F 0 "U?" H 7606 4746 50  0000 L CNN
+F 1 "mosfet_lid_I2" H 7606 4655 50  0000 L CNN
+F 2 "mosfets:SOT-23" H 7850 4550 50  0001 C CNN
+F 3 "https://docs-emea.rs-online.com/webdocs/0f87/0900766b80f8731b.pdf" H 7550 5150 50  0001 C CNN
+	1    7500 4700
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -689,116 +689,116 @@ Wire Wire Line
 Wire Wire Line
 	8250 1200 7900 1200
 Wire Wire Line
-	8500 3600 8500 3000
+	8500 4500 8500 3900
 Wire Wire Line
-	7500 3600 7500 3500
+	7500 4500 7500 4400
 Wire Wire Line
-	7500 3500 8400 3500
+	7500 4400 8400 4400
 Wire Wire Line
-	8400 3500 8400 3000
+	8400 4400 8400 3900
 Wire Wire Line
-	8300 3000 8300 3400
+	8300 3900 8300 4300
 Wire Wire Line
-	8300 3400 6500 3400
+	8300 4300 6500 4300
 Wire Wire Line
-	6500 3400 6500 3600
+	6500 4300 6500 4500
 Wire Wire Line
-	8600 3000 8600 3500
+	8600 3900 8600 4400
 Wire Wire Line
-	8600 3500 9500 3500
+	8600 4400 9500 4400
 Wire Wire Line
-	9500 3500 9500 3600
+	9500 4400 9500 4500
 Wire Wire Line
-	8700 3000 8700 3400
+	8700 3900 8700 4300
 Wire Wire Line
-	8700 3400 10500 3400
+	8700 4300 10500 4300
 Wire Wire Line
-	10500 3400 10500 3600
+	10500 4300 10500 4500
 $Comp
 L power:GND #PWR?
 U 1 1 604A1AF0
-P 6500 4150
-F 0 "#PWR?" H 6500 3900 50  0001 C CNN
-F 1 "GND" H 6505 3977 50  0000 C CNN
-F 2 "" H 6500 4150 50  0001 C CNN
-F 3 "" H 6500 4150 50  0001 C CNN
-	1    6500 4150
+P 6500 5050
+F 0 "#PWR?" H 6500 4800 50  0001 C CNN
+F 1 "GND" H 6505 4877 50  0000 C CNN
+F 2 "" H 6500 5050 50  0001 C CNN
+F 3 "" H 6500 5050 50  0001 C CNN
+	1    6500 5050
 	1    0    0    -1  
 $EndComp
 $Comp
 L power:GND #PWR?
 U 1 1 604A357A
-P 7500 4150
-F 0 "#PWR?" H 7500 3900 50  0001 C CNN
-F 1 "GND" H 7505 3977 50  0000 C CNN
-F 2 "" H 7500 4150 50  0001 C CNN
-F 3 "" H 7500 4150 50  0001 C CNN
-	1    7500 4150
+P 7500 5050
+F 0 "#PWR?" H 7500 4800 50  0001 C CNN
+F 1 "GND" H 7505 4877 50  0000 C CNN
+F 2 "" H 7500 5050 50  0001 C CNN
+F 3 "" H 7500 5050 50  0001 C CNN
+	1    7500 5050
 	1    0    0    -1  
 $EndComp
 $Comp
 L power:GND #PWR?
 U 1 1 604A5562
-P 8500 4150
-F 0 "#PWR?" H 8500 3900 50  0001 C CNN
-F 1 "GND" H 8505 3977 50  0000 C CNN
-F 2 "" H 8500 4150 50  0001 C CNN
-F 3 "" H 8500 4150 50  0001 C CNN
-	1    8500 4150
+P 8500 5050
+F 0 "#PWR?" H 8500 4800 50  0001 C CNN
+F 1 "GND" H 8505 4877 50  0000 C CNN
+F 2 "" H 8500 5050 50  0001 C CNN
+F 3 "" H 8500 5050 50  0001 C CNN
+	1    8500 5050
 	1    0    0    -1  
 $EndComp
 $Comp
 L power:GND #PWR?
 U 1 1 604A7544
-P 9500 4150
-F 0 "#PWR?" H 9500 3900 50  0001 C CNN
-F 1 "GND" H 9505 3977 50  0000 C CNN
-F 2 "" H 9500 4150 50  0001 C CNN
-F 3 "" H 9500 4150 50  0001 C CNN
-	1    9500 4150
+P 9500 5050
+F 0 "#PWR?" H 9500 4800 50  0001 C CNN
+F 1 "GND" H 9505 4877 50  0000 C CNN
+F 2 "" H 9500 5050 50  0001 C CNN
+F 3 "" H 9500 5050 50  0001 C CNN
+	1    9500 5050
 	1    0    0    -1  
 $EndComp
 $Comp
 L power:GND #PWR?
 U 1 1 604A94DD
-P 10500 4150
-F 0 "#PWR?" H 10500 3900 50  0001 C CNN
-F 1 "GND" H 10505 3977 50  0000 C CNN
-F 2 "" H 10500 4150 50  0001 C CNN
-F 3 "" H 10500 4150 50  0001 C CNN
-	1    10500 4150
+P 10500 5050
+F 0 "#PWR?" H 10500 4800 50  0001 C CNN
+F 1 "GND" H 10505 4877 50  0000 C CNN
+F 2 "" H 10500 5050 50  0001 C CNN
+F 3 "" H 10500 5050 50  0001 C CNN
+	1    10500 5050
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	10500 4000 10500 4150
+	10500 4900 10500 5050
 Wire Wire Line
-	9500 4150 9500 4000
+	9500 5050 9500 4900
 Wire Wire Line
-	8500 4000 8500 4150
+	8500 4900 8500 5050
 Wire Wire Line
-	7500 4150 7500 4000
+	7500 5050 7500 4900
 Wire Wire Line
-	6500 4150 6500 4000
-Text Label 6200 4200 1    50   ~ 0
+	6500 5050 6500 4900
+Text Label 6200 5100 1    50   ~ 0
 lidard_in1
-Text Label 7200 4200 1    50   ~ 0
+Text Label 7200 5100 1    50   ~ 0
 lidard_in2
-Text Label 8200 4200 1    50   ~ 0
+Text Label 8200 5100 1    50   ~ 0
 lidard_in3
-Text Label 9200 4200 1    50   ~ 0
+Text Label 9200 5100 1    50   ~ 0
 lidard_in4
-Text Label 10200 4200 1    50   ~ 0
+Text Label 10200 5100 1    50   ~ 0
 lidard_in5
 Wire Wire Line
-	10200 4200 10200 3800
+	10200 5100 10200 4700
 Wire Wire Line
-	9200 3800 9200 4200
+	9200 4700 9200 5100
 Wire Wire Line
-	8200 4200 8200 3800
+	8200 5100 8200 4700
 Wire Wire Line
-	7200 4200 7200 3800
+	7200 5100 7200 4700
 Wire Wire Line
-	6200 4200 6200 3800
+	6200 5100 6200 4700
 Text Label 5950 7050 2    50   ~ 0
 lidar_in5
 Text Label 5950 6950 2    50   ~ 0
@@ -819,4 +819,49 @@ Wire Wire Line
 	5950 6950 5550 6950
 Wire Wire Line
 	5550 7050 5950 7050
+$Comp
+L Connector:Conn_01x04_Male J?
+U 1 1 60565B56
+P 8500 1600
+F 0 "J?" H 8472 1574 50  0000 R CNN
+F 1 "PCA9685" H 8472 1483 50  0000 R CNN
+F 2 "" H 8500 1600 50  0001 C CNN
+F 3 "~" H 8500 1600 50  0001 C CNN
+	1    8500 1600
+	-1   0    0    -1  
+$EndComp
+$Comp
+L power:+5V #PWR?
+U 1 1 60565B5C
+P 7800 1500
+F 0 "#PWR?" H 7800 1350 50  0001 C CNN
+F 1 "+5V" V 7815 1628 50  0000 L CNN
+F 2 "" H 7800 1500 50  0001 C CNN
+F 3 "" H 7800 1500 50  0001 C CNN
+	1    7800 1500
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 60565B62
+P 7800 1600
+F 0 "#PWR?" H 7800 1350 50  0001 C CNN
+F 1 "GND" V 7805 1472 50  0000 R CNN
+F 2 "" H 7800 1600 50  0001 C CNN
+F 3 "" H 7800 1600 50  0001 C CNN
+	1    7800 1600
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	7800 1500 8300 1500
+Wire Wire Line
+	8300 1600 7800 1600
+Text Label 7950 1700 0    50   ~ 0
+PCA_SDA
+Text Label 7950 1800 0    50   ~ 0
+PCA_SCL
+Wire Wire Line
+	7950 1700 8300 1700
+Wire Wire Line
+	8300 1800 7950 1800
 $EndSCHEMATC
