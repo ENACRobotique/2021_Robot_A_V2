@@ -1,13 +1,13 @@
-#include "arm_math.h"
-
-
 //Kalman: voir namespace
 
 /*
     AFAIRE:
+    sommes-nous dans un modèle linéaire?
     supprimer inutile ci_dessous
-    kalman_correct
-    fonction principale, appelée par navigator?
+    mettre à jour le système: F,Q,B,H..
+    implémenter kalman_correct
+    implémenter fonction principale, appelée par navigator ou l'inverse ? #KalmanZeBigBos
+
 */
 
 /* ----------------------------------------------------------------------
@@ -53,7 +53,7 @@
 * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 * POSSIBILITY OF SUCH DAMAGE.
- * -------------------------------------------------------------------- */
+* -------------------------------------------------------------------- */
 #include "arm_math.h"
 #include "math_helper.h"
 #if defined(SEMIHOSTING)
@@ -218,8 +218,6 @@ namespace kalman{
     arm_matrix_instance_f32 *P_c;
 
     
-    int idbuff;
-
     /* description du systeme */
     const float32_t B_data[dim_etat*dim_cmde] =
     {

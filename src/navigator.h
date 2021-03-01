@@ -31,11 +31,13 @@ public:
 	void forceStop();
 	bool isTrajectoryFinished();
 	bool moveForward();
+	bool caperror();
 
 private:
 	bool turn_done;
 	bool displacement_done;
 	bool trajectory_done;
+	bool error_cap;
 	float x_target;
 	float y_target;
 	float theta_target;

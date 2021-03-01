@@ -9,6 +9,7 @@
 #include "Arduino.h"
 #include "./stateMachine/AbstractState.h"
 #include "./stateMachine/CaptureEcocup.h"
+#include "./stateMachine/Reajustement.h"
 
 FMSSupervisor fmsSupervisor = FMSSupervisor();
 
@@ -82,6 +83,6 @@ void FMSSupervisor::init(AbstractState* state) {
 }
 */
 void FMSSupervisor::init(){
-	currentState = &captureEcocup;
+	currentState = &reajustement;
 	currentState->enter();
 }

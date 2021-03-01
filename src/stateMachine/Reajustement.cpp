@@ -23,7 +23,7 @@ Reajustement::~Reajustement() {
 void Reajustement::enter() {
 	Serial1.println("entrée dans l'état réajustement");
 	time_start = millis();
-    navigator.step_forward(20); //param à affiner
+    navigator.adjust_rot(delta_ajust_deg);
 }
 
 void Reajustement::leave() {
@@ -31,8 +31,11 @@ void Reajustement::leave() {
 }
 
 void Reajustement::doIt() {
-    if (navigator.isTrajectoryFinished()||((millis()-get_time_start())>1000)){
+    if (navigator.isTrajectoryFinished()){
         fmsSupervisor.setNextState(&captureEcocup);
+    }
+    if (navigator.caperror()) {
+        fmsSupervisor.setNextState(&next_cup);
     }
 }
 
