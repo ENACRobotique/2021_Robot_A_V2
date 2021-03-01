@@ -34,7 +34,7 @@ void Reajustement::doIt() {
     if (navigator.isTrajectoryFinished()){
         fmsSupervisor.setNextState(&captureEcocup);
     }
-    if (navigator.caperror()) {
+    else if (navigator.caperror()) {
         fmsSupervisor.setNextState(&next_cup);
     }
 }

@@ -73,7 +73,7 @@ void Navigator::adjust_rot(float delta_theta){ // En degrés
 	Serial.print(" ( <  ");
 	Serial.println(theta);*/
 
-	move_type = ROT_CAP;
+	move_type = CAP;
 	move_state = INITIAL_TURN;
 	trajectory_done = false;
 }
