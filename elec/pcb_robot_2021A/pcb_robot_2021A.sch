@@ -555,8 +555,6 @@ F 3 "" H 750 900 50  0001 C CNN
 	1    750  900 
 	0    1    1    0   
 $EndComp
-Wire Wire Line
-	850  900  800  900 
 $Comp
 L mySymbols:IRLML6344 U5
 U 1 1 60381462
@@ -1515,17 +1513,6 @@ F 3 "" H 750 800 50  0001 C CNN
 	1    750  800 
 	0    -1   -1   0   
 $EndComp
-$Comp
-L power:PWR_FLAG #FLG0102
-U 1 1 6050042D
-P 800 950
-F 0 "#FLG0102" H 800 1025 50  0001 C CNN
-F 1 "PWR_FLAG" H 800 1123 50  0000 C CNN
-F 2 "" H 800 950 50  0001 C CNN
-F 3 "~" H 800 950 50  0001 C CNN
-	1    800  950 
-	-1   0    0    1   
-$EndComp
 Wire Wire Line
 	850  800  800  800 
 Wire Wire Line
@@ -1533,11 +1520,6 @@ Wire Wire Line
 Connection ~ 800  800 
 Wire Wire Line
 	800  800  750  800 
-Wire Wire Line
-	800  950  800  900 
-Connection ~ 800  900 
-Wire Wire Line
-	800  900  750  900 
 $Comp
 L mySymbols:Teensy3.5 U2
 U 1 1 602FE161
@@ -1548,5 +1530,23 @@ F 2 "myFootprints:Teensy35_36" H 4550 4950 60  0001 C CNN
 F 3 "" H 4550 4950 60  0000 C CNN
 	1    4550 4950
 	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	800  900  750  900 
+Wire Wire Line
+	850  900  800  900 
+Connection ~ 800  900 
+Wire Wire Line
+	800  950  800  900 
+$Comp
+L power:PWR_FLAG #FLG0102
+U 1 1 6050042D
+P 800 950
+F 0 "#FLG0102" H 800 1025 50  0001 C CNN
+F 1 "PWR_FLAG" H 800 1123 50  0000 C CNN
+F 2 "" H 800 950 50  0001 C CNN
+F 3 "~" H 800 950 50  0001 C CNN
+	1    800  950 
+	-1   0    0    1   
 $EndComp
 $EndSCHEMATC
