@@ -45,6 +45,7 @@ namespace Communication {
     }
 
     static void parse_data(){
+        //switch(buffer[0]) ?
         if(buffer[0] == 's') {
             MotorControl::set_cons(0,0);
             navigator.forceStop();
@@ -83,6 +84,18 @@ namespace Communication {
         else if(buffer[0] == 'i'){
             raspberryparser.parseData(buffer);
         }
+        else if(buffer[0] == 'v') {
+            float v,omega;
+            int nb = sscanf(buffer, "v %f %f", &v, &omega);
+            if(nb == 2) {
+                navigator.move(v, omega);
+                #ifdef COM_DEBUG
+                Serial1.print("Moving to ");
+                Serial1.print(v);
+                Serial1.print("\t");
+                Serial1.println(omega);
+                #endif
+            }
 
         buff_index = 0;
     }

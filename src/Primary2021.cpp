@@ -38,7 +38,7 @@ void setup()
 	TestTime.reset();
 	Odometry::init();
 	MotorControl::init();
-	fmsSupervisor.init();
+	//fmsSupervisor.init();
 	//MotorControl::set_cons(0,0);
 	//navigator.move_to(500,500);
 	
@@ -85,7 +85,7 @@ void loop()
 		//Serial1.println(Odometry::get_pos_x());
 	}
 	if(stateTime.check()){
-		fmsSupervisor.update();
+		//fmsSupervisor.update();
 	}
 
 	} else {

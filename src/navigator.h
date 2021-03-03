@@ -15,12 +15,14 @@ typedef enum {  TURN,
 
 typedef enum { INITIAL_TURN,
 				  CRUISE,
+				  VELOCITY,
 				  STOPPED}Move_state;
 
 class Navigator{
 public:
 	Navigator();
 	void move_to(float x, float y);
+	void move(float v, float omega);//simple contôle moteur en vitesse
 	void step_forward(float d);
 	void step_backward(float d);
 	void turn_to(float theta);
@@ -39,6 +41,7 @@ private:
 	float x_target;
 	float y_target;
 	float theta_target;
+	float v_target, omega_target;
 	Move_type move_type;
 	Move_state move_state;
 

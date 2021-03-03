@@ -37,6 +37,18 @@ void Navigator::move_to(float x, float y){
 	Serial.println(y_target);
 }
 
+void Navigator::move(float v, float omega){
+	v_target = min(SPEED_MAX, max(-SPEED_MAX,v));
+	omega_target = min(OMEGA_MAX, max(-OMEGA_MAX,omega));
+	move_type = DISPLACEMENT;
+	move_state = VELOCITY;
+	trajectory_done = true;
+	Serial.print("velocity movement: ");
+	Serial.print(v_target);
+	Serial.print("\t");
+	Serial.println(omega_target);
+}
+
 void Navigator::step_forward(float d){
 	move_to(d*cos(Odometry::get_pos_theta()) + Odometry::get_pos_x(),d*sin(Odometry::get_pos_theta()) + Odometry::get_pos_y());
 }
@@ -229,6 +241,9 @@ void Navigator::update(){
 			break;
 		case STOPPED:
 			//do nothing
+			break;
+		case VELOCITY:
+			MotorControl::set_cons(v_target,omega_target);
 			break;
 		}
 	}
