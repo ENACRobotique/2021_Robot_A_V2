@@ -2,7 +2,7 @@
 
   (general
     (thickness 1.6)
-    (drawings 4)
+    (drawings 6)
     (tracks 157)
     (zones 0)
     (modules 21)
@@ -1143,10 +1143,16 @@
     )
   )
 
-  (gr_line (start 133 109) (end 133 50) (layer Dwgs.User) (width 0.15) (tstamp 60404953))
-  (gr_line (start 63 109) (end 133 109) (layer Dwgs.User) (width 0.15))
-  (gr_line (start 63 50) (end 63 109) (layer Dwgs.User) (width 0.15))
-  (gr_line (start 133 50) (end 63 50) (layer Dwgs.User) (width 0.15))
+  (gr_line (start 63 109) (end 133 109) (layer Edge.Cuts) (width 0.05) (tstamp 60404D20))
+  (gr_line (start 63 50) (end 63 109) (layer Edge.Cuts) (width 0.05))
+  (gr_line (start 133 50) (end 63 50) (layer Edge.Cuts) (width 0.05))
+  (gr_line (start 133 109) (end 133 50) (layer Edge.Cuts) (width 0.05))
+  (gr_text "ENAC Robotique 2021\nPCB by Robin Duprat" (at 130 100 90) (layer F.SilkS)
+    (effects (font (size 1 1) (thickness 0.15)) (justify left))
+  )
+  (gr_text "Robot 2021 A\nCarte Servomoteur" (at 66 80 90) (layer F.SilkS)
+    (effects (font (size 1 1) (thickness 0.15)))
+  )
 
   (segment (start 106.49 83.31) (end 106.49 81.677) (width 0.6) (layer F.Cu) (net 1))
   (segment (start 106.49 81.677) (end 106.49 81.677) (width 0.6) (layer F.Cu) (net 1) (tstamp 60400867))
