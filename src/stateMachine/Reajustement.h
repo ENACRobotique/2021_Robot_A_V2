@@ -12,7 +12,6 @@
 
 class Reajustement : public AbstractState {
 public:
-	int delta_ajust_deg = 10;
 	Reajustement();
 	virtual ~Reajustement();
 

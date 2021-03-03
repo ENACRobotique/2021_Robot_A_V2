@@ -23,6 +23,9 @@ Navigator::Navigator(){
 	theta_target = 0;
 	move_type = TURN;
 	move_state = STOPPED;
+
+	pinMode(IR_sel, INPUT);
+	compt_rot=1;
 }
 
 void Navigator::move_to(float x, float y){
@@ -178,7 +181,7 @@ float Navigator::compute_cons_omega()
 			omega_cons = sgn*min(MAX_OMEGA, NAVIGATOR_PERIOD*MAX_ACCEL_OMEGA + abs(Odometry::get_omega()));
 		}
 		else{
-			omega_cons = sgn*max(0,abs(Odometry::get_omega()) - NAVIGATOR_PERIOD*ACCEL_OMEGA_MAX);
+			omega_cons = sgn*max(0,abs(Odometry::get_omega()) - NAVIGATOR_PERIOD*MAX_ACCEL_OMEGA);
 		}
 	}
 	/*Serial.print("Consigne angle:");
@@ -239,15 +242,16 @@ void Navigator::update(){
 						Navigator::step_forward(VOLT_TO_DIST(analogRead(IR_sel))+delta_step_forward);
 						break;
 					}
-					else if (compt_rot>2) {
+					else if (compt_rot>4) {
 						Serial1.print("erreur, trop de balayages");
 						trajectory_done=true;
+						compt_rot=1;
 						error_cap=true;
 						break;
 					}
 					else {
-						Navigator::adjust_rot(-2*compt_rot*nominal_delta_rot);
 						compt_rot++;
+						Navigator::adjust_rot(pow(-1,compt_rot-1)*compt_rot*nominal_delta_rot);						
 					}
 				}
 				break;
@@ -270,6 +274,7 @@ void Navigator::update(){
 			case CAP:
 				if (cup_ready) {
 					MotorControl::set_cons(0,0);
+					compt_rot=1;
 					trajectory_done=true;
 					
 				}

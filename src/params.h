@@ -93,9 +93,15 @@ const int PURPLE = 1;
 const int YELLOW = !PURPLE;
 
 
-enum sensors {IR1=33,IR2,IR3,IR4,IR5,IR6};
+enum sensors {IR1=33,IR2,IR3,IR4,IR5,IR6,IR_test};
+sensors IR_sel=IR_test;
 
-const int IRCONV = 1
+
+//params de capture ecocup
+float dist_min=5,dist_max=20;//valeurs initial turn
+float delta_step_forward=4;
+float nominal_delta_rot=10;//degres
+float dist_opt=5;
 
 // const int NB_US = 4;
 #endif /* PARAMS_H_ */

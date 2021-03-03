@@ -11,7 +11,8 @@
 typedef enum {  TURN,
 				DISPLACEMENT,
 				THROW,
-				BRAKE}Move_type;
+				BRAKE,
+				CAP}Move_type;
 
 typedef enum { INITIAL_TURN,
 				  CRUISE,
@@ -32,6 +33,7 @@ public:
 	bool isTrajectoryFinished();
 	bool moveForward();
 	bool caperror();
+	void adjust_rot(float delta_theta);
 
 private:
 	bool turn_done;
@@ -41,6 +43,9 @@ private:
 	float x_target;
 	float y_target;
 	float theta_target;
+	int MAX_ACCEL_OMEGA, MAX_OMEGA;
+	bool cup_detected, cup_ready;
+	int compt_rot;
 	Move_type move_type;
 	Move_state move_state;
 
