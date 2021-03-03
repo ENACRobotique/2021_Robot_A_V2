@@ -10,6 +10,7 @@
 #include "Reajustement.h"
 #include "../controlServo.h"
 #include "../params.h"
+#include "etat_test.h"
 
 CaptureEcocup captureEcocup = CaptureEcocup();
 
@@ -39,13 +40,10 @@ void CaptureEcocup::leave() {
 }
 
 void CaptureEcocup::doIt() {
-	Serial1.println(servo.returnPos());
-	Serial1.println(millis() - time_start);
-	if(((millis() - time_start) > SERVO_MOVEMENT_DURATION) && (servo.returnPos()<110)){
+	
+	if(((millis() - time_start) > SERVO_MOVEMENT_DURATION*2) ){
 		servo.resetPos();
-		fmsSupervisor.setNextState(&reajustement);
-	}
-	else if(servo.returnPos()>=110){
+		fmsSupervisor.setNextState(&etat_test);
 		
 	}
 }

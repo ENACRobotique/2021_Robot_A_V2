@@ -10,6 +10,7 @@
 #include "./stateMachine/AbstractState.h"
 #include "./stateMachine/CaptureEcocup.h"
 #include "./stateMachine/Reajustement.h"
+#include "./stateMachine/etat_test.h"
 
 FMSSupervisor fmsSupervisor = FMSSupervisor();
 

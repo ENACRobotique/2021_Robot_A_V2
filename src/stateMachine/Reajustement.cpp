@@ -32,12 +32,17 @@ void Reajustement::leave() {
 }
 
 void Reajustement::doIt() {
-    if (navigator.isTrajectoryFinished()){
-        fmsSupervisor.setNextState(&captureEcocup);
-    }
-    else if (navigator.caperror()) {
+   // float v_r = VOLT_TO_DIST(analogRead(IR_sel));
+
+  //  Serial1.printf("IR read : %f\n", v_r);
+    if (navigator.caperror()) {
         fmsSupervisor.setNextState(&reajustement);
     }
+
+    else if (navigator.isTrajectoryFinished()){
+        fmsSupervisor.setNextState(&captureEcocup);
+    }
+    
 }
 
 

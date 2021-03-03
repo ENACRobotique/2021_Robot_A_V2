@@ -98,7 +98,7 @@ float32_t snr;
 /* ----------------------------------------------------------------------
 * Max magnitude FFT Bin test
 * ------------------------------------------------------------------- */
-int32_t main(void)
+int32_t maingfd()
 {
   arm_matrix_instance_f32 A;      /* Matrix A Instance */
   arm_matrix_instance_f32 AT;     /* Matrix AT(A transpose) instance */
@@ -165,6 +165,7 @@ int32_t main(void)
     while (1);                             /* main function does not return */
 #endif
   }
+  return 0;
 }
 
 
