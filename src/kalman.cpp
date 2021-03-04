@@ -1,6 +1,4 @@
 #include "arm_math.h"
-
-#include "arm_math.h"
 #include "math_helper.h"
 #if defined(SEMIHOSTING)
 #include <stdio.h>
@@ -23,7 +21,7 @@ namespace kalman
   float32_t *X = NULL;                       //état du systeme, alias X_data: x,y,theta
   float32_t *P = NULL;                       //idem P_A, P_B
   float32_t *U = NULL;                       //commande
-  Dt = 0.01;                                 //intervalle de temps
+  float32_t Dt = 0.01;                       //intervalle de temps
 
   //privé:
   arm_status statut;
@@ -67,7 +65,7 @@ namespace kalman
   arm_matrix_instance_f32 *BT;
   // B non utilisée car non linéaire. --> à supprimer
 
-  const float32_t F_data[dim_etat * dim_etat] =
+  float32_t F_data[dim_etat * dim_etat] =
       {
           /* systeme linearisé */
           1.f, 0.f, 0.f,
@@ -76,7 +74,7 @@ namespace kalman
   arm_matrix_instance_f32 *F;
   arm_matrix_instance_f32 *FT;
 
-  const float32_t H1_data[dim_mesure1 * dim_etat] =
+  float32_t H1_data[dim_mesure1 * dim_etat] =
       {
           /* matrice d'estimation de la mesure à partir du vecteur d'état*/
           1.f, 0.f, 0.f,
@@ -85,7 +83,7 @@ namespace kalman
   arm_matrix_instance_f32 *H1;
   arm_matrix_instance_f32 *H1T;
 
-  const float32_t R1_data[dim_mesure1 * dim_mesure1] =
+  float32_t R1_data[dim_mesure1 * dim_mesure1] =
       {
           /* matrice de bruit de la mesure */
           1.f, 0.f, 0.f,
@@ -99,6 +97,7 @@ namespace kalman
   arm_matrix_instance_f32 *Q;
 
   /* ----------------------------------------------------------------------
+
     * Temporary buffers  for storing intermediate values
     * ------------------------------------------------------------------- */
 
@@ -170,9 +169,9 @@ namespace kalman
     //statut=arm_mat_mult_f32(F, X_c, calc1);
     //statut=arm_mat_mult_f32(B, U_c, calc2);
     //statut=arm_mat_add_f32(calc1, calc2, X_c);
-    float X[0] += U[0] * Dt * cos(X[2]);
-    float X[1] += U[0] * Dt * sin(X[2]);
-    float X[2] += U[1] * Dt;
+    X[0] += U[0] * Dt * cos(X[2]);
+    X[1] += U[0] * Dt * sin(X[2]);
+    X[2] += U[1] * Dt;
 
     F_data[2] = -U[0] * Dt * sin(X[2]);
     F_data[dim_etat + 2] = -U[0] * Dt * cos(X[2]);

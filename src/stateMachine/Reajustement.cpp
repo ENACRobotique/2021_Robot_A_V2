@@ -8,7 +8,8 @@
 #include "Reajustement.h"
 #include "../FMSSupervisor.h"
 #include "CaptureEcocup.h"
-#include "navigator.h"
+#include "../navigator.h"
+#include "../params.h"
 
 Reajustement reajustement = Reajustement();
 
@@ -23,7 +24,7 @@ Reajustement::~Reajustement() {
 void Reajustement::enter() {
 	Serial1.println("entrée dans l'état réajustement");
 	time_start = millis();
-    navigator.step_forward(20); //param à affiner
+    navigator.adjust_rot(nominal_delta_rot);
 }
 
 void Reajustement::leave() {
@@ -31,9 +32,17 @@ void Reajustement::leave() {
 }
 
 void Reajustement::doIt() {
-    if (navigator.isTrajectoryFinished()||((millis()-get_time_start())>1000)){
+   // float v_r = VOLT_TO_DIST(analogRead(IR_sel));
+
+  //  Serial1.printf("IR read : %f\n", v_r);
+    if (navigator.caperror()) {
+        fmsSupervisor.setNextState(&reajustement);
+    }
+
+    else if (navigator.isTrajectoryFinished()){
         fmsSupervisor.setNextState(&captureEcocup);
     }
+    
 }
 
 
