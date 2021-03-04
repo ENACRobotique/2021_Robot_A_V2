@@ -6,6 +6,11 @@
 #include "odometry.h"
 #include "raspberryParser.h"
 
+#include "FMSSupervisor.h"
+#include "stateMachine/Reajustement.h"
+#include "stateMachine/etat_begin.h"
+
+
 #define COM_DEBUG
 
 namespace Communication {
@@ -48,6 +53,7 @@ namespace Communication {
         if(buffer[0] == 's') {
             MotorControl::set_cons(0,0);
             navigator.forceStop();
+            fmsSupervisor.setNextState(&etat_begin);
             #ifdef COM_DEBUG
             Serial1.println("Stopped!");
             #endif
@@ -82,6 +88,12 @@ namespace Communication {
         }
         else if(buffer[0] == 'i'){
             raspberryparser.parseData(buffer);
+        }
+        else if(buffer[0]=='c') {
+            fmsSupervisor.setNextState(&reajustement);
+        }
+        else if(buffer[0]=='e') {
+            fmsSupervisor.print_State();
         }
 
         buff_index = 0;

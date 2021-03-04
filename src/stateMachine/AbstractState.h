@@ -7,7 +7,7 @@
 
 #ifndef STATEMACHINE_ABSTRACTSTATE_H_
 #define STATEMACHINE_ABSTRACTSTATE_H_
-
+#include <string.h>
 /*
  * example :
  * enum services {
@@ -41,6 +41,8 @@ public:
 	void setFlags(unsigned long flags) {
 		this->flags = flags;
 	}
+	String name;
+
 
 protected:
 	unsigned long flags;

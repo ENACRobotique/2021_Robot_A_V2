@@ -10,5 +10,6 @@
 AbstractState::AbstractState() {
 	// TODO Auto-generated constructor stub
 	flags = 0;
+	name = "";
 }
 

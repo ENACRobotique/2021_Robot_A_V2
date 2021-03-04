@@ -15,6 +15,7 @@ Reajustement reajustement = Reajustement();
 
 Reajustement::Reajustement() {
 	time_start = 0;
+    name = "Reajustement";
 }
 
 Reajustement::~Reajustement() {
