@@ -261,17 +261,17 @@ servo2.3
 Wire Wire Line
 	8700 6000 9000 6000
 Text Label 5650 2550 2    50   ~ 0
-servo1.1
-Text Label 5650 2650 2    50   ~ 0
-servo1.2
-Text Label 5650 2750 2    50   ~ 0
-servo1.3
-Text Label 5650 2850 2    50   ~ 0
 servo2.1
-Text Label 5650 2950 2    50   ~ 0
+Text Label 5650 2650 2    50   ~ 0
 servo2.2
-Text Label 5650 3050 2    50   ~ 0
+Text Label 5650 2750 2    50   ~ 0
 servo2.3
+Text Label 5650 2850 2    50   ~ 0
+servo1.1
+Text Label 5650 2950 2    50   ~ 0
+servo1.2
+Text Label 5650 3050 2    50   ~ 0
+servo1.3
 Text Label 5650 3150 2    50   ~ 0
 servoFlag
 Text Label 5650 3250 2    50   ~ 0
