@@ -49,6 +49,7 @@ private:
 	Move_type move_type;
 	Move_state move_state;
 	float v_r; //read IR_sel
+	int a_r;
 
 	float center_axes(float angle);
 	float center_radian(float angle);

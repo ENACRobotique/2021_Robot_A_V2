@@ -17,6 +17,7 @@ public:
 	void setNextState(AbstractState* state);
 	void update();
 	void init();
+	void print_State();
 
 private:
 

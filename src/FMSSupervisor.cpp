@@ -11,6 +11,7 @@
 #include "./stateMachine/CaptureEcocup.h"
 #include "./stateMachine/Reajustement.h"
 #include "./stateMachine/etat_test.h"
+#include "./stateMachine/etat_begin.h"
 
 FMSSupervisor fmsSupervisor = FMSSupervisor();
 
@@ -84,6 +85,10 @@ void FMSSupervisor::init(AbstractState* state) {
 }
 */
 void FMSSupervisor::init(){
-	currentState = &reajustement;
+	currentState = &etat_begin;
 	currentState->enter();
+}
+
+void FMSSupervisor::print_State() {
+	Serial1.println("Current state :" + currentState->name);
 }

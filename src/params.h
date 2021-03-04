@@ -67,7 +67,7 @@ const float OMEGA_MAX_CAP = 0.5;
 const float ADMITTED_OMEGA_ERROR = 0.03;
 const float ADMITTED_SPEED_ERROR = 10;
 
-const float ADMITTED_POSITION_ERROR = 5;
+const float ADMITTED_POSITION_ERROR = 8; //5
 const float ADMITTED_ANGLE_ERROR = 0.01;
 
 //const float MAX_DRIFT = 0.1;
@@ -99,9 +99,9 @@ const sensors IR_sel=IR_test;
 
 //params de capture ecocup
 const float dist_min=5,dist_max=20;//valeurs initial turn
-const float delta_step_forward=40;//mm
+const float delta_step_forward=20;//mm
 const float nominal_delta_rot=10;//degres
-const float dist_opt=5;
+const float dist_opt=4.5;
 
 // const int NB_US = 4;
 #endif /* PARAMS_H_ */

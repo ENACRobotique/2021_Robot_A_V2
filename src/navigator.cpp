@@ -43,6 +43,7 @@ void Navigator::move_to(float x, float y){
 void Navigator::step_forward(float d){
 	move_to(d*cos(Odometry::get_pos_theta()) + Odometry::get_pos_x(),d*sin(Odometry::get_pos_theta()) + Odometry::get_pos_y());
 	move_state=CRUISE;
+	move_type = CAP;
 }
 
 void Navigator::step_backward(float d){
@@ -106,8 +107,8 @@ float Navigator::compute_cons_speed()
 		MAX_SPEED = SPEED_MAX_CAP;
 	}
 	else{
-		MAX_ACCEL = ACCEL_MAX;
-		MAX_SPEED = SPEED_MAX_CRUISE;
+		MAX_ACCEL = ACCEL_MAX/2;
+		MAX_SPEED = SPEED_MAX_CRUISE/3;
 	}
 	sgn = scalaire(cos(Odometry::get_pos_theta()),sin(Odometry::get_pos_theta()),x_target - Odometry::get_pos_x(),y_target - Odometry::get_pos_y());
 
@@ -197,8 +198,12 @@ float Navigator::compute_cons_omega()
 }
 
 void Navigator::update(){
+	/*
+	a_r = analogRead(IR_sel);
+	v_r =VOLT_TO_DIST(a_r);
+	Serial1.println(v_r);*/
+	///*
 	float omega_cons,speed_cons,alpha,distance;
-
 	if(move_type == BRAKE){
 		int sgn = scalaire(cos(Odometry::get_pos_theta()),sin(Odometry::get_pos_theta()),x_target - Odometry::get_pos_x(),y_target - Odometry::get_pos_y());
 		speed_cons = sgn*max(0,abs(Odometry::get_speed()) - EMERGENCY_BRAKE*NAVIGATOR_PERIOD);
@@ -219,13 +224,14 @@ void Navigator::update(){
 				alpha = theta_target;
 			}
 			turn_done = ((abs(center_radian(Odometry::get_pos_theta() - alpha)) < ADMITTED_ANGLE_ERROR)&&(Odometry::get_omega() < ADMITTED_OMEGA_ERROR));
-			v_r =VOLT_TO_DIST(analogRead(IR_sel));
+			a_r = analogRead(IR_sel);
+			v_r =VOLT_TO_DIST(a_r);
 			cup_detected = (dist_min < v_r ) && (v_r < dist_max);
-			if (true) {
+			if (false) {
 				Serial1.println(v_r);
 			}
 			if(turn_done){
-				Serial1.println("td");
+				Serial1.println("turn done");
 				MotorControl::set_cons(0,0);
 				switch(move_type){
 				case TURN:
@@ -242,8 +248,9 @@ void Navigator::update(){
 					//Do nothing
 					break;
 				case CAP:
-					if (cup_detected) {
-						Serial1.println("eco cup t");
+					if (cup_detected&&false) {
+						Serial1.println("eco cup found");
+						compt_rot=1;
 						Navigator::step_forward(v_r*10+delta_step_forward);
 						break;
 					}
@@ -256,15 +263,21 @@ void Navigator::update(){
 					}
 					else {
 						compt_rot++;
-						Navigator::adjust_rot(pow(-1,compt_rot-1)*compt_rot*nominal_delta_rot);
+						
+						Navigator::adjust_rot(pow(-1,compt_rot)*compt_rot*nominal_delta_rot);
 						break;						
 					}
 				}				
 			}
 			else if (cup_detected) {
-				Navigator::adjust_rot(Odometry::get_pos_theta());
-				omega_cons = compute_cons_omega();
-				MotorControl::set_cons(0,omega_cons);
+				//Navigator::adjust_rot(Odometry::get_pos_theta());
+				//omega_cons = compute_cons_omega();
+				//MotorControl::set_cons(0,omega_cons);
+				Serial1.println("eco cup found");
+
+				theta_target = center_radian(Odometry::get_pos_theta()+pow(-1,compt_rot)*atan2f(3.1,v_r));
+				MotorControl::set_cons(0,0);
+				Navigator::step_forward(v_r*10+delta_step_forward);
 			}
 			else {
 				omega_cons = compute_cons_omega();
@@ -272,33 +285,54 @@ void Navigator::update(){
 			}
 			break;
 		case CRUISE:
+			
 			distance = sqrt(pow(x_target - Odometry::get_pos_x(),2) + pow(y_target - Odometry::get_pos_y(),2));
-			displacement_done = ((distance<ADMITTED_POSITION_ERROR)&&(Odometry::get_speed() < ADMITTED_SPEED_ERROR));
+			
+			displacement_done = ((distance<ADMITTED_POSITION_ERROR)&&(Odometry::get_speed() < ADMITTED_SPEED_ERROR*2));
 			v_r=VOLT_TO_DIST(analogRead(IR_sel));	
-			cup_ready = (dist_opt-1< v_r && v_r < dist_opt+1);
+			cup_detected = (dist_min < v_r ) && (v_r < dist_max);
+			cup_ready = (((dist_opt-0.5)< v_r) && (v_r < (dist_opt+0.5)));
 			if (move_type==CAP) {
 				if (cup_ready) {
 					MotorControl::set_cons(0,0);
+					Navigator::step_forward(0.0);
+					move_state=STOPPED;
 					compt_rot=1;
-					trajectory_done=true;			
+					trajectory_done=true;
+					error_cap = false;			
 				}
-			}
-			if(displacement_done){
+
+				else if(displacement_done){
+					MotorControl::set_cons(0,0);
+					Navigator::adjust_rot(nominal_delta_rot);
+					
+				}
+				else {
+					speed_cons=compute_cons_speed();
+					omega_cons = compute_cons_omega();
+					MotorControl::set_cons(speed_cons,omega_cons);
+				}
+			}			
+			
+			else if(displacement_done){
 				MotorControl::set_cons(0,0);
 				move_state=STOPPED;
 				trajectory_done = true;
 				break;
 			}			
-
-			speed_cons=compute_cons_speed();
-			omega_cons = compute_cons_omega();
-			MotorControl::set_cons(speed_cons,omega_cons);
+			else{
+				speed_cons=compute_cons_speed();
+				omega_cons = compute_cons_omega();
+				MotorControl::set_cons(speed_cons,omega_cons);
+			}
+			
 			break;
 		case STOPPED:
 			//do nothing
 			break;
 		}
 	}
+	//*/
 }
 
 void Navigator::forceStop(){

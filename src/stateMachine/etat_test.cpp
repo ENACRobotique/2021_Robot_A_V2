@@ -16,6 +16,7 @@ Etat_test etat_test = Etat_test();
 
 Etat_test::Etat_test() {
 	time_start = 0;
+	name="Etat_test";
 }
 
 Etat_test::~Etat_test() {
