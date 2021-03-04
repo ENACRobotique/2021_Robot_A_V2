@@ -1,4 +1,4 @@
-18646880675625251
+18648481296562251
 Battery
 BatteryHolder_Bulgin_BX0036_1xC
 Bulgin Battery Holder, BX0036, Battery Type C (https://www.bulgin.com/products/pub/media/bulgin/data/Battery_holders.pdf)
@@ -82132,6 +82132,13 @@ terminal block bornier2
 2
 myFootprints
 USB_LOGO
+
+
+0
+0
+0
+myFootprints
+logo_enac_robotique
 
 
 0
