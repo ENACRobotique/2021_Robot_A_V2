@@ -7,7 +7,7 @@
 
 #ifndef STATEMACHINE_ABSTRACTSTATE_H_
 #define STATEMACHINE_ABSTRACTSTATE_H_
-#include <string.h>
+#include <Arduino.h>
 /*
  * example :
  * enum services {
@@ -41,7 +41,7 @@ public:
 	void setFlags(unsigned long flags) {
 		this->flags = flags;
 	}
-	String name;
+	String name = String();
 
 
 protected:

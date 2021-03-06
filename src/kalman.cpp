@@ -21,7 +21,7 @@ float genbruitblanc(unsigned int precision, float largeur){
 
 float moyennebruit(int n, unsigned int precision, float largeur){
     int i;
-    float s;
+    float s=0;
     for(i=0;i<n;i++)
         s+=genbruitblanc(precision, largeur)/n;
     return s;
@@ -40,19 +40,19 @@ float test60bruit(int n, unsigned int precision, float largeur){
 }
 
 void affiche_etat(float *compar=NULL){
-        using namespace kalman;
-        int i;
-        Serial1.printf("etat: ");
+    using namespace kalman;
+    int i;
+    Serial1.printf("etat: ");
+    for (i=0; i<dim_etat; i++)
+        Serial1.printf("%f\t", X[i]);
+    Serial1.printf("\n");
+    if (compar!=NULL){
+        Serial1.printf("reel: ");
         for (i=0; i<dim_etat; i++)
             Serial1.printf("%f\t", X[i]);
         Serial1.printf("\n");
-        if (compar!=NULL){
-            Serial1.printf("reel: ");
-            for (i=0; i<dim_etat; i++)
-                Serial1.printf("%f\t", X[i]);
-            Serial1.printf("\n");
-        }
     }
+}
 
 void affiche_precision(){
     using namespace kalman;
@@ -95,6 +95,5 @@ int testprincipal(){
         affiche_precision();
     }
     
-
-
+    return 0;
 } 
