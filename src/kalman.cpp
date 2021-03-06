@@ -15,7 +15,7 @@
 
 
 namespace kalman{
-    /* X: etat
+    /* X: etat :x, y, theta, v, omega
     *  P: Cov état
     *  F: systeme linearisé
     *  B,U: mat commande et commande
@@ -23,7 +23,7 @@ namespace kalman{
     */
 
     //public:
-    const uint16_t dim_etat=4, dim_cmde=1;
+    const uint16_t dim_etat=5, dim_cmde=1;
     float32_t *X=NULL;//état du systeme, alias X_data
     float32_t *P=NULL;//idem P_A, P_B
     float32_t *U=NULL;//commande
@@ -43,18 +43,18 @@ namespace kalman{
     /* description du systeme */
     const float32_t B_data[dim_etat*dim_cmde] =
     {
-    782.0, 7577.0, 470.0, 4505.0
+    0., 0., 0., 1., 1.
     };
     arm_matrix_instance_f32 *B;
     arm_matrix_instance_f32 *BT;
 
-    const float32_t F_data[dim_etat*dim_etat] =
+    float32_t F_data[dim_etat*dim_etat] =
     {
     /* systeme linearisé */
-    1.0,     32.0,      4.0,     128.0,
-    1.0,     32.0,     64.0,    2048.0,
-    1.0,     16.0,      4.0,      64.0,
-    1.0,     16.0,     64.0,    1024.0,
+    0., 0., 0., 0.,
+    0., 0., 0., 0.,
+    0., 0., 0., 0.,
+    0., 0., 0., 0.,
     };
     arm_matrix_instance_f32 *F;
     arm_matrix_instance_f32 *FT;
@@ -84,7 +84,7 @@ namespace kalman{
     arm_matrix_instance_f32 *calc5;
 
     void init(){
-        arm_mat_init_f32(F, dim_etat, dim_etat, (float32_t *)F_data);
+        arm_mat_init_f32(F, dim_etat, dim_etat, F_data);
         arm_mat_trans_f32(F, FT);
         arm_mat_init_f32(B, dim_etat, dim_cmde, (float32_t *)B_data);
         arm_mat_trans_f32(B, BT);
@@ -116,6 +116,10 @@ namespace kalman{
         statut=arm_mat_mult_f32(B, calc5, calc3);
         statut=arm_mat_add_f32(calc3, calc4, P_c);
         //débug: vérifier si statut = ARM_MATH_SUCCESS;
+    }
+
+    void kalman_correct(){
+
     }
 
 }
