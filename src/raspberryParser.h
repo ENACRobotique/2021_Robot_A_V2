@@ -7,6 +7,7 @@ public:
     float getX();
     float getY();
     float getZ();
+    float* getPos();
     int getBoussole();
     float getRetard();
     void parseData(char* buffer);

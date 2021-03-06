@@ -39,3 +39,7 @@ int raspberryParser::getBoussole(){
 float raspberryParser::getRetard(){
     return retard;
 }
+float* raspberryParser::getPos(){
+    float pos[3] = {x,y,z};
+    return pos;
+}
