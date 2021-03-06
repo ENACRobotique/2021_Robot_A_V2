@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 #include "arm_math.h"
 #include "math_helper.h"
 #if defined(SEMIHOSTING)
@@ -9,26 +9,7 @@
 namespace kalman
 {
   /* X: etat
-=======
-//Kalman: voir namespace
 
-/*
-    AFAIRE:
-    sommes-nous dans un modèle linéaire?
-    supprimer inutile ci_dessous
-    mettre à jour le système: F,Q,B,H..
-    implémenter kalman_correct
-    implémenter fonction principale, appelée par navigator ou l'inverse ? #KalmanZeBigBos
-
-*/
-
-#include "arm_math.h"
-#include "math_helper.h"
-
-
-namespace kalman{
-    /* X: etat :x, y, theta, v, omega
->>>>>>> 33df7573f0ec6541e12eda4810f2ba4606355891
     *  P: Cov état
     *  F: systeme linearisé
     *  B,U: mat commande et commande
@@ -36,7 +17,6 @@ namespace kalman{
     *  *_data ou calc* indique un buffer de float32_t, *_c indique une arm_matrix:pour calculs
     */
 
-<<<<<<< HEAD
   //public:
   const uint16_t dim_etat = 3, dim_cmde = 2; //modifier ici si état ou commande de taille différente
   const uint16_t dim_mesure1 = 3;            //ajouter ici si mesure de taille différente + ajouter H_data(estimation mesure) si linéaire + ajouter buffers calculs+ modifier/ajouter kalman_maj(mise à jour)
@@ -119,49 +99,11 @@ namespace kalman{
   arm_matrix_instance_f32 *Q;
 
   /* ----------------------------------------------------------------------
-=======
-    //public:
-    const uint16_t dim_etat=5, dim_cmde=1;
-    float32_t *X=NULL;//état du systeme, alias X_data
-    float32_t *P=NULL;//idem P_A, P_B
-    float32_t *U=NULL;//commande
 
-    //privé:
-    arm_status statut;
-    //à créer, ou déjà en mémoire? -> supprimer lesz allocations statiques de X,P,U
-    float32_t X_data[dim_etat];//c'est possible, ça ? [dim_etat]
-    arm_matrix_instance_f32 *X_c;//calculs
-
-    float32_t U_data[dim_cmde];
-    arm_matrix_instance_f32 *U_c;
-    float32_t P_data[dim_etat];
-    arm_matrix_instance_f32 *P_c;
-
-    
-    /* description du systeme */
-    const float32_t B_data[dim_etat*dim_cmde] =
-    {
-    0., 0., 0., 1., 1.
-    };
-    arm_matrix_instance_f32 *B;
-    arm_matrix_instance_f32 *BT;
-
-    float32_t F_data[dim_etat*dim_etat] =
-    {
-    /* systeme linearisé */
-    0., 0., 0., 0.,
-    0., 0., 0., 0.,
-    0., 0., 0., 0.,
-    0., 0., 0., 0.,
-    };
-    arm_matrix_instance_f32 *F;
-    arm_matrix_instance_f32 *FT;
->>>>>>> 33df7573f0ec6541e12eda4810f2ba4606355891
 
     * Temporary buffers  for storing intermediate values
     * ------------------------------------------------------------------- */
 
-<<<<<<< HEAD
   /* buffers de calculs */
   // taille X
   float32_t calc1_data[dim_etat];
@@ -216,30 +158,6 @@ namespace kalman{
     arm_mat_init_f32(calc9, dim_mesure1, dim_mesure1, calc9_data);
     arm_mat_init_f32(calc10, dim_mesure1, dim_mesure1, calc10_data);
   }
-=======
-    /* buffers de calculs */
-    // taille X
-    float32_t calc1_data[dim_etat];
-    float32_t calc2_data[dim_etat];
-    arm_matrix_instance_f32 *calc1;
-    arm_matrix_instance_f32 *calc2;
-    // taille P
-    float32_t calc3_data[dim_etat*dim_etat];
-    float32_t calc4_data[dim_etat*dim_etat];
-    arm_matrix_instance_f32 *calc3;
-    arm_matrix_instance_f32 *calc4;
-    // taille cmde*dim_etat
-    float32_t calc5_data[dim_cmde*dim_etat];
-    arm_matrix_instance_f32 *calc5;
-
-    void init(){
-        arm_mat_init_f32(F, dim_etat, dim_etat, F_data);
-        arm_mat_trans_f32(F, FT);
-        arm_mat_init_f32(B, dim_etat, dim_cmde, (float32_t *)B_data);
-        arm_mat_trans_f32(B, BT);
-        arm_mat_init_f32(Q, dim_cmde, dim_cmde, (float32_t *)Q_data);
-        
->>>>>>> 33df7573f0ec6541e12eda4810f2ba4606355891
 
   void kalman_predict()
   {
@@ -281,17 +199,9 @@ namespace kalman{
     arm_mat_mult_f32(P_c, H1T, calc8);  //calc8=P*Ht
     arm_mat_mult_f32(H1, calc8, calc9); //calc9=H*P*Ht
 
-<<<<<<< HEAD
     arm_mat_add_f32(calc9, R1, calc10); //S = H*P*Ht+R1
     arm_mat_inv_f32(calc10, calc9);
     //à poursuivre... pas le temps aujourd'hui ..
     arm_mat_mult_f32(calc8, calc9, ); //calcul gain Kalman
   }
 } // namespace kalman
-=======
-    void kalman_correct(){
-
-    }
-
-}
->>>>>>> 33df7573f0ec6541e12eda4810f2ba4606355891
