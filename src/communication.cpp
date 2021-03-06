@@ -67,7 +67,7 @@ namespace Communication {
             }
         }
         else if(buffer[0] == 'o') {
-            Serial1.print("pos: ");
+            Serial1.print("pos: \t");
             Serial1.print(Odometry::get_pos_x());
             Serial1.print("\t");
             Serial1.print(Odometry::get_pos_y());
@@ -84,19 +84,19 @@ namespace Communication {
         else if(buffer[0] == 'i'){
             raspberryparser.parseData(buffer);
         }
-        else if(buffer[0] == 'v') {
+        else if(buffer[0] == 'j') {
             float v,omega;
-            int nb = sscanf(buffer, "v %f %f", &v, &omega);
+            int nb = sscanf(buffer, "j %f %f", &v, &omega);
             if(nb == 2) {
                 navigator.move(v, omega);
                 #ifdef COM_DEBUG
-                Serial1.print("Moving to ");
+                Serial1.print("Moving at speed ");
                 Serial1.print(v);
                 Serial1.print("\t");
                 Serial1.println(omega);
                 #endif
             }
-
+        }
         buff_index = 0;
     }
 }       
