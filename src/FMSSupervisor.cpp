@@ -12,6 +12,7 @@
 #include "./stateMachine/Reajustement.h"
 #include "./stateMachine/etat_test.h"
 #include "./stateMachine/etat_begin.h"
+#include "kalman.h"
 
 FMSSupervisor fmsSupervisor = FMSSupervisor();
 

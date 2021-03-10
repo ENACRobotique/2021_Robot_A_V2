@@ -8,6 +8,7 @@
 #include "./FMSSupervisor.h"
 #include "raspberryParser.h"
 #include <string.h>     // std::string, std::to_string
+#include "kalman.h"
 
 Metro controlTime = Metro((unsigned long)(CONTROL_PERIOD * 1000));
 Metro debugLed = Metro(2000);
@@ -41,11 +42,10 @@ void setup()
 	fmsSupervisor.init();
 	//MotorControl::set_cons(0,0);
 	//navigator.move_to(500,500);
-	
+	kalman *K = new kalman();
+	K->testprincipal();
 
-
-
-
+	while(true);
 }
 
 int mot1=100;//entre -255 et 255

@@ -9,8 +9,107 @@
     pour l'instant, le mieux est de compiler à la main
 */
 
+void kalman::init()
+    {
+        arm_mat_init_f32(X_c, dim_etat, 1, X_data);
+        arm_mat_init_f32(U_c, dim_cmde, 1, U_data);
+        arm_mat_init_f32(P_c, dim_etat, dim_etat, P_data);
+        X = X_data;
+        P = P_data;
 
+        arm_mat_init_f32(F, dim_etat, dim_etat, (float32_t *)F_data);
+        arm_mat_trans_f32(F, FT);
+        arm_mat_init_f32(Q, dim_cmde, dim_cmde, (float32_t *)Q_data);
+        arm_mat_init_f32(H1, dim_etat, dim_mesure1, H1_data);
+        arm_mat_trans_f32(H1, H1T);
+        arm_mat_init_f32(R1, dim_mesure1, dim_mesure1, R1_data);
 
+        arm_mat_init_f32(calc1, dim_etat, 1, calc1_data);
+        arm_mat_init_f32(calc2, dim_etat, 1, calc2_data);
+        arm_mat_init_f32(calc3, dim_etat, dim_etat, calc3_data);
+        arm_mat_init_f32(calc4, dim_etat, dim_etat, calc4_data);
+        arm_mat_init_f32(calc5, dim_cmde, dim_etat, calc5_data);
+        arm_mat_init_f32(calc6, dim_mesure1, 1, calc6_data);
+        arm_mat_init_f32(calc7, dim_mesure1, 1, calc7_data);
+        arm_mat_init_f32(calc8, dim_etat, dim_mesure1, calc8_data);
+        arm_mat_init_f32(calc8b, dim_etat, dim_mesure1, calc8b_data);
+        arm_mat_init_f32(calc9, dim_mesure1, dim_mesure1, calc9_data);
+        arm_mat_init_f32(calc10, dim_mesure1, dim_mesure1, calc10_data);
+        arm_mat_init_f32(Id_etat, dim_etat, dim_etat, (float32_t *)Id_etat_data);
+    }
+
+arm_status kalman::recopie(arm_matrix_instance_f32 *src, arm_matrix_instance_f32 *dest){
+        arm_status status;
+        //#ifdef ARM_MATH_MATRIX_CHECK
+        if (src->numCols!=dest->numCols || src->numRows!=dest->numRows)
+          {  status = ARM_MATH_SIZE_MISMATCH;}
+        else
+       
+        {
+            float32_t *pIn = src->pData, *pOut=dest->pData;
+            int i; 
+            
+            for (i=(src->numRows)*(src->numCols); i>=0; i--)
+                *(pOut+i)=*(pIn+i);
+            
+            status = ARM_MATH_SUCCESS;
+        }
+        return status;
+        
+    }
+void kalman::kalman_predict(float32_t *U)
+    {
+    /* 
+    * Prédiction de la position (= état du système) à l'instant t+Dt à partir de la consigne en vitesse U.
+    * Rappel (ou pas): U=[U[0], U[1]]=[vitesse, vitesse de rotation]
+    *                  X=[x, y, theta]=[abscisse, ordonnée, angle/orientation du robot]
+    *                  B: non utilisé, système non linéaire en commande
+    */
+
+    //Xkp1m = F*Xk +B*U
+    //statut=arm_mat_mult_f32(F, X_c, calc1);
+    //statut=arm_mat_mult_f32(B, U_c, calc2);
+    //statut=arm_mat_add_f32(calc1, calc2, X_c);
+    X[0] += U[0] * Dt * cos(X[2]);
+    X[1] += U[0] * Dt * sin(X[2]);
+    X[2] += U[1] * Dt;
+
+    //prendre en compte l'angle
+    F_data[2] = -U[0] * Dt * sin(X[2]);
+    F_data[dim_etat + 2] = -U[0] * Dt * cos(X[2]);
+
+    //Pkp1m = F*(Pk*FT) + Q
+    statut = arm_mat_mult_f32(P_c, FT, calc3);
+    statut = arm_mat_mult_f32(F, calc3, calc4);
+    statut = arm_mat_add_f32(Q, calc4, P_c);
+    //débug: vérifier si statut = ARM_MATH_SUCCESS;
+    }
+
+void kalman::kalman_maj(arm_matrix_instance_f32 *Mesure_c, arm_matrix_instance_f32 *H, arm_matrix_instance_f32 *HT, arm_matrix_instance_f32 *R)
+    {
+    /* 
+    * Met à jour X et P à partir de Mesure, pointeur vers mesure de position.
+    * Mesure est un pointeur, issu indifféremment de l'odométrie ou de la caméra 
+    * H : matrice d'observation, par défaut à H1 (=identité)
+    */
+    arm_mat_mult_f32(H, X_c, calc6);
+    arm_mat_sub_f32(Mesure_c, calc6, calc7); //calcul résidu
+
+    arm_mat_mult_f32(P_c, HT, calc8);  //calc8=P*Ht
+    arm_mat_mult_f32(H1, calc8, calc9); //calc9=H*P*Ht
+
+    arm_mat_add_f32(calc9, R1, calc10); //S = H*P*Ht+R1
+    arm_mat_inverse_f32(calc10, calc9); //S^-1
+    arm_mat_mult_f32(calc8, calc9, calc8b); //calcul gain Kalman : P*Ht*S^-1
+    arm_mat_mult_f32(calc8b, calc7, calc2);//K*Ytilde : mise à jour de X
+    arm_mat_add_f32(X_c, calc2, X_c);//mise à jour état. Ca marche?
+
+    arm_mat_mult_f32(calc8b, H, calc3);//K*H
+    arm_mat_sub_f32(Id_etat, calc3, calc4);//(I-K*H)
+    arm_mat_mult_f32(calc4, P_c, calc3);//(I-K*H)*P
+    recopie(calc3, P_c);
+
+    }
 
 float genbruitblanc(unsigned int precision, float largeur){
     /* bruit pseudo-aléatoire. précision max: max(unsigned int)*/
@@ -39,8 +138,7 @@ float test60bruit(int n, unsigned int precision, float largeur){
 
 }
 
-void affiche_etat(float *compar=NULL){
-    using namespace kalman;
+void kalman::affiche_etat(float *compar=NULL){
     int i;
     Serial1.printf("etat: ");
     for (i=0; i<dim_etat; i++)
@@ -54,8 +152,7 @@ void affiche_etat(float *compar=NULL){
     }
 }
 
-void affiche_precision(){
-    using namespace kalman;
+void kalman::affiche_precision(){
     int i;
     Serial1.printf("Vars: ");//variances
     for (i=0; i<dim_etat; i++)
@@ -63,12 +160,14 @@ void affiche_precision(){
     Serial1.printf("\n");
 }
 
-int testprincipal(){
+int kalman::testprincipal(){
     int temps = 500;
     float dt =0.1;
     float EtatReel[500][3];//x,y,theta
     int i,j;
     float Commande[3] = {1,0.01};//v, omega
+
+    
     for(i=0;i<3;i++)
         EtatReel[0][i]=0.;
 
@@ -79,7 +178,6 @@ int testprincipal(){
     }
 
     
-    using namespace kalman;
     i=0;
     U[0]=Commande[0];
     U[1]=Commande[1];
