@@ -42,7 +42,7 @@ void setup()
 	fmsSupervisor.init();
 	//MotorControl::set_cons(0,0);
 	//navigator.move_to(500,500);
-	kalman *K = new kalman();
+	kalman *K = new kalman;//ou: kalman K; //sans parenthèses
 	K->testprincipal();
 
 	while(true);

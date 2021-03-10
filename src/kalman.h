@@ -53,9 +53,9 @@ public:
 
     //à créer, ou déjà en mémoire? -> supprimer les allocations statiques de X,P,U???
     float32_t U_data[dim_cmde];
-    arm_matrix_instance_f32 *U_c;
+    arm_matrix_instance_f32 *U_c = new arm_matrix_instance_f32;
     float32_t Mesure1_data[dim_mesure1];
-    arm_matrix_instance_f32 *Mesure1_c;
+    arm_matrix_instance_f32 *Mesure1_c = new arm_matrix_instance_f32;
     /* 
 
 
@@ -66,7 +66,7 @@ private:
         {
             /* état initial du système */
             0.f, 0.f, 0.f};
-    arm_matrix_instance_f32 *X_c;
+    arm_matrix_instance_f32 *X_c = new arm_matrix_instance_f32;
 
     float32_t P_data[dim_etat * dim_etat] =
         {
@@ -74,7 +74,7 @@ private:
             2.f, 0.f, 0.f,
             0.f, 2.f, 0.f,
             0.f, 0.f, 0.2f};
-    arm_matrix_instance_f32 *P_c;
+    arm_matrix_instance_f32 *P_c = new arm_matrix_instance_f32;
 
     /* 
 
@@ -87,7 +87,7 @@ private:
             /* matrice de commande */
             1.f, 0.f,
             0.f, 1.f};
-    arm_matrix_instance_f32 *B;
+    arm_matrix_instance_f32 *B = new arm_matrix_instance_f32;
     arm_matrix_instance_f32 *BT;
     // B non utilisée car non linéaire. --> à supprimer
 
@@ -97,8 +97,8 @@ private:
             1.f, 0.f, 0.f,
             0.f, 1.f, 0.f,
             0.f, 0.f, 1.f};
-    arm_matrix_instance_f32 *F;
-    arm_matrix_instance_f32 *FT;
+    arm_matrix_instance_f32 *F = new arm_matrix_instance_f32;
+    arm_matrix_instance_f32 *FT = new arm_matrix_instance_f32;
 
     float32_t H1_data[dim_mesure1 * dim_etat] =
         {
@@ -106,8 +106,8 @@ private:
             1.f, 0.f, 0.f,
             0.f, 1.f, 0.f,
             0.f, 0.f, 1.f};
-    arm_matrix_instance_f32 *H1;
-    arm_matrix_instance_f32 *H1T;
+    arm_matrix_instance_f32 *H1 = new arm_matrix_instance_f32;
+    arm_matrix_instance_f32 *H1T = new arm_matrix_instance_f32;
     
     float32_t R1_data[dim_mesure1 * dim_mesure1] =
         {
@@ -115,13 +115,13 @@ private:
             M1var, 0.f, 0.f,
             0.f, M1var, 0.f,
             0.f, 0.f, M1var};
-    arm_matrix_instance_f32 *R1;
+    arm_matrix_instance_f32 *R1 = new arm_matrix_instance_f32;
 
     const float32_t Q_data[dim_cmde * dim_cmde] =
         {
             0.1f, 0.f,
             0.f, 0.05f};
-    arm_matrix_instance_f32 *Q;
+    arm_matrix_instance_f32 *Q = new arm_matrix_instance_f32;
 
 
     /* 
@@ -135,7 +135,7 @@ private:
             1.f, 0.f, 0.f,
             0.f, 1.f, 0.f,
             0.f, 0.f, 1.f};
-    arm_matrix_instance_f32 *Id_etat;
+    arm_matrix_instance_f32 *Id_etat = new arm_matrix_instance_f32;
 
 
 
@@ -147,31 +147,31 @@ private:
     // taille X
     float32_t calc1_data[dim_etat];
     float32_t calc2_data[dim_etat];
-    arm_matrix_instance_f32 *calc1;
-    arm_matrix_instance_f32 *calc2;
+    arm_matrix_instance_f32 *calc1 = new arm_matrix_instance_f32;
+    arm_matrix_instance_f32 *calc2 = new arm_matrix_instance_f32;
     // taille P
     float32_t calc3_data[dim_etat * dim_etat];
     float32_t calc4_data[dim_etat * dim_etat];
-    arm_matrix_instance_f32 *calc3;
-    arm_matrix_instance_f32 *calc4;
+    arm_matrix_instance_f32 *calc3 = new arm_matrix_instance_f32;
+    arm_matrix_instance_f32 *calc4 = new arm_matrix_instance_f32;
     // taille cmde*dim_etat
     float32_t calc5_data[dim_cmde * dim_etat];
-    arm_matrix_instance_f32 *calc5;
+    arm_matrix_instance_f32 *calc5 = new arm_matrix_instance_f32;
     // taille dim_mesure1
     float32_t calc6_data[dim_mesure1];
     float32_t calc7_data[dim_mesure1];
-    arm_matrix_instance_f32 *calc6;
-    arm_matrix_instance_f32 *calc7;
+    arm_matrix_instance_f32 *calc6= new arm_matrix_instance_f32;
+    arm_matrix_instance_f32 *calc7= new arm_matrix_instance_f32;
     // taille dim_etat*dim_mesure1
     float32_t calc8_data[dim_etat * dim_mesure1];
     float32_t calc8b_data[dim_etat * dim_mesure1];
-    arm_matrix_instance_f32 *calc8;
-    arm_matrix_instance_f32 *calc8b;
+    arm_matrix_instance_f32 *calc8= new arm_matrix_instance_f32;
+    arm_matrix_instance_f32 *calc8b= new arm_matrix_instance_f32;
     // taille dim_mesure1*dim_mesure1
     float32_t calc9_data[dim_mesure1 * dim_mesure1];
     float32_t calc10_data[dim_mesure1 * dim_mesure1];
-    arm_matrix_instance_f32 *calc9;
-    arm_matrix_instance_f32 *calc10;
+    arm_matrix_instance_f32 *calc9= new arm_matrix_instance_f32;
+    arm_matrix_instance_f32 *calc10= new arm_matrix_instance_f32;
 
     void init();
 
@@ -185,6 +185,7 @@ public:
     void kalman_predict(float32_t *U);
     void kalman_predict() { kalman_predict(U_data); };
     void affiche_etat(float *compar);
+    void affiche_etat(){affiche_etat(NULL);};
     void affiche_precision();
     int testprincipal();
 
@@ -198,6 +199,6 @@ public:
 float genbruitblanc(unsigned int precision, float largeur);
 float moyennebruit(int n, unsigned int precision, float largeur);
 float test60bruit(int n, unsigned int precision, float largeur);
-
+void affiche_mat(arm_matrix_instance_f32 *mat);
 
 #endif
