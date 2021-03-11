@@ -82,14 +82,24 @@ private:
 
     description du systeme */
 
-    const float32_t B_data[dim_etat * dim_cmde] =
+    float32_t B_data[dim_etat * dim_cmde] =
         {
             /* matrice de commande */
             1.f, 0.f,
-            0.f, 1.f};
+            0.f, 0.f,
+            0.f, 1.0f};
     arm_matrix_instance_f32 *B = new arm_matrix_instance_f32;
-    arm_matrix_instance_f32 *BT;
-    // B non utilisée car non linéaire. --> à supprimer
+
+    float32_t G_data[dim_etat * dim_cmde] =
+        {
+            /* matrice de commande */
+            1.f, 0.f,
+            1.f, 0.f,
+            0.f, 1.0f};
+    arm_matrix_instance_f32 *G = new arm_matrix_instance_f32;
+    float32_t GT_data[dim_etat * dim_cmde];
+    arm_matrix_instance_f32 *GT= new arm_matrix_instance_f32;
+    // B non linéaire. --> modifié dans kalman_pred
 
     float32_t F_data[dim_etat * dim_etat] =
         {
@@ -98,6 +108,7 @@ private:
             0.f, 1.f, 0.f,
             0.f, 0.f, 1.f};
     arm_matrix_instance_f32 *F = new arm_matrix_instance_f32;
+    float32_t FT_data[dim_etat * dim_etat];
     arm_matrix_instance_f32 *FT = new arm_matrix_instance_f32;
 
     float32_t H1_data[dim_mesure1 * dim_etat] =
@@ -107,6 +118,7 @@ private:
             0.f, 1.f, 0.f,
             0.f, 0.f, 1.f};
     arm_matrix_instance_f32 *H1 = new arm_matrix_instance_f32;
+    float32_t H1T_data[dim_mesure1 * dim_etat];
     arm_matrix_instance_f32 *H1T = new arm_matrix_instance_f32;
     
     float32_t R1_data[dim_mesure1 * dim_mesure1] =
@@ -119,7 +131,7 @@ private:
 
     const float32_t Q_data[dim_cmde * dim_cmde] =
         {
-            0.1f, 0.f,
+            1.f, 0.f,
             0.f, 0.05f};
     arm_matrix_instance_f32 *Q = new arm_matrix_instance_f32;
 
@@ -172,6 +184,9 @@ private:
     float32_t calc10_data[dim_mesure1 * dim_mesure1];
     arm_matrix_instance_f32 *calc9= new arm_matrix_instance_f32;
     arm_matrix_instance_f32 *calc10= new arm_matrix_instance_f32;
+    //taille dim_etat*dim_cmde
+    float32_t calc11_data[dim_etat * dim_cmde];
+    arm_matrix_instance_f32 *calc11= new arm_matrix_instance_f32;
 
     void init();
 

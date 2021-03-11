@@ -22,13 +22,22 @@ void kalman::init()
         U = U_data;
         
         arm_mat_init_f32(Mesure1_c, dim_mesure1, 1, Mesure1_data);
-
-        arm_mat_init_f32(F, dim_etat, dim_etat, (float32_t *)F_data);
+        
+        arm_mat_init_f32(B, dim_etat, dim_cmde, B_data);
+        arm_mat_init_f32(G, dim_etat, dim_cmde, G_data);
+        arm_mat_init_f32(GT, dim_cmde, dim_etat, GT_data);
+        //Serial1.printf("ici\n");
+        arm_mat_trans_f32(G, GT);
+        //Serial1.printf("là\n");
+        arm_mat_init_f32(F, dim_etat, dim_etat, F_data);
+        arm_mat_init_f32(FT, dim_etat, dim_etat, FT_data);
         arm_mat_trans_f32(F, FT);
         arm_mat_init_f32(Q, dim_cmde, dim_cmde, (float32_t *)Q_data);
         arm_mat_init_f32(H1, dim_mesure1, dim_etat, H1_data);
+        arm_mat_init_f32(H1T, dim_etat, dim_mesure1, H1T_data);
         arm_mat_trans_f32(H1, H1T);
         arm_mat_init_f32(R1, dim_mesure1, dim_mesure1, R1_data);
+
         arm_mat_init_f32(calc1, dim_etat, 1, calc1_data);
         arm_mat_init_f32(calc2, dim_etat, 1, calc2_data);
         arm_mat_init_f32(calc3, dim_etat, dim_etat, calc3_data);
@@ -40,6 +49,7 @@ void kalman::init()
         arm_mat_init_f32(calc8b, dim_etat, dim_mesure1, calc8b_data);
         arm_mat_init_f32(calc9, dim_mesure1, dim_mesure1, calc9_data);
         arm_mat_init_f32(calc10, dim_mesure1, dim_mesure1, calc10_data);
+        arm_mat_init_f32(calc11, dim_etat, dim_cmde, calc11_data);
         arm_mat_init_f32(Id_etat, dim_etat, dim_etat, (float32_t *)Id_etat_data);
         //Serial1.println("initfin");
         
@@ -77,18 +87,36 @@ void kalman::kalman_predict(float32_t *U)
     //statut=arm_mat_mult_f32(F, X_c, calc1);
     //statut=arm_mat_mult_f32(B, U_c, calc2);
     //statut=arm_mat_add_f32(calc1, calc2, X_c);
+    /*
     X[0] += U[0] * Dt * cos(X[2]);
     X[1] += U[0] * Dt * sin(X[2]);
     X[2] += U[1] * Dt;
+    */
+
+    //mise à jour B
+    B_data[0]=Dt*cos(X[2]);
+    B_data[dim_cmde]=Dt*sin(X[2]);
+    B_data[2*dim_cmde+1]=Dt;
     
-    //prendre en compte l'angle
-    F_data[2] = -U[0] * Dt * sin(X[2]);
-    F_data[dim_etat + 2] = -U[0] * Dt * cos(X[2]);
+    //Serial1.println("B"); affiche_mat(B);
+    //Serial1.println("BT"); affiche_mat(BT);
+    //mise à jour X
+    arm_mat_mult_f32(B, U_c, calc1);
+    arm_mat_add_f32(X_c, calc1, X_c);
     
-    //Pkp1m = F*(Pk*FT) + Q
-    statut = arm_mat_mult_f32(P_c, FT, calc3);
-    statut = arm_mat_mult_f32(F, calc3, calc4);
-    statut = arm_mat_add_f32(Q, calc4, P_c)//à corriger d'urgence..
+    //Pkp1m = F*(Pk*FT) + B*Q*Bt
+    arm_mat_mult_f32(P_c, FT, calc3);
+    arm_mat_mult_f32(F, calc3, calc4);
+    //Serial1.println("P"); affiche_mat(P_c);
+    //Serial1.println("FT"); affiche_mat(FT);
+    //Serial1.println("calc3"); affiche_mat(calc3);
+
+    //bruit d'estimation
+    arm_mat_mult_f32(G, Q, calc11);
+    arm_mat_mult_f32(calc11, GT, calc3);
+    
+    //Serial1.println("calc4"); affiche_mat(calc4);
+    statut = arm_mat_add_f32(calc3, calc4, P_c);
     
     //débug: vérifier si statut = ARM_MATH_SUCCESS;
     }
@@ -101,27 +129,35 @@ void kalman::kalman_maj(arm_matrix_instance_f32 *Mesure_c, arm_matrix_instance_f
     * H : matrice d'observation, par défaut à H1 (=identité)
     */
     arm_mat_mult_f32(H, X_c, calc6);
-    Serial1.println("H"); affiche_mat(H);
-    Serial1.println("X"); affiche_mat(X_c);
-    Serial1.println("calc6"); affiche_mat(calc6);
-    
+    //if(statut!=ARM_MATH_SUCCESS) Serial1.println("erreur calcul1");
     arm_mat_sub_f32(Mesure_c, calc6, calc7); //calcul résidu
-    
+    //if(statut!=ARM_MATH_SUCCESS) Serial1.println("erreur calcul2");
     //if(statut!=ARM_MATH_SUCCESS) Serial1.println("erreur calcul");
+    //Serial1.println("calc7"); affiche_mat(calc7);
+    Serial1.println("Mesure"); affiche_mat(Mesure_c);
+    Serial1.println("calc6"); affiche_mat(calc6);
     Serial1.println("calc7"); affiche_mat(calc7);
-    
     arm_mat_mult_f32(P_c, HT, calc8);  //calc8=P*Ht
+    //if(statut!=ARM_MATH_SUCCESS) Serial1.println("erreur calcul3");
     arm_mat_mult_f32(H1, calc8, calc9); //calc9=H*P*Ht
-
+    //if(statut!=ARM_MATH_SUCCESS) Serial1.println("erreur calcul4");
     arm_mat_add_f32(calc9, R1, calc10); //S = H*P*Ht+R1
+    //if(statut!=ARM_MATH_SUCCESS) Serial1.println("erreur calcul5");
     arm_mat_inverse_f32(calc10, calc9); //S^-1
+    //if(statut!=ARM_MATH_SUCCESS) Serial1.println("erreur calcul6");
     arm_mat_mult_f32(calc8, calc9, calc8b); //calcul gain Kalman : P*Ht*S^-1
+    //if(statut!=ARM_MATH_SUCCESS) Serial1.println("erreur calcul7");
     arm_mat_mult_f32(calc8b, calc7, calc2);//K*Ytilde : mise à jour de X
+    if(statut!=ARM_MATH_SUCCESS) Serial1.println("erreur calcul8");
     arm_mat_add_f32(X_c, calc2, X_c);//mise à jour état. Ca marche?
+    if(statut!=ARM_MATH_SUCCESS) Serial1.println("erreur calcul9");
     //affiche_etat();
     arm_mat_mult_f32(calc8b, H, calc3);//K*H
+    if(statut!=ARM_MATH_SUCCESS) Serial1.println("erreur calcul10");
     arm_mat_sub_f32(Id_etat, calc3, calc4);//(I-K*H)
+    if(statut!=ARM_MATH_SUCCESS) Serial1.println("erreur calcul11");
     arm_mat_mult_f32(calc4, P_c, calc3);//(I-K*H)*P
+    if(statut!=ARM_MATH_SUCCESS) Serial1.println("erreur calcul12");
     recopie(calc3, P_c);
     //affiche_precision();
     }
@@ -218,7 +254,7 @@ int kalman::testprincipal(){
             Serial1.printf("mes:%f reel:%f\n", Mesure1_data[j], EtatReel[i][j]);
         }
         kalman_predict(); //on utilise U = constante.
-        //kalman_maj();     //on utilise la mesure ci-dessus. 
+        kalman_maj();     //on utilise la mesure ci-dessus. 
         affiche_etat(EtatReel[i]);
         affiche_precision();
     }
