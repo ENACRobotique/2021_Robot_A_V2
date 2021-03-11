@@ -13,8 +13,8 @@
 
 class Travel : public AbstractState {
 public:
-	Waypoint currentWp;
 	Travel();
+	
 	virtual ~Travel();
 
 	void doIt();
@@ -28,7 +28,7 @@ public:
 	}
 
 private:
-
+	Waypoint currentWp;
 	unsigned long time_start;
 };
 

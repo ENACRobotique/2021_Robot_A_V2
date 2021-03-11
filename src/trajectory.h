@@ -21,6 +21,7 @@ typedef enum
 class Point
 {
 public:
+    Point();
     Point(float x, float y);
     float get_theta(Point p);
     float get_dist(Point p);
@@ -30,6 +31,7 @@ public:
 class Waypoint : public Point
 {
 public:
+    Waypoint();
     Waypoint(float x, float y, WP_type type);
     int scalaire(float x, float y, float x2, float y2);
 

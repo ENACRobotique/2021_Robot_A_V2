@@ -7,8 +7,8 @@
 #include "communication.h"
 #include "./FMSSupervisor.h"
 #include "raspberryParser.h"
-#include <string.h> // std::string, std::to_string
-#include "kalman.h"
+#include <string.h>
+#include <kalmanFilter.h>
 
 Metro controlTime = Metro((unsigned long)(CONTROL_PERIOD * 1000));
 Metro debugLed = Metro(2000);
@@ -42,11 +42,13 @@ void setup()
 	//MotorControl::set_cons(0,0);
 	//navigator.move_to(500,500);
 	//Serial1.println("creation K");
-	kalman *K = new kalman; //ou: kalman K; //sans parenthèses
-	K->testprincipal();
 
+	kalmanFilter::init();
+	kalmanFilter::update();
 	while (true)
-		;
+	{
+	}
+	
 }
 
 int mot1 = 100; //entre -255 et 255
@@ -63,7 +65,7 @@ void loop()
 
 		if (debugLed.check())
 		{
-			//digitalToggle(LED_BUILTIN);
+			digitalToggle(LED_BUILTIN);
 		}
 
 		if (commXBee.check())

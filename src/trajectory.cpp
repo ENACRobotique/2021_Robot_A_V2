@@ -7,6 +7,10 @@
 
 Trajectory traj = Trajectory();
 
+Point::Point() {
+    
+}
+
 Point::Point(float x0, float y0)
 {
     x = x0;
@@ -33,6 +37,10 @@ float Point::get_theta(Point p)
         return 0.0;
     }
 };
+
+Waypoint::Waypoint() {
+
+}
 
 Waypoint::Waypoint(float x0, float y0, WP_type t_type) : Point(x0, y0), type(t_type){
 

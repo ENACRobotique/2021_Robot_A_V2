@@ -16,6 +16,7 @@ Travel travel = Travel();
 
 Travel::Travel()
 {
+	currentWp=Waypoint(0.0,0.0,BEGIN);
 	time_start = 0;
 }
 
