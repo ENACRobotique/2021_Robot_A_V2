@@ -14,38 +14,46 @@
 
 Travel travel = Travel();
 
-Travel::Travel() {
+Travel::Travel()
+{
 	time_start = 0;
 }
 
-Travel::~Travel() {
+Travel::~Travel()
+{
 	// TODO Auto-generated destructor stub
 }
 
-void Travel::enter() {
+void Travel::enter()
+{
 	Serial1.println("Enter Travel");
 	time_start = millis();
-	currentWP = traj.get_next_WP();
-	navigator.move_to(currentWP.x,currentWp.y);
+	currentWp = traj.get_next_WP();
+	navigator.move_to(currentWp.x, currentWp.y);
 }
 
-void Travel::leave() {
+void Travel::leave()
+{
 	Serial1.println("Leaving Travel");
 }
 
-void Travel::doIt() {
-	
-	if(navigator.isTrajectoryFinished()){
+void Travel::doIt()
+{
+
+	if (navigator.isTrajectoryFinished())
+	{
 		fmsSupervisor.setNextState(&reajustement);
 	}
 }
 
-
-void Travel::reEnter(unsigned long interruptTime){
+void Travel::reEnter(unsigned long interruptTime)
+{
 }
 
-void Travel::forceLeave(){
+void Travel::forceLeave()
+{
 }
 
-void Travel::pauseNextState(){
+void Travel::pauseNextState()
+{
 }
