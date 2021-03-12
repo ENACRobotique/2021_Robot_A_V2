@@ -12,6 +12,7 @@
 #include "motorControl.h"
 #include "math.h"
 
+
 Navigator navigator = Navigator();
 
 Navigator::Navigator(){
@@ -193,7 +194,6 @@ float Navigator::compute_cons_omega()
 	Serial.print("\t");
 	Serial.print("angle_fore:");
 	Serial.println(angle_fore);*/
-
 	return omega_cons;
 }
 

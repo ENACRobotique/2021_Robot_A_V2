@@ -1,14 +1,12 @@
-#include <Kalman.h>
-#include <kalman.hpp>
+#include <BasicLinearAlgebra.h>
+#include <KalmanFilter.hpp>
+#include "kalman.h"
 //using namespace BLA;
-namespace kalmanFilter{
+
 //------------------------------------
 /****  MODELIZATION PARAMETERS  ****/
 //------------------------------------
 
-#define Nstate 3 // nombre de param d'état
-#define Nobs 3   // nbr pram observation
-#define Ncom 2 // nombre de param de commande
 
 // measurement std
 #define n_x 0.3
@@ -19,10 +17,12 @@ namespace kalmanFilter{
 #define m_y 5.0
 #define m_theta 5.0
 
+KALMAN<Nstate,Nobs,Ncom> K = KALMAN<Nstate,Nobs,Ncom>();
+namespace Kalman{
+
 
 BLA::Matrix<Nobs> obs; // observation vector
 BLA::Matrix<Ncom> com;
-KALMAN<Nstate,Nobs,Ncom> K; // your Kalman filter
 
 //------------------------------------
 /****    SIMULATOR PARAMETERS   ****/
@@ -59,7 +59,7 @@ void init() {
          0.0, 0.0, 1.0};
 
   K.B = {cos(state(2)), 0.0,
-		      sin(state(2)), 0.0,
+	sin(state(2)), 0.0,
          0.0, 1.0};
 
   // measurement matrix
@@ -79,27 +79,34 @@ void init() {
   
   
 }
+void setOdomobs(float dx, float dy, float dtheta){
+       obs = K.x + BLA::Matrix<Nstate>{dx, dy, dtheta};
+}
+
+void setcom(float v, float omega){
+       com={v, omega};
+}
+
+void setpos(float x, float y, float theta){
+       K.x = BLA::Matrix<Nstate>{x, y, theta};
+}
 
 void update() {
   // TIME COMPUTATION
   DT = (millis()-T)/1000.0;
   T = millis();
 
-  K.F = {1.0, 0.0, 0.0,
-		 0.0, 1.0, 0.0,
-         0.0, 0.0, 1.0};
-
   K.B = {cos(state(2)), 0.0,
-		      sin(state(2)), 0.0,
+	sin(state(2)), 0.0,
          0.0, 1.0};
 
   // MESURE X Y THETA
-  
+
   // APPLY KALMAN FILTER
   K.update(obs,com);
 
   // PRINT RESULTS: true state, measures, estimated state
-  Serial1 << state << ' ' << obs << ' ' << K.x << ' ' << K.P << '\n';
+  Serial1 << state << " " << obs << " " << K.x << " " << K.P << "\n";
 }
 
 }

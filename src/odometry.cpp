@@ -8,7 +8,7 @@
 #include "Arduino.h"
 #include "params.h"
 #include "motorControl.h"
-
+#include "kalman.h"
 namespace Odometry{
 
 	volatile int _incr1;
@@ -61,15 +61,18 @@ namespace Odometry{
 
 
 	float get_pos_x(){
-		return pos_x;
+		return K.x(0);
+		//return pos_x;
 	}
 
 	float get_pos_y(){
-		return pos_y;
+		return K.x(1);
+		//return pos_y;
 	}
 
 	float get_pos_theta(){
-		return normalizeAngle(pos_theta);
+		return normalizeAngle(K.x(2));
+		//return normalizeAngle(pos_theta);
 	}
 
 
@@ -124,11 +127,13 @@ namespace Odometry{
 		/*Serial.print(pos_theta);
 		Serial.print(" angle=");
 		Serial.print(angle);*/
-		
+		/*
 		pos_x = pos_x + length*cos(pos_theta + angle/2.0); //interpolation entre les deux theta
 		pos_y = pos_y + length*sin(pos_theta + angle/2.0);
 		pos_theta = pos_theta + angle;
-
+		*/
+		Kalman::setOdomobs(length*cos(pos_theta + angle/2.0), length*sin(pos_theta + angle/2.0), angle);
+		Kalman::update();
 		/*Serial.print(" pos_x=");
 		Serial.print(pos_x);
 		Serial.print(" pos_y=");

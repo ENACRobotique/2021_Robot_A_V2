@@ -10,6 +10,7 @@
 #include "Arduino.h"
 #include "params.h"
 #include "motorControl.h"
+#include "kalman.h"
 
 int clamp(int inf, int sup, float x) {
 	return min(sup, max(inf, x));
@@ -46,6 +47,7 @@ namespace MotorControl {
 	void set_cons(float speed, float omega) {
 		cons_speed = speed;
 		cons_omega = omega;
+		Kalman::setcom(speed, omega);
 	}
 
 	float get_cons_speed(){
