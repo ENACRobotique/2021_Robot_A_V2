@@ -43,7 +43,6 @@ void setup()
 	//MotorControl::set_cons(0,0);
 	//navigator.move_to(500,500);
 	//Serial1.println("creation K");
-
 }
 
 int mot1=100;//entre -255 et 255
