@@ -49,13 +49,13 @@ void init() {
   // The model below is very simple since matrices are diagonal!
   state(0) = 0;
   state(1) = 0;
-  state(2) = 0;
+  state(2) = -1.570796327;
 
   obs.Fill(0.0);
 
   // time evolution matrix
   K.F = {1.0, 0.0, 0.0,
-		 0.0, 1.0, 0.0,
+	  0.0, 1.0, 0.0,
          0.0, 0.0, 1.0};
 
   K.B = {cos(state(2)), 0.0,
@@ -76,7 +76,7 @@ void init() {
 			 0.0,     0.0, m_theta*m_theta};
   
   T = millis();
-  
+  K.x=state;
   
 }
 void setOdomobs(float dx, float dy, float dtheta){
@@ -96,9 +96,13 @@ void update() {
   DT = (millis()-T)/1000.0;
   T = millis();
 
-  K.B = {cos(state(2)), 0.0,
+  /*K.B = {cos(state(2)), 0.0,
 	sin(state(2)), 0.0,
-         0.0, 1.0};
+         0.0, 1.0};*/
+
+  K.B = {DT*cosf(K.x(2)), 0.0,
+	DT*sinf(K.x(2)), 0.0,
+         0.0, DT};
 
   // MESURE X Y THETA
 
@@ -106,7 +110,7 @@ void update() {
   K.update(obs,com);
 
   // PRINT RESULTS: true state, measures, estimated state
-  Serial1 << state << " " << obs << " " << K.x << " " << K.P << "\n";
+  Serial1 << obs << " " << K.x << " " << DT << "\n";
 }
 
 }

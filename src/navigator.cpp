@@ -24,7 +24,7 @@ Navigator::Navigator(){
 	theta_target = 0;
 	move_type = TURN;
 	move_state = STOPPED;
-
+	
 	pinMode(IR_sel, INPUT);
 	compt_rot=1;
 }
