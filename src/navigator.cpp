@@ -223,23 +223,19 @@ void Navigator::update(){
 void Navigator::brake(){
 	float speed_cons;
 	int sgn = scalaire(cos(Odometry::get_pos_theta()),sin(Odometry::get_pos_theta()),x_target - Odometry::get_pos_x(),y_target - Odometry::get_pos_y());
-		speed_cons = sgn*max(0,abs(Odometry::get_speed()) - EMERGENCY_BRAKE*NAVIGATOR_PERIOD);
-		if(abs(Odometry::get_speed()) < ADMITTED_SPEED_ERROR){
-			move_state = STOPPED;
-			speed_cons = 0;
-		}
-		MotorControl::set_cons(speed_cons,0);
+	speed_cons = sgn*max(0,abs(Odometry::get_speed()) - EMERGENCY_BRAKE*NAVIGATOR_PERIOD);
+	if(abs(Odometry::get_speed()) < ADMITTED_SPEED_ERROR){
+		forceStop();
+	}
+	MotorControl::set_cons(speed_cons,0);
 }
 
 void Navigator::turn(){
 	float omega_cons;
 	turn_done = ((abs(center_radian(Odometry::get_pos_theta() - theta_target)) < ADMITTED_ANGLE_ERROR)&&(Odometry::get_omega() < ADMITTED_OMEGA_ERROR));
 	if(turn_done){
-		Serial1.println("turn done");
-		MotorControl::set_cons(0,0);
-		move_state = STOPPED;
-		ancien_move_type = move_type;
-		move_type=AUCUN;
+		//Serial1.println("turn done");
+		forceStop();
 	}				
 
 	else {
@@ -269,10 +265,7 @@ void Navigator::deplacement(){
 			displacement_done = ((distance<ADMITTED_POSITION_ERROR)&&(Odometry::get_speed() < ADMITTED_SPEED_ERROR*2));
 					
 			if(displacement_done){
-				MotorControl::set_cons(0,0);
-				move_state=STOPPED;
-				ancien_move_type = DISPLACEMENT;
-				move_type=AUCUN;
+				forceStop();
 				trajectory_done = true;
 			}			
 			else{
@@ -321,10 +314,8 @@ void Navigator::capture(){
 					trajectory_done=true;
 					compt_rot=1;
 					error_cap=true;
-					/* autre stratégie : on arrete tout
-					move_state=STOPPED;
-					ancien_move_type=move_type;
-					move_type=AUCUN; */	
+					/* autre stratégie : on arrete tout, et on passe à la tâche suivante
+					forceStop() */	
 				} else {
 					compt_rot++;
 					Navigator::adjust_rot(pow(-1,compt_rot)*compt_rot*nominal_delta_rot);					
@@ -340,13 +331,10 @@ void Navigator::capture(){
 		case CRUISE:
 			cup_ready = (((dist_opt-0.5)< v_r) && (v_r < (dist_opt+0.5)));
 			if (cup_ready){
-				MotorControl::set_cons(0,0);
-				move_state=STOPPED;
-				ancien_move_type=move_type;
-				move_type=AUCUN; 
 				compt_rot=1;
 				trajectory_done=true;
-				error_cap = false;			
+				error_cap = false;
+				forceStop();			
 				break;
 			} 
 			if (!cup_detected){
@@ -370,11 +358,15 @@ void Navigator::capture(){
 
 		default:
 			Serial1.println("err mvstate CAP");
+			forceStop();
 		}			
 }
 
 void Navigator::forceStop(){
-	move_type = BRAKE;
+	MotorControl::set_cons(0,0);
+	ancien_move_type = move_type;
+	move_type = AUCUN;
+	move_state = STOPPED;
 }
 
 bool Navigator::moveForward(){
