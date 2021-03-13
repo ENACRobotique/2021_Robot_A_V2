@@ -10,11 +10,11 @@
 
 // measurement std
 #define n_x 0.3
-#define n_y 5.0
+#define n_y 0.3
 #define n_theta 5.0
 // model std (1/inertia)
 #define m_x 0.3
-#define m_y 5.0
+#define m_y 0.3
 #define m_theta 5.0
 
 KALMAN<Nstate,Nobs,Ncom> K = KALMAN<Nstate,Nobs,Ncom>();
@@ -110,7 +110,7 @@ void update() {
   K.update(obs,com);
 
   // PRINT RESULTS: true state, measures, estimated state
-  Serial1 << obs << " " << K.x << " " << DT << "\n";
+  Serial1 << obs << " " << K.x << " " << com << "\n";
 }
 
 }

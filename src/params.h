@@ -69,7 +69,7 @@ const float ADMITTED_SPEED_ERROR = 10;
 
 const float ADMITTED_POSITION_ERROR = 8; //5
 const float ADMITTED_ANGLE_ERROR = 0.01;
-
+const float ADMITTED_ANGLE_ERROR_CRUISE = 70/180*PI;
 //const float MAX_DRIFT = 0.1;
 
 //const float WHEEL_DIAMETER = 55.0;
