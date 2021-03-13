@@ -26,11 +26,10 @@ void setup()
 	pinMode(COLOR, INPUT_PULLUP);
 	//pinMode(BATT_CHARGE, INPUT);
 
-	Serial.begin(57600);
 
 	//while(!Serial){}
 	Serial1.begin(57600);
-
+	Serial.begin(57600);
 	Serial.println("INIT Serial");
 	controlTime.reset();
 	debugLed.reset();
@@ -38,17 +37,13 @@ void setup()
 	TestTime.reset();
 	Odometry::init();
 	MotorControl::init();
-	fmsSupervisor.init();
+//	fmsSupervisor.init();
 	//MotorControl::set_cons(0,0);
 	//navigator.move_to(500,500);
 	//Serial1.println("creation K");
 
 	kalmanFilter::init();
-	kalmanFilter::update();
-	while (true)
-	{
-	}
-	
+	SerialUSB.println("hi");
 }
 
 int mot1 = 100; //entre -255 et 255
@@ -58,10 +53,13 @@ int k = 0;
 
 String tostr;
 // The loop function is called in an endless loop
-void loop()
+
+void loop() // ATTENTION  ne pas donner moins de 50 ms pour écrire sur le serial
 {
 	if (true)
-	{
+	{	
+		
+		MotorControl::set_cons(0,0.2);
 
 		if (debugLed.check())
 		{
@@ -69,7 +67,8 @@ void loop()
 		}
 
 		if (commXBee.check())
-		{
+		{	
+			Serial.println("check");
 			Communication::update();
 			//tostr=String(Communication::get_value());
 			//Serial1.print(tostr);
@@ -88,12 +87,12 @@ void loop()
 	}*/
 		if (navTime.check())
 		{
-			navigator.update();
+	//		navigator.update();
 			//Serial1.println(Odometry::get_pos_x());
 		}
 		if (stateTime.check())
 		{
-			fmsSupervisor.update();
+		//	fmsSupervisor.update();
 		}
 	}
 	else

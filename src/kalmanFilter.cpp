@@ -1,4 +1,4 @@
-#include <Kalman.h>
+#include <kalman.h>
 #include <kalmanFilter.h>
 //using namespace BLA;
 namespace kalmanFilter{
@@ -12,12 +12,12 @@ namespace kalmanFilter{
 
 // measurement std
 #define n_x 0.3
-#define n_y 5.0
-#define n_theta 5.0
+#define n_y 0.3
+#define n_theta 1.0
 // model std (1/inertia)
-#define m_x 0.3
-#define m_y 5.0
-#define m_theta 5.0
+#define m_x 0.1
+#define m_y 0.1
+#define m_theta 1.0
 
 
 BLA::Matrix<Nobs> obs; // observation vector
@@ -80,7 +80,34 @@ void init() {
   
 }
 
-void update() {
+void predict(double u_v,double u_w) {
+  
+  // TIME COMPUTATION
+  DT = (millis()-T)/1000.0;
+  T = millis();
+  
+  com(0) = u_v;
+  com(1) = u_w;
+  K.F = {1.0, 0.0, 0.0,
+		 0.0, 1.0, 0.0,
+         0.0, 0.0, 1.0};
+
+  K.B = {DT*cos(state(2)), 0.0,
+         DT*sin(state(2)), 0.0,
+         0.0, DT*1.0};
+
+  // MESURE X Y THETA
+  
+  // APPLY KALMAN FILTER
+
+  K.predict(com);
+//  K.update(obs,com);
+
+  // PRINT RESULTS: true state, measures, estimated state
+  //Serial1 << state << ' ' << obs << ' ' << K.x << ' ' << K.P << '\n';
+}
+
+void update(double x, double y, double z) {
   // TIME COMPUTATION
   DT = (millis()-T)/1000.0;
   T = millis();
@@ -89,17 +116,19 @@ void update() {
 		 0.0, 1.0, 0.0,
          0.0, 0.0, 1.0};
 
-  K.B = {cos(state(2)), 0.0,
-		      sin(state(2)), 0.0,
-         0.0, 1.0};
+  K.B = {DT*cos(state(2)), 0.0,
+         DT*sin(state(2)), 0.0,
+         0.0, DT*1.0};
 
   // MESURE X Y THETA
   
   // APPLY KALMAN FILTER
+
+//  K.predict(com);
   K.update(obs,com);
 
   // PRINT RESULTS: true state, measures, estimated state
-  Serial1 << state << ' ' << obs << ' ' << K.x << ' ' << K.P << '\n';
+ // Serial1 << state << ' ' << obs << ' ' << K.x << ' ' << K.P << '\n';
 }
 
 }

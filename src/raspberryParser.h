@@ -7,6 +7,7 @@ public:
     float getX();
     float getY();
     float getZ();
+    float gettheta();
     void getPos();
     int getBoussole();
     float getRetard();
@@ -17,6 +18,7 @@ private:
     float x;
     float y;
     float z;
+    float theta;
     int boussole;
     float retard;
 

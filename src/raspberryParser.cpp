@@ -8,6 +8,7 @@ raspberryParser::raspberryParser(){
     x = 0;
     y = 0;
     z = 0;
+    theta = 0;
     boussole = -1;
     retard = 0;
 }
@@ -17,8 +18,8 @@ void raspberryParser::parseData(char* buffer){
     float u;
     int nb = sscanf(buffer, "i %d %d %f %f %f %f",&boussole, &id, &u, &u, &u, &u);
     if(id == ARUCO_ID && nb == 6){
-        sscanf(buffer, "i %d %d %f %f %f %f",&boussole, &id, &x, &y, &z, &retard);
-        Serial1.printf("i %d %d %f %f %f %f",boussole, id, x, y, z, retard);
+        sscanf(buffer, "i %d %d %f %f %f %f %f",&boussole, &id, &x, &y, &z, &theta, &retard);
+     //   Serial1.printf("val rasp : i %d %d %f %f %f %f %f\n",boussole, id, x, y, z, theta, retard);
     }
 }
 
@@ -32,6 +33,9 @@ float raspberryParser::getY(){
 }
 float raspberryParser::getZ(){
     return z;
+}
+float raspberryParser::gettheta(){
+    return theta;
 }
 int raspberryParser::getBoussole(){
     return boussole;
