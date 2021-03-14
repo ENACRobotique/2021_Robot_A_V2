@@ -53,13 +53,10 @@ int k = 0;
 String tostr;
 // The loop function is called in an endless loop
 
-
 void loop() // ATTENTION  ne pas donner moins de 50 ms pour écrire sur le serial
 {
 	if (true)
 	{	
-		
-
 		if (debugLed.check())
 		{
 			digitalToggle(LED_BUILTIN);

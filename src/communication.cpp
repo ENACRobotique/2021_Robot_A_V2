@@ -94,10 +94,9 @@ namespace Communication {
         else if(buffer[0] == 'i'){
            // Serial.println("truc");
             raspberryparser.parseData(buffer);
-        //    kalmanFilter::update(raspberryparser.getX(),raspberryparser.getY(),raspberryparser.gettheta());
-            Serial1.printf("ret\n");
-            Odometry::update();
-            Serial.printf("odometry : %f %f %f\n",Odometry::get_pos_x(),Odometry::get_pos_y(),Odometry::get_pos_theta()*(180/PI));
+        //    kalmanFilter::update(raspberryparser.getX(),raspberryparser.getY(),raspberryparser.gettheta());            
+            Serial1.printf("odometry : %f %f %f\n",Odometry::get_pos_x(),Odometry::get_pos_y(),Odometry::get_pos_theta());
+
 
         }
         else if(buffer[0]=='c') {
