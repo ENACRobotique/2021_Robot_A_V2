@@ -12,6 +12,7 @@ typedef enum {  TURN,
 				DISPLACEMENT,
 				THROW,
 				BRAKE,
+				AUCUN,
 				CAP}Move_type;
 
 typedef enum { INITIAL_TURN,
@@ -46,7 +47,7 @@ private:
 	int MAX_ACCEL_OMEGA, MAX_OMEGA;
 	bool cup_detected, cup_ready;
 	int compt_rot;
-	Move_type move_type;
+	Move_type move_type, ancien_move_type;
 	Move_state move_state;
 	float v_r; //read IR_sel
 	int a_r;
@@ -54,6 +55,10 @@ private:
 	float center_axes(float angle);
 	float center_radian(float angle);
 	int scalaire(float x,float y,float x2,float y2);
+	void turn();
+	void brake();
+	void capture();
+	void deplacement();
 };
 
 extern Navigator navigator;

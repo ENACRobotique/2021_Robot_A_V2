@@ -63,6 +63,7 @@ const float OMEGA_MAX_CRUISE = 1.5;
 const float ACCEL_OMEGA_MAX_CAP = 0.3;
 const float OMEGA_MAX_CAP = 0.5;
 
+const float ADMITTED_ANGLE_ERROR_CRUISE = 70*PI/180;
 
 const float ADMITTED_OMEGA_ERROR = 0.03;
 const float ADMITTED_SPEED_ERROR = 10;
