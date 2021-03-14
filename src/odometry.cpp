@@ -8,6 +8,7 @@
 #include "Arduino.h"
 #include "params.h"
 #include "motorControl.h"
+#include "kalmanFilter.h"
 
 namespace Odometry{
 
@@ -105,10 +106,7 @@ namespace Odometry{
 		nbr1 += incr1;
 		nbr2 += incr2;
 
-		/*Serial.print("nbr1 ");
-		Serial.print(nbr1);
-		Serial.print(" nbr2 ");
-		Serial.println(nbr2);*/
+
 		float length;
 		float angle;
 		if (MotorControl::get_cons_speed()>=0) {
@@ -119,44 +117,19 @@ namespace Odometry{
 			length = ((float)(incr1*INCR_TO_MM_2+incr2*INCR_TO_MM_1)/2.0);
 			angle = ((float)(incr2*INCR_TO_MM_1-incr1*INCR_TO_MM_2))/WHEELBASE;
 		}
-		//TODO : vérifier formule
-		/*Serial.print(" update() >> postheta="); */
-		/*Serial.print(pos_theta);
-		Serial.print(" angle=");
-		Serial.print(angle);*/
+	
 		
 		pos_x = pos_x + length*cos(pos_theta + angle/2.0); //interpolation entre les deux theta
 		pos_y = pos_y + length*sin(pos_theta + angle/2.0);
 		pos_theta = pos_theta + angle;
 
-		/*Serial.print(" pos_x=");
-		Serial.print(pos_x);
-		Serial.print(" pos_y=");
-		Serial.print(pos_y);
-		Serial.print(" new pos_theta=");
-		Serial.print(pos_theta);
-		Serial.println(".");*/
 		speed = length / CONTROL_PERIOD;
 		omega = angle / CONTROL_PERIOD;
 
-		/*
-		Serial.print(pos_x);
-		Serial.print("\t y:");
-		Serial.print(pos_y);
-		Serial.print("\t theta: ");
-		Serial.print(pos_theta);
-		Serial.print("\t V: ");
-		Serial.print(speed);
 		
-		Serial.print("mm/s \t V1:");
-		Serial.print(((float)(incr1)*INCR_TO_TOURS/CONTROL_PERIOD));
-		Serial.print("tr/s \t V2:");
-		Serial.print(((float)(incr2)*INCR_TO_TOURS/CONTROL_PERIOD));
-		Serial.print("tr/s \t Omega:");
-		*/
-		//Serial.print((float)incr1/CONTROL_PERIOD);
+	//	kalmanFilter::predict(speed,length);
 
-		//Serial.println(omega);
+	
 	}
 }
 

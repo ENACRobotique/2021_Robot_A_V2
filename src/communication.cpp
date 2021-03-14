@@ -5,10 +5,12 @@
 #include "navigator.h"
 #include "odometry.h"
 #include "raspberryParser.h"
+#include "params.h"
 
 #include "FMSSupervisor.h"
 #include "stateMachine/Reajustement.h"
 #include "stateMachine/etat_begin.h"
+#include "kalmanFilter.h"
 
 
 #define COM_DEBUG
@@ -17,9 +19,11 @@ namespace Communication {
     
     static void parse_data();
 
-    char buffer[50];
+    char buffer[100];
     int buff_index=0;
     void update() {
+        //Serial.printf("entree update comm\n");
+
         int a;
         a = Serial1.available();
         
@@ -50,6 +54,7 @@ namespace Communication {
     }
 
     static void parse_data(){
+        Serial.printf("buffer : %s\n",buffer);
         if(buffer[0] == 's') {
             MotorControl::set_cons(0,0);
             navigator.forceStop();
@@ -87,13 +92,22 @@ namespace Communication {
             }
         }
         else if(buffer[0] == 'i'){
+           // Serial.println("truc");
             raspberryparser.parseData(buffer);
+        //    kalmanFilter::update(raspberryparser.getX(),raspberryparser.getY(),raspberryparser.gettheta());
+            Serial1.printf("ret\n");
+            Odometry::update();
+            Serial.printf("odometry : %f %f %f\n",Odometry::get_pos_x(),Odometry::get_pos_y(),Odometry::get_pos_theta()*(180/PI));
+
         }
         else if(buffer[0]=='c') {
             fmsSupervisor.setNextState(&reajustement);
         }
         else if(buffer[0]=='e') {
             fmsSupervisor.print_State();
+        }
+        else if (buffer[0]=='p') {
+            Serial1.printf("pong\n");
         }
 
         buff_index = 0;
