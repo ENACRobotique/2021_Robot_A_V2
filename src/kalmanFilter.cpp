@@ -110,7 +110,7 @@ void update() {
   K.update(obs,com);
 
   // PRINT RESULTS: true state, measures, estimated state
-  Serial1 << obs << " " << K.x << " " << com << "\n";
+  //Serial1 << obs << " " << K.x << " " << com << "\n";
 }
 
 }

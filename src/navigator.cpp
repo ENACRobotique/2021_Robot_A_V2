@@ -280,6 +280,9 @@ void Navigator::deplacement(){
 				}
 			}
 			break;
+
+		case STOPPED:
+			break;
 	}
 }
 
@@ -355,7 +358,8 @@ void Navigator::capture(){
 				MotorControl::set_cons(speed_cons,omega_cons);
 			}
 			break;
-
+		case STOPPED:
+			break;
 		default:
 			Serial1.println("err mvstate CAP");
 			forceStop();
