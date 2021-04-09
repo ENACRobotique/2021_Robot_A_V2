@@ -31,7 +31,7 @@ KALMAN<Nstate,Nobs,Ncom> K; // your Kalman filter
 unsigned long T;
 float DT;
 
-BLA::Matrix<Nstate> state; // true state vector for simulation
+BLA::Matrix<Nstate> stateinit; // true state vector for simulation
 BLA::Matrix<Nobs> noise;   // additive noise for simulation
 
 #define LOOP_DELAY 10  // add delay in the measurement loop
@@ -47,9 +47,9 @@ void init() {
   Serial.begin(57600);
 
   // The model below is very simple since matrices are diagonal!
-  state(0) = 0;
-  state(1) = 0;
-  state(2) = 0;
+  stateinit(0) = 0;
+  stateinit(1) = 0;
+  stateinit(2) = 0;
 
   obs.Fill(0.0);
 
@@ -58,8 +58,8 @@ void init() {
 		 0.0, 1.0, 0.0,
          0.0, 0.0, 1.0};
 
-  K.B = {cos(state(2)), 0.0,
-		      sin(state(2)), 0.0,
+  K.B = {cos(stateinit(2)), 0.0,
+		      sin(stateinit(2)), 0.0,
          0.0, 1.0};
 
   // measurement matrix
@@ -92,8 +92,8 @@ void predict(double u_v,double u_w) {
 		 0.0, 1.0, 0.0,
          0.0, 0.0, 1.0};
 
-  K.B = {DT*cos(state(2)), 0.0,
-         DT*sin(state(2)), 0.0,
+  K.B = {DT*cos(K.x(2)), 0.0,
+         DT*sin(K.x(2)), 0.0,
          0.0, DT*1.0};
 
   // MESURE X Y THETA
@@ -101,10 +101,10 @@ void predict(double u_v,double u_w) {
   // APPLY KALMAN FILTER
 
   K.predict(com);
-//  K.update(obs,com);
 
   // PRINT RESULTS: true state, measures, estimated state
-  //Serial1 << state << ' ' << obs << ' ' << K.x << ' ' << K.P << '\n';
+  //Serial1 << stateinit << '\n' << ' ' << obs << ' ' << K.x << ' ' << K.P << '\n';
+  Serial1 << K.x << '\n';
 }
 
 void update(double x, double y, double z) {
@@ -116,8 +116,8 @@ void update(double x, double y, double z) {
 		 0.0, 1.0, 0.0,
          0.0, 0.0, 1.0};
 
-  K.B = {DT*cos(state(2)), 0.0,
-         DT*sin(state(2)), 0.0,
+  K.B = {DT*cos(K.x(2)), 0.0,
+         DT*sin(K.x(2)), 0.0,
          0.0, DT*1.0};
 
   // MESURE X Y THETA

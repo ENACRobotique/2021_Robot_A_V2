@@ -82,14 +82,14 @@ void loop() // ATTENTION  ne pas donner moins de 50 ms pour écrire sur le seria
 	}*/
 		if (navTime.check())
 		{	
-			if (millis()%4000<2000) {
+	/*		if (millis()%4000<2000) {
 				MotorControl::set_cons(0,0.2);
 
 			}
 			else {
 				MotorControl::set_cons(0,0.0);
 
-			}
+			}   */
 			navigator.update();
 			//Serial1.println(Odometry::get_pos_x());
 		}
