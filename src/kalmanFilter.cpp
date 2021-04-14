@@ -104,11 +104,14 @@ void predict(double u_v,double u_w) {
 
   // PRINT RESULTS: true state, measures, estimated state
   //Serial1 << stateinit << '\n' << ' ' << obs << ' ' << K.x << ' ' << K.P << '\n';
-  Serial1 << K.x << '\n';
+  //Serial1 << K.x << '\n';
 }
 
-void update(double x, double y, double z) {
+void update(double x, double y, double theta) {
   // TIME COMPUTATION
+  obs(0)=x;
+  obs(1)=y;
+  obs(2)=theta;
   DT = (millis()-T)/1000.0;
   T = millis();
 
@@ -130,5 +133,10 @@ void update(double x, double y, double z) {
   // PRINT RESULTS: true state, measures, estimated state
  // Serial1 << state << ' ' << obs << ' ' << K.x << ' ' << K.P << '\n';
 }
+
+void print_state() {
+       Serial1 << "\npos Kalman : " << K.x(0) << "\t" << K.x(1) << "\t" << K.x(2) << "\n";
+}
+
 
 }

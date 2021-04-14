@@ -11,20 +11,20 @@
 
 #define VOLT_TO_DIST(volt) (13 * pow (volt  * 0.0048828125, -1)) 
 
-const int ARUCO_ID = 5;
+const int ARUCO_ID = 1;
 
 const unsigned long TIME_RACE = 100000;
 
 
-const int ENCODEUR1_A = 16;
-const int ENCODEUR1_B = 17;
-const int ENCODEUR2_A = 29;
-const int ENCODEUR2_B = 30;
+const int ENCODEUR1_A = 21;
+const int ENCODEUR1_B = 20;
+const int ENCODEUR2_A = 17;
+const int ENCODEUR2_B = 16;
 
-const int MOT1_PWM = 6;
-const int MOT1_DIR = 7;
-const int MOT2_PWM = 9;
-const int MOT2_DIR = 8;
+const int MOT1_PWM = 5;
+const int MOT1_DIR = 6;
+const int MOT2_PWM = 29;
+const int MOT2_DIR = 28;
 
 //const int BATT_CHARGE = 37;
 
@@ -39,7 +39,7 @@ const int SERVO3 = 37;
 // const int MOT_LIDAR = 35;
 
 const int COLOR = 26;
-const int TIRETTE = 10; //old 25
+const int TIRETTE = 25;
 
 // const int SPARE1 = 10;
 // const int SPARE2 = 9;

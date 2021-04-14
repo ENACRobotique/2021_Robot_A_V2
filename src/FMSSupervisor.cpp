@@ -86,7 +86,7 @@ void FMSSupervisor::init(AbstractState* state) {
 }
 */
 void FMSSupervisor::init(){
-	currentState = &etat_begin;
+	currentState = &etat_begin; // premier état du système
 	currentState->enter();
 }
 

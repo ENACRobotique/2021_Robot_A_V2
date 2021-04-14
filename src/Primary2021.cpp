@@ -9,6 +9,7 @@
 #include "raspberryParser.h"
 #include <string.h>
 #include <kalmanFilter.h>
+#include "trajectory.h"
 
 Metro controlTime = Metro((unsigned long)(CONTROL_PERIOD * 1000));
 Metro debugLed = Metro(2000);
@@ -20,12 +21,14 @@ Metro stateTime = Metro((unsigned long)(STATE_PERIOD * 1000));
 //The setup function is called once at startup of the sketch
 void setup()
 {
+	
 	pinMode(LED_BUILTIN, OUTPUT);
 	//pinMode(MOT_LIDAR, OUTPUT);
 
 	pinMode(COLOR, INPUT_PULLUP);
 	//pinMode(BATT_CHARGE, INPUT);
 
+	pinMode(TIRETTE,INPUT_PULLUP);
 
 	//while(!Serial){}
 	Serial1.begin(57600);
@@ -36,13 +39,18 @@ void setup()
 	navTime.reset();
 	TestTime.reset();
 	Odometry::init();
+	//position initiale
+	Odometry::set_pos(traj1.get_current_WP().x,traj1.get_current_WP().y,0.0);
+
 	MotorControl::init();
-//	fmsSupervisor.init();
+	navigator.init(traj1.get_current_WP().x,traj1.get_current_WP().y);
+	fmsSupervisor.init();
 	//MotorControl::set_cons(0,0);
 	//navigator.move_to(500,500);
 
 	kalmanFilter::init();
-	SerialUSB.println("hi");
+
+	
 }
 
 int mot1 = 100; //entre -255 et 255
@@ -50,11 +58,11 @@ int mot2 = -100;
 int i;
 int k = 0;
 
-String tostr;
 // The loop function is called in an endless loop
+bool begin;
 
 void loop() // ATTENTION  ne pas donner moins de 50 ms pour écrire sur le serial
-{
+{	
 	if (true)
 	{	
 		if (debugLed.check())
@@ -74,44 +82,21 @@ void loop() // ATTENTION  ne pas donner moins de 50 ms pour écrire sur le seria
 		{
 			Odometry::update();
 			MotorControl::update();
+
 		}
 
-		/*if(navTime.check()) {
-		MotorControl::set_cons(speed_cons[speed_i], 0);
-		speed_i = (speed_i + 1) % 4;
-	}*/
 		if (navTime.check())
 		{	
-	/*		if (millis()%4000<2000) {
-				MotorControl::set_cons(0,0.2);
-
-			}
-			else {
-				MotorControl::set_cons(0,0.0);
-
-			}   */
 			navigator.update();
-			//Serial1.println(Odometry::get_pos_x());
 		}
+
 		if (stateTime.check())
 		{
-		//	fmsSupervisor.update();
+			fmsSupervisor.update();
+			//Serial1.println(digitalRead(TIRETTE));
 		}
 	}
 	else
-	{
-		//étude consigne moteur/vitesse
-		MotorControl::testmoteur(mot1, mot2);
-		if (controlTime.check())
-		{
-			Serial.print(i);
-			Serial.print("\t");
-			Odometry::update();
-			Serial.print("\t");
-			Serial.println(mot2);
-			i++;
-		}
-		if (TestTime.check())
-			mot2 = (mot2 + 20) % 255;
+	{	
 	}
 }

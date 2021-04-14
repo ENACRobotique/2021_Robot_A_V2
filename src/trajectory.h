@@ -18,6 +18,12 @@ typedef enum
     BEGIN
 } WP_type;
 
+typedef struct {
+    float x;
+    float y;
+    WP_type type;
+}Coord;
+
 class Point
 {
 public:
@@ -34,26 +40,27 @@ public:
     Waypoint();
     Waypoint(float x, float y, WP_type type);
     int scalaire(float x, float y, float x2, float y2);
-
+    WP_type type;
 private:
     //float x,y;
-    WP_type type;
+   
 };
 
 class Trajectory
 {
 public:
     Trajectory();
+    Waypoint get_current_WP();
     Waypoint get_next_WP();
     float get_rad();
     float currentX_track(float x0, float y0);
     float currentX_angle(float x0, float y0);
+    int pos;
 
 private:
     std::vector<Waypoint> trajectory;
-    int pos;
 };
 
-extern Trajectory traj;
+extern Trajectory traj1;
 
 #endif /* TRAJECTORY_H_ */

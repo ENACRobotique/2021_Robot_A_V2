@@ -5,7 +5,8 @@ namespace kalmanFilter{
 
     void init();
     void predict(double u_v,double u_w);
-    void update(double x, double y, double z);
+    void update(double x, double y, double theta);
+    void print_state();
 
 
 }

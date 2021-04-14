@@ -10,6 +10,7 @@
 #include "Reajustement.h"
 #include "../controlServo.h"
 #include "../params.h"
+#include "travel.h"
 
 Etat_begin etat_begin = Etat_begin();
 
@@ -33,7 +34,9 @@ void Etat_begin::leave() {
 }
 
 void Etat_begin::doIt() {
-
+	if (digitalRead(TIRETTE)==LOW) {
+		fmsSupervisor.setNextState(&travel);
+	};
 
 }
 

@@ -22,14 +22,14 @@ namespace Odometry{
 	float speed, omega;
 
 	void init(){
-		pinMode(ENCODEUR1_A,INPUT_PULLUP);
 		pinMode(ENCODEUR1_B,INPUT_PULLUP);
+		pinMode(ENCODEUR1_A,INPUT_PULLUP);
 		attachInterrupt(ENCODEUR1_A, isr1, FALLING);
 		//attachInterrupt(ENCODEUR1_A, isr1, RISING);
 		_incr1 = 0;
 
-		pinMode(ENCODEUR2_A,INPUT_PULLUP);
 		pinMode(ENCODEUR2_B,INPUT_PULLUP);
+		pinMode(ENCODEUR2_A,INPUT_PULLUP);
 		attachInterrupt(ENCODEUR2_A, isr2, RISING);
 		//attachInterrupt(ENCODEUR2_A, isr2, FALLING);
 		_incr2 = 0;
@@ -127,7 +127,7 @@ namespace Odometry{
 		omega = angle / CONTROL_PERIOD;
 
 		
-		kalmanFilter::predict(speed,length);
+		kalmanFilter::predict(speed,omega);
 
 	
 	}

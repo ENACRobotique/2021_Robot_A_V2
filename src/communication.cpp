@@ -11,7 +11,9 @@
 #include "stateMachine/Reajustement.h"
 #include "stateMachine/etat_begin.h"
 #include "kalmanFilter.h"
+#include "motorControl.h"
 
+#include "stateMachine/travel.h"
 
 #define COM_DEBUG
 
@@ -83,6 +85,9 @@ namespace Communication {
             Serial1.print(Odometry::get_pos_y());
             Serial1.print("\t");
             Serial1.println(Odometry::get_pos_theta());
+            kalmanFilter::print_state();
+
+
         } else if(buffer[0] == 't') {
             //in degrees
             float angle;
@@ -94,18 +99,20 @@ namespace Communication {
         else if(buffer[0] == 'i'){
            // Serial.println("truc");
             raspberryparser.parseData(buffer);
-        //    kalmanFilter::update(raspberryparser.getX(),raspberryparser.getY(),raspberryparser.gettheta());            
+            kalmanFilter::update(raspberryparser.getX(),raspberryparser.getY(),raspberryparser.gettheta());            
             Serial1.printf("odometry : %f %f %f\n",Odometry::get_pos_x(),Odometry::get_pos_y(),Odometry::get_pos_theta());
+            kalmanFilter::print_state();
 
 
         }
         else if(buffer[0]=='c') {
-            fmsSupervisor.setNextState(&reajustement);
+            fmsSupervisor.setNextState(&travel);
         }
         else if(buffer[0]=='e') {
             fmsSupervisor.print_State();
         }
         else if (buffer[0]=='p') {
+            MotorControl::testmoteur(50,50);
             Serial1.printf("pong\n");
         }
 

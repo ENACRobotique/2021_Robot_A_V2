@@ -22,6 +22,7 @@ typedef enum { INITIAL_TURN,
 class Navigator{
 public:
 	Navigator();
+	void init(float x,float y);
 	void move_to(float x, float y);
 	void step_forward(float d);
 	void step_backward(float d);

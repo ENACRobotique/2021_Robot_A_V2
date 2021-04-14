@@ -13,6 +13,7 @@
 #include "math.h"
 
 
+
 Navigator navigator = Navigator();
 
 Navigator::Navigator(){
@@ -22,11 +23,16 @@ Navigator::Navigator(){
 	x_target = 0;
 	y_target = 0;
 	theta_target = 0;
-	move_type = TURN;
+	move_type = AUCUN;
 	move_state = STOPPED;
 	
 	pinMode(IR_sel, INPUT);
 	compt_rot=1;
+}
+
+void Navigator::init(float x,float y){
+	x_target= x;
+	y_target = y;
 }
 
 void Navigator::move_to(float x, float y){
@@ -234,7 +240,7 @@ void Navigator::turn(){
 	float omega_cons;
 	turn_done = ((abs(center_radian(Odometry::get_pos_theta() - theta_target)) < ADMITTED_ANGLE_ERROR)&&(Odometry::get_omega() < ADMITTED_OMEGA_ERROR));
 	if(turn_done){
-		//Serial1.println("turn done");
+		Serial1.println("turn done turn function");
 		forceStop();
 	}				
 
@@ -245,7 +251,8 @@ void Navigator::turn(){
 }
 
 void Navigator::deplacement(){
-	float speed_cons,alpha,distance;
+
+	float speed_cons,omega_cons,alpha,distance;
 	switch(move_state){
 		case INITIAL_TURN:
 			
@@ -257,6 +264,10 @@ void Navigator::deplacement(){
 				MotorControl::set_cons(0,0);
 				move_state = CRUISE;
 			}
+			else {
+				omega_cons = compute_cons_omega();
+				MotorControl::set_cons(0,omega_cons);
+			}
 			break;
 
 		case CRUISE:
@@ -265,7 +276,9 @@ void Navigator::deplacement(){
 			displacement_done = ((distance<ADMITTED_POSITION_ERROR)&&(Odometry::get_speed() < ADMITTED_SPEED_ERROR*2));
 					
 			if(displacement_done){
+
 				forceStop();
+				Serial1.println("displacement done");
 				trajectory_done = true;
 			}			
 			else{

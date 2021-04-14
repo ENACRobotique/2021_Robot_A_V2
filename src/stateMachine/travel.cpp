@@ -9,6 +9,8 @@
 #include "Reajustement.h"
 #include "../params.h"
 #include "etat_test.h"
+#include "pivot.h"
+#include "etat_end.h"
 #include "trajectory.h"
 #include "../navigator.h"
 
@@ -29,7 +31,8 @@ void Travel::enter()
 {
 	Serial1.println("Enter Travel");
 	time_start = millis();
-	currentWp = traj.get_next_WP();
+	currentWp = traj1.get_next_WP();
+	Serial1.printf("position visée :%f %f\n",currentWp.x,currentWp.y);
 	navigator.move_to(currentWp.x, currentWp.y);
 }
 
@@ -43,7 +46,16 @@ void Travel::doIt()
 
 	if (navigator.isTrajectoryFinished())
 	{
-		fmsSupervisor.setNextState(&reajustement);
+		if (currentWp.type==ECOCUP) {
+			fmsSupervisor.setNextState(&reajustement);
+
+		}
+		else if (currentWp.type==TURNPOINT) {
+			fmsSupervisor.setNextState(&pivot);
+		}
+		else {
+			fmsSupervisor.setNextState(&etat_end);
+		}
 	}
 }
 
@@ -53,6 +65,7 @@ void Travel::reEnter(unsigned long interruptTime)
 
 void Travel::forceLeave()
 {
+
 }
 
 void Travel::pauseNextState()

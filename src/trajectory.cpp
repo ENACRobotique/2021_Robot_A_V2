@@ -1,11 +1,19 @@
 #include "trajectory.h"
 #include <vector>
+#include <iostream>
 #include <math.h>
 #ifndef M_PI
 #define M_PI 3.14159
 #endif
 
-Trajectory traj = Trajectory();
+
+Coord l_pts[] = {
+    {-1250.0,500.0,BEGIN},
+    {0.0,500.0,TURNPOINT},
+    {0.0,0.0,TURNPOINT},
+    {-1250.0,500.0,END},
+};
+
 
 Point::Point() {
     
@@ -48,15 +56,25 @@ Waypoint::Waypoint(float x0, float y0, WP_type t_type) : Point(x0, y0), type(t_t
 
 Trajectory::Trajectory()
 {
-    pos = 0;
+    pos=0;
+    unsigned int i_loc=0;
+    for (i_loc=0;i_loc<sizeof(l_pts);i_loc++) {
+        trajectory.push_back(Waypoint(l_pts[i_loc].x,l_pts[i_loc].y,l_pts[i_loc].type));
+    };
+
 };
+
+Waypoint Trajectory::get_current_WP()
+{
+    return trajectory[pos];
+}
 
 Waypoint Trajectory::get_next_WP()
 {
     if (pos < trajectory.size())
     {
         pos++;
-        return trajectory[pos - 1];
+        return trajectory[pos];
     }
     else
     {
@@ -77,3 +95,5 @@ float Trajectory::currentX_angle(float x0, float y0)
     Point p = Point(x0, y0);
     return p.get_theta(trajectory[pos - 1]) - get_rad();
 }
+
+Trajectory traj1 = Trajectory();
