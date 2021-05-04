@@ -1,3 +1,6 @@
+#ifndef _LIDAR_
+#define _LIDAR_
+
 namespace Lidar {
     typedef enum Space {
         DL,DC,DR,
@@ -21,3 +24,5 @@ namespace Lidar {
     
     extern Spot spots[3];
 }
+
+#endif

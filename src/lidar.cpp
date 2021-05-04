@@ -1,5 +1,5 @@
-//#include "Arduino.h"
-#include <string>
+#include "Arduino.h"
+#include <string.h>
 #include "lidar.h"
 
 namespace Lidar {
