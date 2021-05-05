@@ -10,6 +10,7 @@
 #include <string.h>
 #include <kalmanFilter.h>
 #include "trajectory.h"
+#include "lidar.h"
 
 Metro controlTime = Metro((unsigned long)(CONTROL_PERIOD * 1000));
 Metro debugLed = Metro(2000);
@@ -17,6 +18,7 @@ Metro navTime = Metro((unsigned long)(NAVIGATOR_PERIOD * 1000)); //2000
 Metro TestTime = Metro(1000);
 Metro commXBee = Metro((unsigned long)(COMMUNICATION_PERIOD * 1000));
 Metro stateTime = Metro((unsigned long)(STATE_PERIOD * 1000));
+Metro lidarTime = Metro((unsigned long)(1000));
 
 //The setup function is called once at startup of the sketch
 void setup()
@@ -49,7 +51,8 @@ void setup()
 	//navigator.move_to(500,500);
 
 	kalmanFilter::init();
-
+	Lidar::init();
+	Lidar::changeReadSpace2(0x0F);
 	
 }
 
@@ -73,6 +76,7 @@ void loop() // ATTENTION  ne pas donner moins de 50 ms pour écrire sur le seria
 		if (commXBee.check())
 		{	
 			Communication::update();
+			//Lidar::readState();
 			//tostr=String(Communication::get_value());
 			//Serial1.print(tostr);
 			//MotorControl::set_cons(10*Communication::get_value(),0);
@@ -94,6 +98,9 @@ void loop() // ATTENTION  ne pas donner moins de 50 ms pour écrire sur le seria
 		{
 			fmsSupervisor.update();
 			//Serial1.println(digitalRead(TIRETTE));
+		}
+		if (lidarTime.check()) {
+			//Lidar::update_all();
 		}
 	}
 	else

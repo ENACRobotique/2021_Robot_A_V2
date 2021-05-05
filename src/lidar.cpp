@@ -13,9 +13,12 @@ namespace Lidar {
         int i;
         for(i=0; i<5; i++) {    
             zn=zn%2;
-            analogWrite(lidarIns[i],zn);
+            digitalWrite(lidarIns[i],zn);
             zn=zn/2;
         }    
+    }
+    void changeReadSpace2(int zone){
+        changeReadSpace((Space)zone);
     }
 
     //Space nextsectors[3];
@@ -33,6 +36,9 @@ namespace Lidar {
                 return AC1;
             case AR:
                 return AR1;
+            default:
+                break;
+        }
             if (3<=etat && etat<=6) {
                 return etat;
             }
@@ -42,13 +48,21 @@ namespace Lidar {
             if (11<=etat && etat<=14) {
                 return etat;
             }
-            else {
-                return etat;
-            }
-        }     
+            return etat;
+    }     
+
+    void reset(int numspot) {
+        spots[numspot].dist = (Space)((int)DL + numspot);
+        spots[numspot].azim = (Space)((int)AL + numspot);
     }
 
     void init() {
+        for(int i=0;i<5;i++){
+            pinMode(lidarIns[i], OUTPUT);
+        }
+        pinMode(LIDAROUT1, INPUT_PULLDOWN);
+        pinMode(LIDAROUT2, INPUT_PULLDOWN);
+        pinMode(LIDAROUT3, INPUT_PULLDOWN);
         reset(0);
         reset(1);
         reset(2);
@@ -107,11 +121,7 @@ namespace Lidar {
             update(i,true);
             update(i,false);
         }
-    }
-
-    void reset(int numspot) {
-        spots[numspot].dist = (Space)((int)DL + numspot);
-        spots[numspot].azim = (Space)((int)AL + numspot);
+        readState();
     }
 
     static char *enumStrings[] = {"Left", "Center", "Right"};

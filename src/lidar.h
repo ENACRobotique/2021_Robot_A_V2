@@ -2,7 +2,7 @@
 #define _LIDAR_
 
 namespace Lidar {
-    typedef enum Space {
+    enum Space {
         DL,DC,DR,
         DL1,DL2,DL3,
         DC1,DC2,DC3,
@@ -12,12 +12,14 @@ namespace Lidar {
         AC1,AC2,AC3,
         AR1,AR2,AR3
     };
-    typedef struct Spot {
+    struct Spot {
         Space dist;
         Space azim;
         int sector_dist=0;
         int sector_azim=0;
     };
+    void changeReadSpace2(int zone);
+    void reset(int numspot);
     void init();
     void update_all();
     void readState();
