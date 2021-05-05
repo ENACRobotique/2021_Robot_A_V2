@@ -1,11 +1,13 @@
 #include "Arduino.h"
-#include <string.h>
+#include <string>
 #include "lidar.h"
+#include "params.h"
+
 
 namespace Lidar {
     Spot spots[3];
 
-    int lidarIns[] = {lidarIn1,lidarIn2,lidarIn3,lidarIn4,lidarIn5}; //à définir
+    int lidarIns[] = {LIDARIN1,LIDARIN2,LIDARIN3,LIDARIN4,LIDARIN5}; //à définir
     void changeReadSpace(Space zone){
         int zn = (int)(zone);
         int i;
@@ -67,13 +69,13 @@ namespace Lidar {
         if (ns<=11) {
             spots[numspot].dist=ns;
             spots[numspot].sector_dist=0;
-            if (digitalread(lidarOut1)==HIGH) { //détection dans le moins englobant
+            if (digitalRead(LIDAROUT1)==HIGH) { //détection dans le moins englobant
                 spots[numspot].sector_dist=1;
             }
-            else if (digitalread(lidarOut2)==HIGH) {
+            else if (digitalRead(LIDAROUT2)==HIGH) {
                 spots[numspot].sector_dist=2;
             }
-            else if (digitalread(lidarOut3) == HIGH) {
+            else if (digitalRead(LIDAROUT3) == HIGH) {
                  //détection dans le plus englobant
                 spots[numspot].sector_dist=3;
             }
@@ -84,13 +86,13 @@ namespace Lidar {
         else {
             spots[numspot].azim = ns;
             spots[numspot].sector_azim=0;
-            if (digitalread(lidarOut1)==HIGH) {
+            if (digitalRead(LIDAROUT1)==HIGH) {
                 spots[numspot].sector_azim+=1;
             }
-            if (digitalread(lidarOut2)==HIGH) {
+            if (digitalRead(LIDAROUT2)==HIGH) {
                 spots[numspot].sector_azim+=2;
             }
-            if (digitalread(lidarOut3) == HIGH) {
+            if (digitalRead(LIDAROUT3) == HIGH) {
                 spots[numspot].sector_azim+=4;
             }
             if (spots[numspot].sector_azim==0) {

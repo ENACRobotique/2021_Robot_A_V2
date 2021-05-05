@@ -41,6 +41,16 @@ const int SERVO3 = 37;
 const int COLOR = 26;
 const int TIRETTE = 10; //old 25
 
+const int LIDARIN1 = 49;
+const int LIDARIN2 = 48;
+const int LIDARIN3 = 47;
+const int LIDARIN4 = 46;
+const int LIDARIN5 = 45;
+
+const int LIDAROUT1 = 16;
+const int LIDAROUT2 = 17;
+const int LIDAROUT3 = 18;
+
 // const int SPARE1 = 10;
 // const int SPARE2 = 9;
 // const int SPARE3 = 8;
