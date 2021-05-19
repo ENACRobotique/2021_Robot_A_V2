@@ -52,7 +52,7 @@ void setup()
 
 	kalmanFilter::init();
 	Lidar::init();
-	Lidar::changeReadSpace2(0x0F);
+	Lidar::changeReadSpace2(1);
 	
 }
 
@@ -97,6 +97,7 @@ void loop() // ATTENTION  ne pas donner moins de 50 ms pour écrire sur le seria
 		if (stateTime.check())
 		{
 			fmsSupervisor.update();
+			Lidar::readState();
 			//Serial1.println(digitalRead(TIRETTE));
 		}
 		if (lidarTime.check()) {

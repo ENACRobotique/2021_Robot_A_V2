@@ -9,12 +9,13 @@ namespace Lidar {
 
     int lidarIns[] = {LIDARIN1,LIDARIN2,LIDARIN3,LIDARIN4,LIDARIN5}; //à définir
     void changeReadSpace(Space zone){
-        int zn = (int)(zone);
+        int zn = ~(int)(zone);
         int i;
+        Serial1.printf("debut write lidarIn: %d\n", zn);
         for(i=0; i<5; i++) {    
-            zn=zn%2;
-            digitalWrite(lidarIns[i],zn);
-            zn=zn/2;
+            int state = zn & (1<<i) ? HIGH: LOW;
+            digitalWrite(lidarIns[i], state);
+            Serial1.printf("write lidarIn %d:%d\n", i, state);
         }    
     }
     void changeReadSpace2(int zone){
@@ -60,9 +61,9 @@ namespace Lidar {
         for(int i=0;i<5;i++){
             pinMode(lidarIns[i], OUTPUT);
         }
-        pinMode(LIDAROUT1, INPUT_PULLDOWN);
-        pinMode(LIDAROUT2, INPUT_PULLDOWN);
-        pinMode(LIDAROUT3, INPUT_PULLDOWN);
+        pinMode(LIDAROUT1, INPUT_PULLUP);
+        pinMode(LIDAROUT2, INPUT_PULLUP);
+        pinMode(LIDAROUT3, INPUT_PULLUP);
         reset(0);
         reset(1);
         reset(2);
@@ -127,8 +128,9 @@ namespace Lidar {
     static char *enumStrings[] = {"Left", "Center", "Right"};
     void readState() {
         int i;
+        Serial1.printf("val : %d %d %d\n",digitalRead(LIDAROUT1),digitalRead(LIDAROUT2),digitalRead(LIDAROUT3));
         for (i=0;i<3;i++) {
-            Serial1.printf("spot %s : D=%d A=%d\n",enumStrings[i],spots[i].dist,spots[i].azim);
+            //Serial1.printf("spot %s : D=%d A=%d\n",enumStrings[i],spots[i].dist,spots[i].azim);
         }
     }
 }

@@ -38,18 +38,18 @@ const int SERVO3 = 37;
 // const int MOT_GALET_L = 35;
 // const int MOT_LIDAR = 35;
 
-const int COLOR = 26;
+const int COLOR = 5;
 const int TIRETTE = 10; //old 25
 
-const int LIDARIN1 = 49;
-const int LIDARIN2 = 48;
-const int LIDARIN3 = 47;
-const int LIDARIN4 = 46;
-const int LIDARIN5 = 45;
+const int LIDARIN1 = 18;
+const int LIDARIN2 = 19;
+const int LIDARIN3 = 20;
+const int LIDARIN4 = 21;
+const int LIDARIN5 = 22;
 
-const int LIDAROUT1 = 16;
-const int LIDAROUT2 = 17;
-const int LIDAROUT3 = 18;
+const int LIDAROUT1 = 24;
+const int LIDAROUT2 = 25;
+const int LIDAROUT3 = 26;
 
 // const int SPARE1 = 10;
 // const int SPARE2 = 9;
