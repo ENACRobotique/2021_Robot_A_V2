@@ -25,7 +25,7 @@ Reajustement::~Reajustement() {
 void Reajustement::enter() {
 	Serial1.println("entrée dans l'état réajustement");
 	time_start = millis();
-    navigator.adjust_rot(nominal_delta_rot);
+    navigator.adjust_rot(nominal_delta_rot); //entrée dans l'état de capture dans le navigator
 }
 
 void Reajustement::leave() {

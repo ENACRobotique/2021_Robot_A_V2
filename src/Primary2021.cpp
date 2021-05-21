@@ -50,6 +50,8 @@ void setup()
 	//MotorControl::set_cons(0,0);
 	//navigator.move_to(500,500);
 
+	IR_sel = IR_FC;
+
 	kalmanFilter::init();
 	Lidar::init();
 	Lidar::changeReadSpace2(1);

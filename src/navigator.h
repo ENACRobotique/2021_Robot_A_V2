@@ -60,6 +60,7 @@ private:
 	void brake();
 	void capture();
 	void deplacement();
+	int orientation_servo();
 };
 
 extern Navigator navigator;

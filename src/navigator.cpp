@@ -310,10 +310,12 @@ void Navigator::capture(){
 			if (cup_detected) {
 				Serial1.println("eco cup found");
 				//on repart un peu dans l'autre sens
-				theta_target = center_radian(Odometry::get_pos_theta()+pow(-1,compt_rot)*atan2f(3.1,v_r));
+				float offset_angulaire = pow(-1,compt_rot)*atan2f(rayon_eco,v_r);
+				theta_target = center_radian(Odometry::get_pos_theta()+offset_angulaire);
 				MotorControl::set_cons(0,0);
 				//on fait un pas vers le gobelet (changement d'état dans la fonction step)
-				Navigator::step_forward(v_r*10+delta_step_forward);
+				float offset_transverse = orientation_servo()*L_anneaux*offset_angulaire;
+				Navigator::step_forward(v_r*10+delta_step_forward+offset_transverse);
 				break;//on quitte le cas INITIAL TURN
 			}
 
@@ -344,7 +346,7 @@ void Navigator::capture(){
 				break;
 			}
 
-		case CRUISE:
+		case CRUISE: //seconde phase de l'ajustement
 			cup_ready = (((dist_opt-0.5)< v_r) && (v_r < (dist_opt+0.5)));
 			if (cup_ready){
 				compt_rot=1;
@@ -354,7 +356,7 @@ void Navigator::capture(){
 				break;
 			} 
 			if (!cup_detected){
-				//échec, on recherche le gobelet
+				//échec, on recherche le gobelet, on revient à la phase 1 d'ajustement
 				MotorControl::set_cons(0,0);
 				Navigator::adjust_rot(nominal_delta_rot);
 				break;
@@ -458,4 +460,16 @@ bool Navigator::isTrajectoryFinished(){
 
 bool Navigator::caperror(){
 	return error_cap;
+}
+
+int Navigator::orientation_servo(){
+	if (IR_sel==IR_FL || IR_sel==IR_BL) {
+		return -1;
+	}
+	else if (IR_sel==IR_FR || IR_sel==IR_BR) {
+		return 1;
+	}
+	else {
+		return 0;
+	}
 }

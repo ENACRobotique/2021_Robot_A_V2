@@ -36,6 +36,7 @@ void CaptureEcocup::enter() {}/*
 }*/
 
 void CaptureEcocup::leave() {
+	IR_sel = (sensors)((int)IR_sel+1);
 	Serial1.println("Leaving CaptureEcocup");
 }
 

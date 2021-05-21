@@ -104,15 +104,17 @@ const int PURPLE = 1;
 const int YELLOW = !PURPLE;
 
 
-enum sensors {IR1=33,IR2,IR3,IR4,IR5,IR6,IR_test};
-const sensors IR_sel=IR_test;
+enum sensors {IR_FL=33,IR_FC,IR_FR,IR_BL,IR_BC,IR_BR,IR_test};
+extern sensors IR_sel;
 
 
 //params de capture ecocup
 const float dist_min=5,dist_max=20;//valeurs initial turn
-const float delta_step_forward=20;//mm
+const float delta_step_forward=20;// marge sur la trajecture de capture en mm
 const float nominal_delta_rot=10;//degres
 const float dist_opt=4.5;
+const float rayon_eco=3.1; //rayon mesuré écocup en cm
+const float L_anneaux=75; //distance entre deux anneaux en mm
 
 // const int NB_US = 4;
 #endif /* PARAMS_H_ */
