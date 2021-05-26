@@ -128,7 +128,7 @@ namespace Lidar {
     static char *enumStrings[] = {"Left", "Center", "Right"};
     void readState() {
         int i;
-        Serial1.printf("val : %d %d %d\n",digitalRead(LIDAROUT1),digitalRead(LIDAROUT2),digitalRead(LIDAROUT3));
+        ///Serial1.printf("val : %d %d %d\n",digitalRead(LIDAROUT1),digitalRead(LIDAROUT2),digitalRead(LIDAROUT3));
         for (i=0;i<3;i++) {
             //Serial1.printf("spot %s : D=%d A=%d\n",enumStrings[i],spots[i].dist,spots[i].azim);
         }

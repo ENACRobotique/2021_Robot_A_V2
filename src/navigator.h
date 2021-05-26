@@ -7,6 +7,7 @@
 
 #ifndef TRAJ_H_
 #define TRAJ_H_
+#include "params.h"
 
 typedef enum {  TURN,
 				DISPLACEMENT,
@@ -63,6 +64,7 @@ private:
 	int orientation_servo();
 };
 
+extern sensors IR_sel;
 extern Navigator navigator;
 
 #endif /* TRAJ_H_ */

@@ -11,6 +11,7 @@
 #include <kalmanFilter.h>
 #include "trajectory.h"
 #include "lidar.h"
+#include "servoManager.h"
 
 Metro controlTime = Metro((unsigned long)(CONTROL_PERIOD * 1000));
 Metro debugLed = Metro(2000);
@@ -50,11 +51,12 @@ void setup()
 	//MotorControl::set_cons(0,0);
 	//navigator.move_to(500,500);
 
-	IR_sel = IR_FC;
+	IR_sel = IR_FL;
 
 	kalmanFilter::init();
 	Lidar::init();
 	Lidar::changeReadSpace2(1);
+	servoManager.init(init_tab);
 	
 }
 
@@ -100,6 +102,7 @@ void loop() // ATTENTION  ne pas donner moins de 50 ms pour écrire sur le seria
 		{
 			fmsSupervisor.update();
 			Lidar::readState();
+			servoManager.update();
 			//Serial1.println(digitalRead(TIRETTE));
 		}
 		if (lidarTime.check()) {

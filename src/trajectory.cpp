@@ -9,7 +9,7 @@
 
 Coord l_pts[] = {
     {-1250.0,500.0,BEGIN},
-    {0.0,500.0,TURNPOINT},
+    {0.0,500.0,ECOCUP},
     {0.0,0.0,TURNPOINT},
     {-1250.0,500.0,END},
 };

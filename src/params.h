@@ -9,7 +9,7 @@
 #define PARAMS_H_
 #include "Arduino.h"
 
-#define VOLT_TO_DIST(volt) (13 * pow (volt  * 0.0048828125, -1)) 
+#define VOLT_TO_DIST(volt) (5.079395 * pow (volt, -1.186175)) 
 
 const int ARUCO_ID = 5;
 
@@ -105,7 +105,8 @@ const int YELLOW = !PURPLE;
 
 
 enum sensors {IR_FL=33,IR_FC,IR_FR,IR_BL,IR_BC,IR_BR,IR_test};
-extern sensors IR_sel;
+
+enum servos {servo_FL=0,servo_FC,servo_FR,servo_BL,servo_BC,servo_BR};
 
 
 //params de capture ecocup
@@ -116,5 +117,19 @@ const float dist_opt=4.5;
 const float rayon_eco=3.1; //rayon mesuré écocup en cm
 const float L_anneaux=75; //distance entre deux anneaux en mm
 
+
+
+//params servos
+
+const uint16_t init_tab[8] = {
+    145,  // 2.1
+    145,  // 2.2
+    145,  // 2.3
+    145,  // 1.1
+    145,  // 1.2
+    145,  // 1.3
+    145,  // flag
+    145   // manche
+};
 // const int NB_US = 4;
 #endif /* PARAMS_H_ */

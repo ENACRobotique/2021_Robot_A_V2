@@ -11,6 +11,7 @@
 #include "../controlServo.h"
 #include "../params.h"
 #include "travel.h"
+#include "CaptureEcocup.h"
 
 Etat_begin etat_begin = Etat_begin();
 

@@ -11,6 +11,9 @@
 #include "../controlServo.h"
 #include "../params.h"
 #include "etat_test.h"
+#include "navigator.h"
+#include "../servoManager.h"
+#include "travel.h"
 
 CaptureEcocup captureEcocup = CaptureEcocup();
 
@@ -24,9 +27,12 @@ CaptureEcocup::~CaptureEcocup() {
 	// TODO Auto-generated destructor stub
 }
 
-void CaptureEcocup::enter() {}/*
+void CaptureEcocup::enter() {
+	servoManager.controlServo(servo_sel,90);
 	time_start = millis();
-	Serial1.println("entrée dans l'état capture éco cup");
+}
+
+/*	Serial1.println("entrée dans l'état capture éco cup");
 	servo.defInitAngle(10);
 	servo.init(SERVO3);
 	delay(1000);
@@ -40,15 +46,16 @@ void CaptureEcocup::leave() {
 	Serial1.println("Leaving CaptureEcocup");
 }
 
-void CaptureEcocup::doIt() {}/*
+void CaptureEcocup::doIt() {
+
+	servoManager.update();
 	
-	if(((millis() - time_start) > SERVO_MOVEMENT_DURATION*2) ){
-		servo.resetPos();
-		fmsSupervisor.setNextState(&etat_test);
+	if(servoManager.isFinished()){
+		fmsSupervisor.setNextState(&travel);
 		
 	}
 }
-*/
+
 
 void CaptureEcocup::reEnter(unsigned long interruptTime){
 }

@@ -12,7 +12,7 @@
 #include "motorControl.h"
 #include "math.h"
 
-
+sensors IR_sel = IR_FL;
 
 Navigator navigator = Navigator();
 
@@ -304,7 +304,7 @@ void Navigator::capture(){
 	v_r=VOLT_TO_DIST(analogRead(IR_sel));	//appeler classe, méthode, ou autre : tout mais pas ça!
 	cup_detected = (dist_min < v_r ) && (v_r < dist_max);
 	
-	//Serial1.println(v_r);
+	Serial1.printf("val IR = %f\n",v_r);
 	switch(move_state){
 		case INITIAL_TURN:
 			if (cup_detected) {
