@@ -5,7 +5,7 @@
  */
 
 #include "Arduino.h"
-#include "CaptureEcocup.h"
+#include "ReleaseEcocup.h"
 #include "../FMSSupervisor.h"
 #include "Reajustement.h"
 #include "../controlServo.h"
@@ -15,20 +15,24 @@
 #include "../servoManager.h"
 #include "travel.h"
 
-CaptureEcocup captureEcocup = CaptureEcocup();
+ReleaseEcocup releaseEcocup = ReleaseEcocup();
 
 //ControlServo servo = ControlServo(); 
 
-CaptureEcocup::CaptureEcocup() {
+ReleaseEcocup::ReleaseEcocup() {
 	time_start = 0;
 }
 
-CaptureEcocup::~CaptureEcocup() {
+ReleaseEcocup::~ReleaseEcocup() {
 	// TODO Auto-generated destructor stub
 }
 
-void CaptureEcocup::enter() {
-	servoManager.controlServo(servo_sel,100);
+void ReleaseEcocup::enter() {
+	
+	if (IR_sel == IR_FR){
+		navigator.set_sens(1);
+	}
+	servoManager.controlServo(servo_sel,180);
 	time_start = millis();
 }
 
@@ -41,19 +45,11 @@ void CaptureEcocup::enter() {
 
 }*/
 
-void CaptureEcocup::leave() {
-	IR_sel = (sensors)((int)IR_sel+1);
-	servo_sel = (servos)((int)servo_sel+1);
-	if (IR_sel == IR_BL){
-		navigator.set_sens(1);
-	}
-	Serial1.println("Leaving CaptureEcocup");
+void ReleaseEcocup::leave() {
+	Serial1.println("Leaving ReleaseEcocup");
 }
 
-void CaptureEcocup::doIt() {
-
-
-	
+void ReleaseEcocup::doIt() {
 	if(servoManager.isFinished()){
 		fmsSupervisor.setNextState(&travel);
 		
@@ -61,11 +57,11 @@ void CaptureEcocup::doIt() {
 }
 
 
-void CaptureEcocup::reEnter(unsigned long interruptTime){
+void ReleaseEcocup::reEnter(unsigned long interruptTime){
 }
 
-void CaptureEcocup::forceLeave(){
+void ReleaseEcocup::forceLeave(){
 }
 
-void CaptureEcocup::pauseNextState(){
+void ReleaseEcocup::pauseNextState(){
 }

@@ -37,6 +37,9 @@ public:
 	bool moveForward();
 	bool caperror();
 	void adjust_rot(float delta_theta);
+	float volt_to_dist(int v);
+	void set_sens(int s);
+	int sens;
 
 private:
 	bool turn_done;

@@ -115,6 +115,10 @@ namespace Communication {
             MotorControl::testmoteur(50,50);
             Serial1.printf("pong\n");
         }
+        else if (buffer[0]=='0') {
+            Serial1.println("entre en test mode");
+            fmsSupervisor.set_testmode(true);
+        }
 
         buff_index = 0;
     }

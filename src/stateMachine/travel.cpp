@@ -48,7 +48,6 @@ void Travel::doIt()
 	{
 		if (currentWp.type==ECOCUP) {
 			fmsSupervisor.setNextState(&reajustement);
-
 		}
 		else if (currentWp.type==TURNPOINT) {
 			fmsSupervisor.setNextState(&pivot);

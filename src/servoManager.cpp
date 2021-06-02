@@ -16,7 +16,7 @@ ServoManager servoManager = ServoManager();
 
 // our servo # counter
 
-servos servo_sel = servo_FL;
+servos servo_sel = servo_FC;
 uint8_t servonum = 0;
 
 

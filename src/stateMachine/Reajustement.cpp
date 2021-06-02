@@ -10,6 +10,7 @@
 #include "CaptureEcocup.h"
 #include "../navigator.h"
 #include "../params.h"
+#include "travel.h"
 
 Reajustement reajustement = Reajustement();
 
@@ -37,7 +38,7 @@ void Reajustement::doIt() {
 
   //  Serial1.printf("IR read : %f\n", v_r);
     if (navigator.caperror()) {
-        fmsSupervisor.setNextState(&reajustement);
+        fmsSupervisor.setNextState(&travel);
     }
 
     else if (navigator.isTrajectoryFinished()){

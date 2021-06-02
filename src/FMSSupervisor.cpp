@@ -21,6 +21,7 @@ FMSSupervisor::FMSSupervisor() {
 	currentState = NULL;
 	previousState = NULL;
 	time_obstacle_left = 0;
+	test_mode = false;
 }
 
 FMSSupervisor::~FMSSupervisor() {
@@ -92,4 +93,8 @@ void FMSSupervisor::init(){
 
 void FMSSupervisor::print_State() {
 	Serial1.println("Current state :" + currentState->name);
+}
+
+void FMSSupervisor::set_testmode(bool b) {
+	test_mode = b;
 }

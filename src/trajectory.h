@@ -15,7 +15,8 @@ typedef enum
     TURNPOINT,
     ECOCUP,
     END,
-    BEGIN
+    BEGIN,
+    RELEASE
 } WP_type;
 
 typedef struct {

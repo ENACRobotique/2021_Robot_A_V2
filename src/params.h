@@ -9,7 +9,7 @@
 #define PARAMS_H_
 #include "Arduino.h"
 
-#define VOLT_TO_DIST(volt) (5.079395 * pow (volt, -1.186175)) 
+#define VOLT_TO_DIST(volt) (5.079395 * pow (volt, -1.186)) 
 
 const int ARUCO_ID = 5;
 
@@ -84,7 +84,7 @@ const float ADMITTED_ANGLE_ERROR = 0.01;
 //const float MAX_DRIFT = 0.1;
 
 //const float WHEEL_DIAMETER = 55.0;
-const float WHEELBASE = 261.9790233;
+const float WHEELBASE = 227.28;//261.9790233;
 const float INCR_TO_MM = 0.21922110552763818;   //PI*WHEEL_DIAMETER/805.12;
 const float INCR_TO_MM_1 = INCR_TO_MM * 0.9833721540716956;
 const float INCR_TO_MM_2 = INCR_TO_MM * 1.016909006279521;
@@ -106,15 +106,22 @@ const int YELLOW = !PURPLE;
 
 enum sensors {IR_FL=33,IR_FC,IR_FR,IR_BL,IR_BC,IR_BR,IR_test};
 
-enum servos {servo_FL=0,servo_FC,servo_FR,servo_BL,servo_BC,servo_BR};
+enum servos {
+    servo_FL,   //2.1
+    servo_FC,   //2.2
+    servo_FR,   //2.3
+    servo_BL,   //1.1
+    servo_BC,   //1.2
+    servo_BR,   //1.3
+    };
 
 
 //params de capture ecocup
-const float dist_min=5,dist_max=20;//valeurs initial turn
+const float dist_min=5,dist_max=25;//valeurs initial turn
 const float delta_step_forward=20;// marge sur la trajecture de capture en mm
-const float nominal_delta_rot=10;//degres
+const float nominal_delta_rot=30;//degres
 const float dist_opt=4.5;
-const float rayon_eco=3.1; //rayon mesuré écocup en cm
+const float rayon_eco=4.0; //3.1 //rayon mesuré écocup en cm
 const float L_anneaux=75; //distance entre deux anneaux en mm
 
 
@@ -122,14 +129,14 @@ const float L_anneaux=75; //distance entre deux anneaux en mm
 //params servos
 
 const uint16_t init_tab[8] = {
-    145,  // 2.1
-    145,  // 2.2
-    145,  // 2.3
-    145,  // 1.1
-    145,  // 1.2
-    145,  // 1.3
-    145,  // flag
-    145   // manche
+    180,  // 2.1
+    180,  // 2.2
+    180,  // 2.3
+    180,  // 1.1
+    180,  // 1.2
+    180,  // 1.3
+    180,  // flag
+    180   // manche
 };
 // const int NB_US = 4;
 #endif /* PARAMS_H_ */

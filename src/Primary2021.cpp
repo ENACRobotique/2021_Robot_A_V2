@@ -43,7 +43,7 @@ void setup()
 	TestTime.reset();
 	Odometry::init();
 	//position initiale
-	Odometry::set_pos(traj1.get_current_WP().x,traj1.get_current_WP().y,0.0);
+	Odometry::set_pos(traj1.get_current_WP().x,traj1.get_current_WP().y,180);
 
 	MotorControl::init();
 	navigator.init(traj1.get_current_WP().x,traj1.get_current_WP().y);
@@ -51,7 +51,8 @@ void setup()
 	//MotorControl::set_cons(0,0);
 	//navigator.move_to(500,500);
 
-	IR_sel = IR_FL;
+	IR_sel = IR_FC;
+	navigator.set_sens(1);//0 ou 1
 
 	kalmanFilter::init();
 	Lidar::init();
@@ -70,7 +71,7 @@ bool begin;
 
 void loop() // ATTENTION  ne pas donner moins de 50 ms pour écrire sur le serial
 {	
-	if (true)
+	if (!fmsSupervisor.test_mode)
 	{	
 		if (debugLed.check())
 		{
@@ -111,5 +112,9 @@ void loop() // ATTENTION  ne pas donner moins de 50 ms pour écrire sur le seria
 	}
 	else
 	{	
+		Serial1.printf("val IR 1 = %f\n",navigator.volt_to_dist(analogRead(IR_sel)));
+		Serial1.printf("val IR 2 = %f\n",navigator.volt_to_dist(analogRead(IR_sel+1)));
+		Serial1.printf("val IR 3 = %f\n",navigator.volt_to_dist(analogRead(IR_sel+2)));
+		delay(20);
 	}
 }

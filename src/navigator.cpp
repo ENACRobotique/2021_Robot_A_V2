@@ -118,7 +118,7 @@ float Navigator::compute_cons_speed()
 		MAX_SPEED = SPEED_MAX_CRUISE/3;
 	}
 	sgn = scalaire(cos(Odometry::get_pos_theta()),sin(Odometry::get_pos_theta()),x_target - Odometry::get_pos_x(),y_target - Odometry::get_pos_y());
-
+	sgn = 1-2*sens; //a checker
 	/*Serial.print("Sens d'avancée:");
 	Serial.print("\t");
 	Serial.println(sgn);*/
@@ -167,7 +167,10 @@ float Navigator::compute_cons_omega()
 	int sgn;
 
 	if(move_type == DISPLACEMENT){
-		alpha = Odometry::get_pos_theta() + center_axes(atan2((-y_target+Odometry::get_pos_y()),(-x_target+Odometry::get_pos_x())) - Odometry::get_pos_theta());
+//		alpha = Odometry::get_pos_theta() + center_axes(atan2((-y_target+Odometry::get_pos_y()),(-x_target+Odometry::get_pos_x())) - Odometry::get_pos_theta());
+		//alpha = Odometry::get_pos_theta() + center_radian(atan2((-y_target+Odometry::get_pos_y()),(-x_target+Odometry::get_pos_x())) - Odometry::get_pos_theta());
+		//alpha = center_radian(Odometry::get_pos_theta()+sens*PI + atan2((-y_target+Odometry::get_pos_y()),(-x_target+Odometry::get_pos_x())) - Odometry::get_pos_theta());
+		alpha = atan2((-y_target+Odometry::get_pos_y()),(-x_target+Odometry::get_pos_x()));
 	}
 	else{
 		alpha = theta_target;
@@ -256,8 +259,8 @@ void Navigator::deplacement(){
 	switch(move_state){
 		case INITIAL_TURN:
 			
-			alpha = Odometry::get_pos_theta() + center_axes(atan2((-y_target+Odometry::get_pos_y()),(-x_target+Odometry::get_pos_x())) - Odometry::get_pos_theta());
-			
+			//alpha = Odometry::get_pos_theta() + center_axes(atan2((-y_target+Odometry::get_pos_y()),(-x_target+Odometry::get_pos_x())) - Odometry::get_pos_theta());
+			alpha = atan2((-y_target+Odometry::get_pos_y()),(-x_target+Odometry::get_pos_x()));
 			turn_done = ((abs(center_radian(Odometry::get_pos_theta() - alpha)) < ADMITTED_ANGLE_ERROR)&&(Odometry::get_omega() < ADMITTED_OMEGA_ERROR));
 			if(turn_done){
 				Serial1.println("turn done");
@@ -283,7 +286,8 @@ void Navigator::deplacement(){
 			}			
 			else{
 				//vérifier qu'on avance dans la bonne direction
-				alpha = Odometry::get_pos_theta() + center_axes(atan2((-y_target+Odometry::get_pos_y()),(-x_target+Odometry::get_pos_x())) - Odometry::get_pos_theta());
+				//alpha = Odometry::get_pos_theta() + center_axes(atan2((-y_target+Odometry::get_pos_y()),(-x_target+Odometry::get_pos_x())) - Odometry::get_pos_theta());
+				alpha = atan2((-y_target+Odometry::get_pos_y()),(-x_target+Odometry::get_pos_x()));
 				if (abs(center_radian(Odometry::get_pos_theta() - alpha)) > ADMITTED_ANGLE_ERROR_CRUISE){
 					MotorControl::set_cons(0,0);
 					move_state=INITIAL_TURN;
@@ -301,20 +305,18 @@ void Navigator::deplacement(){
 
 void Navigator::capture(){
 	float alpha, omega_cons, speed_cons, distance;
-	v_r=VOLT_TO_DIST(analogRead(IR_sel));	//appeler classe, méthode, ou autre : tout mais pas ça!
+	v_r=volt_to_dist(analogRead(IR_sel));
 	cup_detected = (dist_min < v_r ) && (v_r < dist_max);
-	
-	Serial1.printf("val IR = %f\n",v_r);
 	switch(move_state){
 		case INITIAL_TURN:
 			if (cup_detected) {
 				Serial1.println("eco cup found");
 				//on repart un peu dans l'autre sens
-				float offset_angulaire = pow(-1,compt_rot)*atan2f(rayon_eco,v_r);
+				float offset_angulaire = (-1)*pow(-1,compt_rot)*atan2f(rayon_eco,v_r);
 				theta_target = center_radian(Odometry::get_pos_theta()+offset_angulaire);
 				MotorControl::set_cons(0,0);
 				//on fait un pas vers le gobelet (changement d'état dans la fonction step)
-				float offset_transverse = orientation_servo()*L_anneaux*offset_angulaire;
+				float offset_transverse = (-1)*orientation_servo()*L_anneaux*offset_angulaire;
 				Navigator::step_forward(v_r*10+delta_step_forward+offset_transverse);
 				break;//on quitte le cas INITIAL TURN
 			}
@@ -326,7 +328,7 @@ void Navigator::capture(){
 				//on est arrivé au bout du tour sans voir l'écocup:
 				Serial1.println("turn done");
 				MotorControl::set_cons(0,0);
-				if (compt_rot>4) {
+				if (compt_rot>2) {
 					//trop de tours pour trouver gobelet, on continue quand même
 					Serial1.print("erreur tdb\n");
 					trajectory_done=true;
@@ -355,12 +357,12 @@ void Navigator::capture(){
 				forceStop();			
 				break;
 			} 
-			if (!cup_detected){
+		/*	if (!cup_detected){
 				//échec, on recherche le gobelet, on revient à la phase 1 d'ajustement
 				MotorControl::set_cons(0,0);
 				Navigator::adjust_rot(nominal_delta_rot);
 				break;
-			}
+			}*/
 			distance = sqrt(pow(x_target - Odometry::get_pos_x(),2) + pow(y_target - Odometry::get_pos_y(),2));
 			displacement_done = ((distance<ADMITTED_POSITION_ERROR)&&(Odometry::get_speed() < ADMITTED_SPEED_ERROR*2));
 			
@@ -472,4 +474,12 @@ int Navigator::orientation_servo(){
 	else {
 		return 0;
 	}
+}
+
+float Navigator::volt_to_dist(int v) {
+	return 5.079395 * pow (3.3/1024*(float)v, -1.186);
+}
+
+void Navigator::set_sens(int s) {
+	sens=s;
 }

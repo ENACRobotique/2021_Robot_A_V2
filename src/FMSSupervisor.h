@@ -18,6 +18,8 @@ public:
 	void update();
 	void init();
 	void print_State();
+	void set_testmode(bool b);
+	bool test_mode;
 
 private:
 
