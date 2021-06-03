@@ -481,5 +481,6 @@ float Navigator::volt_to_dist(int v) {
 }
 
 void Navigator::set_sens(int s) {
+	//on veut 0 ou 1
 	sens=s;
 }

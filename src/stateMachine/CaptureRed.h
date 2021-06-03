@@ -5,17 +5,15 @@
  *      Author: Maxime
  */
 
-#ifndef STATEMACHINE_Travel_H_
-#define STATEMACHINE_Travel_H_
+#ifndef STATEMACHINE_CAPTUREECOCUP_H_
+#define STATEMACHINE_CAPTUREECOCUP_H_
 
 #include "AbstractState.h"
-#include "../trajectoryv2.h"
 
-class Travel : public AbstractState {
+class CaptureRed : public AbstractState {
 public:
-	Travel();
-	
-	virtual ~Travel();
+	CaptureRed();
+	virtual ~CaptureRed();
 
 	void doIt();
 	void leave();
@@ -28,10 +26,10 @@ public:
 	}
 
 private:
-	Waypoint currentWp;
+
 	unsigned long time_start;
 };
 
-extern Travel travel;
+extern CaptureRed captureRed;
 
 #endif 

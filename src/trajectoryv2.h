@@ -13,7 +13,10 @@
 typedef enum
 {
     TURNPOINT,
-    ECOCUP,
+    ECOCUP_RED,
+    ECOCUP_GREEN,
+    RELEASE_RED,
+    RELEASE_GREEN,
     END,
     BEGIN
 } WP_type;
@@ -22,6 +25,9 @@ typedef struct {
     float x;
     float y;
     WP_type type;
+    bool bouger;//ne pas se déplacer
+    bool anglealeatoire;//prend en compte la suite
+    float angle;
 }Coord;
 
 class Point
@@ -39,8 +45,12 @@ class Waypoint : public Point
 public:
     Waypoint();
     Waypoint(float x, float y, WP_type type);
+    Waypoint(float x, float y, WP_type type, bool bouger, bool angleAleatoire, float anglefinal);
     int scalaire(float x, float y, float x2, float y2);
     WP_type type;
+    bool bouger;
+    bool angleAleatoire;
+    float angle;
 private:
     //float x,y;
    
