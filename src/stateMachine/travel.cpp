@@ -11,9 +11,10 @@
 #include "etat_test.h"
 #include "pivot.h"
 #include "etat_end.h"
-#include "trajectory.h"
+#include "trajectoryv2.h"
 #include "../navigator.h"
 #include "../ecocupManager.h"
+#include "ReleaseEcocup.h"
 
 Travel travel = Travel();
 
@@ -34,7 +35,7 @@ void Travel::enter()
 	time_start = millis();
 	currentWp = traj1.get_next_WP();
 	Serial1.printf("position visée :%f %f\n",currentWp.x,currentWp.y);
-		switch(currentWp.type){
+	switch(currentWp.type){
 		case ECOCUP_RED: ecocupManager.definir_action(true,true); break;
 		case ECOCUP_GREEN: ecocupManager.definir_action(false,true); break;
 		case RELEASE_GREEN: ecocupManager.definir_action(false,false); break;
@@ -43,14 +44,19 @@ void Travel::enter()
 	}
 	//on pourrait aussi modifier la position à atteindre en fonction du servo selectionné
 	if(!currentWp.angleAleatoire){
-		//on avance jusqu'à un point en amont
-		//vérifier selon disposition des axes/angles
-		navigator.move_to(currentWp.x-dist_min*sin(currentWp.angle), currentWp.y-dist_min*cos(currentWp.angle));
-		navigator.move_to(currentWp.x, currentWp.y);
-		navigator.turn_to(currentWp.angle);//inutile en théorie, car on est déjà bien aligné
+		if (currentWp.bouger){
+			Serial1.println("mouvement1");
+			//on avance jusqu'à un point en amont
+			//vérifier selon disposition des axes/angles
+			//navigator.move_to(currentWp.x-dist_min*sin(PI/180*currentWp.angle), currentWp.y-dist_min*cos(PI/180*currentWp.angle));
+			navigator.move_to(currentWp.x, currentWp.y);
+		}
+		//navigator.turn_to(currentWp.angle);//inutile en théorie, car on est déjà bien aligné
 	} else if(currentWp.bouger){
+		Serial1.println("mouvement2");
 		navigator.move_to(currentWp.x, currentWp.y);
 	}
+
 
 	
 }
@@ -65,8 +71,11 @@ void Travel::doIt()
 
 	if (navigator.isTrajectoryFinished())
 	{
-		if (currentWp.type==ECOCUP_RED) {
+		if (currentWp.type==ECOCUP_RED || currentWp.type==ECOCUP_GREEN) {
 			fmsSupervisor.setNextState(&reajustement);
+		} 
+		else if (currentWp.type==RELEASE_GREEN || currentWp.type==RELEASE_RED){
+			fmsSupervisor.setNextState(&releaseEcocup);
 		}
 		else if (currentWp.type==TURNPOINT) {
 			fmsSupervisor.setNextState(&pivot);

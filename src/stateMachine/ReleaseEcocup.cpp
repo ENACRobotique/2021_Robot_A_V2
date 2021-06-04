@@ -12,7 +12,7 @@
 #include "../params.h"
 #include "etat_test.h"
 #include "navigator.h"
-#include "../servoManager.h"
+#include "../ecocupManager.h"
 #include "travel.h"
 
 ReleaseEcocup releaseEcocup = ReleaseEcocup();
@@ -29,10 +29,9 @@ ReleaseEcocup::~ReleaseEcocup() {
 
 void ReleaseEcocup::enter() {
 	
-	if (IR_sel == IR_FR){
-		navigator.set_sens(1);
-	}
-	servoManager.controlServo(servo_sel,180);
+	Serial1.println("etat release");
+	ecocupManager.release();
+	//servoManager.controlServo(servo_sel,180);
 	time_start = millis();
 }
 

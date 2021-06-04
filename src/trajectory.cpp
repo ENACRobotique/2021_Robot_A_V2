@@ -1,11 +1,11 @@
-#include "trajectory.h"
+#include "trajectory.h_old"
 #include <vector>
 #include <iostream>
 #include <math.h>
 #ifndef M_PI
 #define M_PI 3.14159
 #endif
-
+#ifdef AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 
 Coord l_pts[] = {
     {-1250.0,500.0,BEGIN},
@@ -99,3 +99,4 @@ float Trajectory::currentX_angle(float x0, float y0)
 }
 
 Trajectory traj1 = Trajectory();
+#endif

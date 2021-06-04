@@ -15,12 +15,15 @@ De manière générale, vérifier que la trajectoire est logique,
 */
 
 Coord l_pts[] = {
-    {-1250.0,500.0,BEGIN},
-    {-1200.0,500.0,ECOCUP_RED},
-    {-1200.0,100.0,ECOCUP_RED},
-    {-100.0,100.0, RELEASE_RED},
+    //{x, y, type_point, bouger?, anglefinal?, valeurAngle}
+    {-1250.0,500.0,BEGIN, false, false, 180},
+    {-1200.0,500.0,ECOCUP_RED, true, false, 180},
+    {-1200.0,1000.0,ECOCUP_RED, true, false, 180},
+    //{-1200.0,100.0,ECOCUP_RED, true, false, 180},
+    {-500.0,100.0, RELEASE_RED, true, false, 180},
+    {-100.0,100.0, RELEASE_RED, true, false, 180},
     //{0.0,0.0,TURNPOINT},
-    {-1250.0,500.0,END}
+    {-1250.0,500.0,END, true, false, 180}
 };
 
 Point::Point() {
@@ -70,7 +73,7 @@ Trajectory::Trajectory()
 {
     pos=0;
     unsigned int i_loc=0;
-    for (i_loc=0;i_loc<sizeof(l_pts);i_loc++) {
+    for (i_loc=0;i_loc<(int)(sizeof(l_pts)/sizeof(Coord));i_loc++) {
         trajectory.push_back(Waypoint(l_pts[i_loc].x,l_pts[i_loc].y,l_pts[i_loc].type,l_pts[i_loc].bouger,l_pts[i_loc].anglealeatoire, l_pts[i_loc].angle));
     };
 };

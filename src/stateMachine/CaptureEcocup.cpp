@@ -12,7 +12,8 @@
 #include "../params.h"
 #include "etat_test.h"
 #include "navigator.h"
-#include "../servoManager.h"
+//#include "../servoManager.h"
+#include "../ecocupManager.h"
 #include "travel.h"
 
 CaptureEcocup captureEcocup = CaptureEcocup();
@@ -28,7 +29,9 @@ CaptureEcocup::~CaptureEcocup() {
 }
 
 void CaptureEcocup::enter() {
-	servoManager.controlServo(servo_sel,100);
+	//servoManager.controlServo(servo_sel,100);
+	Serial1.println("etat capture ecocup");
+	ecocupManager.capture();
 	time_start = millis();
 }
 
@@ -42,11 +45,11 @@ void CaptureEcocup::enter() {
 }*/
 
 void CaptureEcocup::leave() {
-	IR_sel = (sensors)((int)IR_sel+1);
-	servo_sel = (servos)((int)servo_sel+1);
-	if (IR_sel == IR_BL){
-		navigator.set_sens(1);
-	}
+	//IR_sel = (sensors)((int)IR_sel+1);
+	//servo_sel = (servos)((int)servo_sel+1);
+	//if (IR_sel == IR_BL){
+	//	navigator.set_sens(1);
+	//}
 	Serial1.println("Leaving CaptureEcocup");
 }
 

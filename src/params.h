@@ -121,7 +121,7 @@ const float dist_min=5,dist_max=25;//valeurs initial turn
 const float delta_step_forward=20;// marge sur la trajecture de capture en mm
 const float nominal_delta_rot=30;//degres
 const float dist_opt=4.5;
-const float rayon_eco=4.0; //3.1 //rayon mesuré écocup en cm
+const float rayon_eco=3.1; //4.0 //3.1 //rayon mesuré écocup en cm
 const float L_anneaux=75; //distance entre deux anneaux en mm
 
 

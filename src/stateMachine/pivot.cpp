@@ -9,7 +9,7 @@
 #include "Reajustement.h"
 #include "../params.h"
 #include "etat_test.h"
-#include "trajectory.h"
+#include "trajectoryv2.h"
 #include "../navigator.h"
 #include "travel.h"
 
