@@ -22,14 +22,13 @@ private:
     bool typeCapture;
 
 public: 
-    int capture();
-    
+    void capture();
     void release();
-
-    int definir_action(bool couleurRouge, bool typeCapture);
+    void definir_action(bool couleurRouge, bool typeCapture);
     bool isFinished(){
         return servoManager.isFinished();
     }
+    void init();
     
 
 };

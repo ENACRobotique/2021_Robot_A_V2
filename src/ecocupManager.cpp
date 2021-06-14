@@ -1,37 +1,35 @@
 #include "ecocupManager.h"
 #include "servoManager.h"
-#include "trajectory.h" //pour IR_sel
+#include "trajectoryv2.h" //pour IR_sel
 #include "navigator.h" //pour le sens
 
 
-#define TAILLEMAXPILE 3
-servos PileVerte[] = {servo_FL,servo_BR,servo_BC};
-servos PileRouge[] = {servo_FR,servo_BL,servo_FC};
+#define TAILLEMAXPILE 2//on compte de 0 à n-1 
+servos PileVerte[] = {servo_BR,servo_BL,servo_FR};
+servos PileRouge[] = {servo_FL,servo_FC,servo_BC};
 
 void EcocupManager::release(){
     servoManager.controlServo(servo_sel,180);
-    if(couleurRouge && hauteurPileRouge>0){
+    if(couleurRouge && hauteurPileRouge>-1){
         hauteurPileRouge--;
     }
-    if(!couleurRouge && hauteurPileVerte>0){
-        hauteurPileRouge--;
+    if(!couleurRouge && hauteurPileVerte>-1){
+        hauteurPileVerte--;
     }
 }
 
-int EcocupManager::capture(){
-    ///pas fini, à corriger!!!!!!!!!!!!!!!
+void EcocupManager::capture(){
     servoManager.controlServo(servo_sel,100);
-    if (this->hauteurPileRouge < TAILLEMAXPILE){
-        servo_sel = PileRouge[this->hauteurPileRouge];
-        
-        (this->hauteurPileRouge)++;
-        return 0;
+    if(couleurRouge && hauteurPileRouge<TAILLEMAXPILE){
+        hauteurPileRouge++;
     }
-    return 1;
+    if(!couleurRouge && hauteurPileVerte<TAILLEMAXPILE){
+        hauteurPileVerte++;
+    }
 }
 
 /* couleurRouge=true/false typeCapture=0(false)/1(true) */
-int EcocupManager::definir_action(bool estRouge, bool estCapture){
+void EcocupManager::definir_action(bool estRouge, bool estCapture){
     couleurRouge=estRouge;
     typeCapture=estCapture;
 
@@ -43,7 +41,7 @@ int EcocupManager::definir_action(bool estRouge, bool estCapture){
         }
     } else {
         if(typeCapture && hauteurPileVerte < TAILLEMAXPILE){
-            servo_sel = PileVerte[this->hauteurPileVerte+1];
+            servo_sel = PileVerte[hauteurPileVerte+1];
         } else {
             servo_sel = PileVerte[hauteurPileVerte];
         }
@@ -57,4 +55,10 @@ int EcocupManager::definir_action(bool estRouge, bool estCapture){
     }
 
 }
+
+void EcocupManager::init(){
+    hauteurPileRouge=-1;//-1 <=> 'pile vide'
+    hauteurPileVerte=-1;
+}
+
 EcocupManager ecocupManager = EcocupManager();

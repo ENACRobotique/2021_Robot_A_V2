@@ -1,14 +1,11 @@
-#include <kalman.h>
-#include <kalmanFilter.h>
+#include "kalman.h"
+#include "kalmanFilter.h"
 //using namespace BLA;
 namespace kalmanFilter{
 //------------------------------------
 /****  MODELIZATION PARAMETERS  ****/
 //------------------------------------
 
-#define Nstate 3 // nombre de param d'état
-#define Nobs 3   // nbr pram observation
-#define Ncom 2 // nombre de param de commande
 
 // measurement std
 #define n_x 0.3
@@ -22,7 +19,7 @@ namespace kalmanFilter{
 
 BLA::Matrix<Nobs> obs; // observation vector
 BLA::Matrix<Ncom> com;
-KALMAN<Nstate,Nobs,Ncom> K; // your Kalman filter
+KALMAN<Nstate,Nobs,Ncom> K;// your Kalman filter
 
 //------------------------------------
 /****    SIMULATOR PARAMETERS   ****/
@@ -42,14 +39,18 @@ BLA::Matrix<Nobs> noise;   // additive noise for simulation
 /****        SETUP & LOOP       ****/
 //------------------------------------
 
-void init() {
+void init(){
+       init(0.f,0.f,0.f);
+}
 
-  Serial.begin(57600);
+template<typename tp>
+void init(tp posx,tp posy,tp postheta){
+  Serial.begin(57600); 
 
   // The model below is very simple since matrices are diagonal!
-  stateinit(0) = 0;
-  stateinit(1) = 0;
-  stateinit(2) = 0;
+  stateinit(0) = posx;
+  stateinit(1) = posy;
+  stateinit(2) = postheta;
 
   obs.Fill(0.0);
 
@@ -73,7 +74,7 @@ void init() {
   // model covariance matrix
   K.Q = {m_x*m_x,     0.0,     0.0,
              0.0, m_y*m_y,     0.0,
-			 0.0,     0.0, m_theta*m_theta};
+             0.0,     0.0, m_theta*m_theta};
   
   T = millis();
   

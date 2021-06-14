@@ -9,10 +9,9 @@
 #include "Reajustement.h"
 #include "../params.h"
 #include "etat_test.h"
-#include "trajectory.h"
 #include "../navigator.h"
 #include "etat_begin.h"
-#include "../trajectory.h"
+#include "trajectoryv2.h"
 
 Etat_end etat_end = Etat_end();
 

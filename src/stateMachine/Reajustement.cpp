@@ -34,9 +34,10 @@ void Reajustement::leave() {
 }
 
 void Reajustement::doIt() {
-   // float v_r = VOLT_TO_DIST(analogRead(IR_sel));
+   //float v_r = VOLT_TO_DIST(analogRead(IR_sel));
+   //Serial1.printf("IR: %d\n",(int)IR_sel);
 
-  //  Serial1.printf("IR read : %f\n", v_r);
+   //Serial1.printf("IR read : %f\n", v_r);
     if (navigator.caperror()) {
         fmsSupervisor.setNextState(&travel);
     }

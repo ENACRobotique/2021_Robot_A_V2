@@ -118,18 +118,19 @@ namespace Odometry{
 			angle = ((float)(incr2*INCR_TO_MM_1-incr1*INCR_TO_MM_2))/WHEELBASE;
 		}
 	
-		
+		/*
 		pos_x = pos_x + length*cos(pos_theta + angle/2.0); //interpolation entre les deux theta
 		pos_y = pos_y + length*sin(pos_theta + angle/2.0);
 		pos_theta = pos_theta + angle;
-
+		*/
 		speed = length / CONTROL_PERIOD;
 		omega = angle / CONTROL_PERIOD;
 
-		
-		kalmanFilter::predict(speed,omega);
-
-	
+		using namespace kalmanFilter;
+		predict(speed,omega);
+		pos_x = K.x(0);
+		pos_y = K.x(1);
+		pos_theta = K.x(2);
 	}
 }
 

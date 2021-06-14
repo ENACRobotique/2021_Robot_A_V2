@@ -9,9 +9,10 @@
 #include "raspberryParser.h"
 #include <string.h>
 #include <kalmanFilter.h>
-#include "trajectory.h"
+#include "trajectoryv2.h"
 #include "lidar.h"
 #include "servoManager.h"
+#include "ecocupManager.h"
 
 Metro controlTime = Metro((unsigned long)(CONTROL_PERIOD * 1000));
 Metro debugLed = Metro(2000);
@@ -58,6 +59,7 @@ void setup()
 	Lidar::init();
 	Lidar::changeReadSpace2(1);
 	servoManager.init(init_tab);
+	ecocupManager.init();
 	
 }
 

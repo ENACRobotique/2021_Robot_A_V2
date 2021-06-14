@@ -23,6 +23,7 @@ public:
 	void reEnter(unsigned long interruptTime);
 	void forceLeave();
 	void pauseNextState();
+	
 	unsigned long get_time_start(){
 		return time_start;
 	}
@@ -30,6 +31,11 @@ public:
 private:
 	Waypoint currentWp;
 	unsigned long time_start;
+	int actionAFinir;
+	//actionAFinir : pour définir plusieurs mouvements dans navigator.
+	//pour suivre l'esprit, il faudrait créer des états "tourner" et "bouger", 
+	// et leur passer des paramètres ou les superviser par "travel".. mais c'est lourd
+	//une autre possibilité serait de modifier la valeur du navigator.istrajectory finished en fonction de l'action effectuée
 };
 
 extern Travel travel;

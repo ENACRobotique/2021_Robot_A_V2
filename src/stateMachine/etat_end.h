@@ -9,7 +9,7 @@
 #define STATEMACHINE_END_H_
 
 #include "AbstractState.h"
-#include "../trajectory.h"
+#include "../trajectoryv2.h"
 
 class Etat_end : public AbstractState {
 public:

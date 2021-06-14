@@ -41,10 +41,10 @@ void Navigator::move_to(float x, float y){
 	move_type = DISPLACEMENT;
 	move_state = INITIAL_TURN;
 	trajectory_done = false;
-	Serial.print("moving_to : ");
-	Serial.print(x_target);
-	Serial.print("\t");
-	Serial.println(y_target);
+	Serial1.print("moving_to : ");
+	Serial1.print(x_target);
+	Serial1.print("\t");
+	Serial1.println(y_target);
 }
 
 void Navigator::step_forward(float d){
@@ -75,7 +75,7 @@ void Navigator::turn_to(float theta){ // En degrés
 }
 
 void Navigator::adjust_rot(float delta_theta){ // En degrés
-	theta_target = center_radian(Odometry::get_pos_theta()+PI*(delta_theta)/180);
+	theta_target = center_radian(Odometry::get_pos_theta()+sens*PI*(delta_theta)/180);
 
 	/*Serial.print("Angle: ");
 	Serial.println(Odometry::get_pos_theta());
@@ -306,6 +306,7 @@ void Navigator::deplacement(){
 void Navigator::capture(){
 	float alpha, omega_cons, speed_cons, distance;
 	v_r=volt_to_dist(analogRead(IR_sel));
+	Serial1.printf("dist IR:%f\n",v_r);
 	cup_detected = (dist_min < v_r ) && (v_r < dist_max);
 	switch(move_state){
 		case INITIAL_TURN:
@@ -328,7 +329,7 @@ void Navigator::capture(){
 				//on est arrivé au bout du tour sans voir l'écocup:
 				Serial1.println("turn done");
 				MotorControl::set_cons(0,0);
-				if (compt_rot>2) {
+				if (compt_rot>4) {
 					//trop de tours pour trouver gobelet, on continue quand même
 					Serial1.print("erreur tdb\n");
 					trajectory_done=true;
@@ -356,13 +357,12 @@ void Navigator::capture(){
 				error_cap = false;
 				forceStop();			
 				break;
-			} 
-		/*	if (!cup_detected){
+			} else if (v_r > dist_max){
 				//échec, on recherche le gobelet, on revient à la phase 1 d'ajustement
 				MotorControl::set_cons(0,0);
 				Navigator::adjust_rot(nominal_delta_rot);
 				break;
-			}*/
+			}
 			distance = sqrt(pow(x_target - Odometry::get_pos_x(),2) + pow(y_target - Odometry::get_pos_y(),2));
 			displacement_done = ((distance<ADMITTED_POSITION_ERROR)&&(Odometry::get_speed() < ADMITTED_SPEED_ERROR*2));
 			
@@ -481,6 +481,6 @@ float Navigator::volt_to_dist(int v) {
 }
 
 void Navigator::set_sens(int s) {
-	//on veut 0 ou 1
+	//on veut 0(arrière) ou 1(avant?)
 	sens=s;
 }
