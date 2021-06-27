@@ -5,20 +5,19 @@
  */
 
 #include "Arduino.h"
+#include "params.h"
 #include "etat_begin.h"
-#include "../FMSSupervisor.h"
-#include "Reajustement.h"
+#include "../FsmSupervisor.h"
 #include "../controlServo.h"
 #include "../params.h"
-#include "travel.h"
-#include "CaptureEcocup.h"
+
 
 Etat_begin etat_begin = Etat_begin();
 
 
 Etat_begin::Etat_begin() {
 	time_start = 0;
-	name="Etat_begin";
+
 }
 
 Etat_begin::~Etat_begin() {
@@ -27,7 +26,7 @@ Etat_begin::~Etat_begin() {
 
 void Etat_begin::enter() {
 	time_start = millis();
-	Serial1.println("Je suis en état begin");
+	//SerialDebug.println("Je suis en état begin");
 }
 
 void Etat_begin::leave() {
@@ -35,9 +34,7 @@ void Etat_begin::leave() {
 }
 
 void Etat_begin::doIt() {
-	if (digitalRead(TIRETTE)==LOW) {
-		fmsSupervisor.setNextState(&travel);
-	};
+
 
 }
 

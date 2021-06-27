@@ -6,7 +6,7 @@
 
 #include "Arduino.h"
 #include "Reajustement.h"
-#include "../FMSSupervisor.h"
+#include "../FsmSupervisor.h"
 #include "CaptureEcocup.h"
 #include "../navigator.h"
 #include "../params.h"

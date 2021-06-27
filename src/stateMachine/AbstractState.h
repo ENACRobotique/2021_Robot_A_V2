@@ -7,20 +7,7 @@
 
 #ifndef STATEMACHINE_ABSTRACTSTATE_H_
 #define STATEMACHINE_ABSTRACTSTATE_H_
-#include <Arduino.h>
-/*
- * example :
- * enum services {
-	E_ULTRASOUND = 1,
-	E_BLINK = 2,
-	E_RADAR = 4,
-	E_WALL = 8,
-	...
-	}
- */
-enum services {
-	E_ULTRASOUND = 1,
-};
+
 
 class AbstractState {
 public:
@@ -30,9 +17,9 @@ public:
 	virtual void enter() = 0;
 	virtual void doIt() = 0;
 	virtual void leave() = 0;
-	virtual void reEnter(unsigned long InterruptTime) = 0;
-	virtual void forceLeave() = 0;
-	virtual void pauseNextState() =0;
+	virtual void reEnter(unsigned long InterruptTime) {}
+	virtual void forceLeave() {}
+	virtual void pauseNextState() {}
 
 	unsigned long getFlags() const {
 		return flags;
@@ -41,7 +28,8 @@ public:
 	void setFlags(unsigned long flags) {
 		this->flags = flags;
 	}
-	String name = String();
+	//String name = String();
+	//^^^^ Laisser commenterpour pouvoir debugger du code en local sans passer par la librarie arduino
 
 
 protected:

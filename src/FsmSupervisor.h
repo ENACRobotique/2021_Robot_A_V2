@@ -1,5 +1,5 @@
 /*
- * FMSSupervisor.h
+ * FsmSupervisor.h
  *
  *  Created on: 11 avr. 2018
  *      Author: robot

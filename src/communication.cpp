@@ -4,14 +4,13 @@
 #include "motorControl.h"
 #include "navigator.h"
 #include "odometry.h"
-#include "raspberryParser.h"
+#include "FsmSupervisor.h"
+//#include "ai/MatchDirector.h"
+//#include "ai/ActionsList.h"
 #include "params.h"
+//#include "actuatorSupervisor.h"
 
-#include "FMSSupervisor.h"
-#include "stateMachine/Reajustement.h"
-#include "stateMachine/etat_begin.h"
-#include "kalmanFilter.h"
-#include "motorControl.h"
+#include "stateMachine/Recalibration_wall.h"
 
 #include "stateMachine/travel.h"
 
@@ -68,7 +67,7 @@ namespace Communication {
         else if(buffer[0] == 'm') {
             float x,y;
             int nb = sscanf(buffer, "m %f %f", &x, &y);
-            if(nb == 2) {
+            if(nb == 2) {   
                 navigator.move_to(x, y);
                 #ifdef COM_DEBUG
                 Serial1.print("Moving to ");
@@ -79,16 +78,28 @@ namespace Communication {
             }
         }
         else if(buffer[0] == 'o') {
-            Serial1.print("pos: ");
-            Serial1.print(Odometry::get_pos_x());
+            Serial1.print("pos - odometry_motor : ");
+            Serial1.print(odometry_motor.get_pos_x());
             Serial1.print("\t");
-            Serial1.print(Odometry::get_pos_y());
+            Serial1.print(odometry_motor.get_pos_y());
             Serial1.print("\t");
-            Serial1.println(Odometry::get_pos_theta());
-            kalmanFilter::print_state();
-
-
-        } else if(buffer[0] == 't') {
+            Serial1.println(odometry_motor.get_pos_theta());
+        }
+        else if(buffer[0] == '2') {
+            Serial1.print("pos - odometry_wheel : ");
+            Serial1.print(odometry_wheel.get_pos_x());
+            Serial1.print("\t");
+            Serial1.print(odometry_wheel.get_pos_y());
+            Serial1.print("\t");
+            Serial1.println(odometry_wheel.get_pos_theta());
+        } 
+        else if(buffer[0] == '1') {
+            Serial1.print("pos - absolue :  ");
+            Serial1.print(MatchDirector::get_abs_x());
+            Serial1.print("\t");
+            Serial1.println(MatchDirector::get_abs_y());
+        } 
+        else if(buffer[0] == 't') {
             //in degrees
             float angle;
             int nb = sscanf(buffer, "t %f", &angle);

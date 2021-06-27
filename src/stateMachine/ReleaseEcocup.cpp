@@ -6,14 +6,13 @@
 
 #include "Arduino.h"
 #include "ReleaseEcocup.h"
-#include "../FMSSupervisor.h"
+#include "../FsmSupervisor.h"
 #include "Reajustement.h"
 #include "../controlServo.h"
 #include "../params.h"
 #include "etat_test.h"
 #include "navigator.h"
 #include "../ecocupManager.h"
-#include "travel.h"
 
 ReleaseEcocup releaseEcocup = ReleaseEcocup();
 
@@ -50,8 +49,8 @@ void ReleaseEcocup::leave() {
 
 void ReleaseEcocup::doIt() {
 	if(servoManager.isFinished()){
-		fmsSupervisor.setNextState(&travel);
-		
+		//fmsSupervisor.setNextState(&travel);
+		Serial1.println("set something here !!");
 	}
 }
 

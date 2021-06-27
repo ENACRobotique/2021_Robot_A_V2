@@ -5,7 +5,7 @@
  */
 #include "pivot.h"
 #include "Arduino.h"
-#include "../FMSSupervisor.h"
+#include "../FsmSupervisor.h"
 #include "Reajustement.h"
 #include "../params.h"
 #include "etat_test.h"
