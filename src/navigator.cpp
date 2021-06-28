@@ -30,10 +30,6 @@ Navigator::Navigator(){
 	compt_rot=1;
 }
 
-void Navigator::init(float x,float y){
-	x_target= x;
-	y_target = y;
-}
 
 void Navigator::move_to(float x, float y){
 	x_target = x;
