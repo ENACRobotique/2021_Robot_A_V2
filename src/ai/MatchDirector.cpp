@@ -85,7 +85,7 @@ float distance_squared (float xA, float yA, float xB, float yB)
 
 void abs_coords_to(float x, float y)
 {  
-    //SerialCtrl.print("commande envoyé : move_to local : ");
+    //Serial1.print("commande envoyé : move_to local : ");
     navigator.move_to(abs_x_to_local(x), abs_y_to_local(y));
     
 }
@@ -162,14 +162,14 @@ void action_dispatcher(Action action)
     //start only when fsmSupervisor has no state
     if(actionState == BEGIN && fsmSupervisor.is_no_state_set())
     {
-        SerialCtrl.print("new action :");
-        SerialCtrl.print("\t");
-        SerialCtrl.print(action.x);
-        SerialCtrl.print("\t");
-        SerialCtrl.print(action.y);
-        SerialCtrl.print("\t");
-        SerialCtrl.println(action.angle);
-        //SerialCtrl.println("actionState == begin");
+        Serial1.print("new action :");
+        Serial1.print("\t");
+        Serial1.print(action.x);
+        Serial1.print("\t");
+        Serial1.print(action.y);
+        Serial1.print("\t");
+        Serial1.println(action.angle);
+        //Serial1.println("actionState == begin");
         if(curActIndex == 0) //pathfinding avec waypoint uniquement entre les sections (car gros déplacement)
         {
             route_from_action(action.x,action.y);
@@ -180,8 +180,6 @@ void action_dispatcher(Action action)
         }
 
         
-
-        SerialCtrl.print("new action :");
         actionState = MOVING;
     }
 
@@ -197,7 +195,7 @@ void action_dispatcher(Action action)
                 else if (distance_squared(get_abs_x(), get_abs_y(), action.x,action.y) > ADMITTED_POSITION_ERROR*ADMITTED_POSITION_ERROR
                     && nbReadjust < nbCorectionAuthorized / 2) // on divise par 2 pour laiser la moitié de corrections autorisés à la correction d'angle
                 {
-                    SerialCtrl.println("reajustement position car erreur trop grande (réel vs erreur admise): ");
+                    Serial1.println("reajustement position car erreur trop grande (réel vs erreur admise): ");
                     nbReadjust++;
                 }
                 else
@@ -206,8 +204,8 @@ void action_dispatcher(Action action)
                 }
             if(!(action.angle <= -360.f)) // -180 <= action.angle <= 180° pour être pris en compte, (normalement donc on met 360 au cas où)
             {
-                SerialCtrl.print("turning to angle : ");
-                SerialCtrl.println(action.angle);
+                Serial1.print("turning to angle : ");
+                Serial1.println(action.angle);
                 navigator.turn_to(action.angle);
             }
 
@@ -219,7 +217,7 @@ void action_dispatcher(Action action)
             && ((timeToReachCoords(get_abs_x(), get_abs_y(), action.x,action.y) <= action.countdownState +1.1f) //car time toReachCoords >= 1 à tout moment
                 || distance_squared(get_abs_x(), get_abs_y(), action.x,action.y) <= ADMITTED_POSITION_ERROR*ADMITTED_POSITION_ERROR))
         {
-            SerialCtrl.println("actionState - fsmSueprvisor nextState ");
+            Serial1.println("actionState - fsmSueprvisor nextState ");
             fsmSupervisor.setNextState(action.state);
         } 
         */
@@ -230,21 +228,21 @@ void action_dispatcher(Action action)
 
         if(abs(action.angle-odometry_wheel.get_pos_theta()) > ADMITTED_DEG_ANGLE_ERROR && nbReadjust < nbCorectionAuthorized)
         {
-            SerialCtrl.println("reajustement angle");
-            SerialCtrl.println(odometry_wheel.get_pos_theta());
+            Serial1.println("reajustement angle");
+            Serial1.println(odometry_wheel.get_pos_theta());
             nbReadjust++;
             actionState = MOVING;
         }
 
 
-        //SerialCtrl.println(navigator.theta_target);
-        SerialCtrl.println("actionState turning - fsm nextState ");
-        SerialCtrl.print("real pos : ");
-        SerialCtrl.print(get_abs_x());
-        SerialCtrl.print("\t");
-        SerialCtrl.println(get_abs_y());
+        //Serial1.println(navigator.theta_target);
+        Serial1.println("actionState turning - fsm nextState ");
+        Serial1.print("real pos : ");
+        Serial1.print(get_abs_x());
+        Serial1.print("\t");
+        Serial1.println(get_abs_y());
          fsmSupervisor.setNextState(action.state);
-        //SerialCtrl.println("actionState - turning done");
+        //Serial1.println("actionState - turning done");
         curActIndex++;
         nbReadjust = 0;
         actionState = BEGIN;
@@ -263,7 +261,7 @@ void update()
     /*
     if(curSection == NULL || ActionList::isNull(&curAction))
     {
-        SerialCtrl.println("curSection is null or curAction is invalid !");
+        Serial1.println("curSection is null or curAction is invalid !");
 
         //TODO : changement de curSection, dans un ordre prédeterminé sauf si le chemin est occupé:
         /*
@@ -290,7 +288,7 @@ void update()
     }
     if(millis()-start_millis > timer*1000-5000) // -5000 : hardcode du pavillon qui doit se déclencher à 5s de la fin
     {
-        ActuatorSupervisor::deploy_pav();
+        //ActuatorSupervisor::deploy_pav();
 
     }
     //->passer à l'etat suivant si le fsm est à un état "final", càd sans état supplémentaire prévue par défaut

@@ -41,17 +41,26 @@ namespace ActionList
 
     #pragma region switch_sections
 
-    SwitchSection switchEcocup = SwitchSection(&*EcocupsTopLeft);
-    SwitchSection switchPhare = SwitchSection(&*PhareTopLeft);
 
     #pragma endregion
 
     
 
-
+    Action RamassageEcocup[10] = {
+        {-1250.0,500.0,-400.f, &deployLeftFrontServo, 0.0f},
+        /*
+        {-1200.0,500.0,ECOCUP_RED, true, false, 180},
+        {-1200.0,1000.0,ECOCUP_RED, true, false, 180},
+        //{-1200.0,100.0,ECOCUP_RED, true, false, 180},
+        {-500.0,100.0, RELEASE_RED, true, false, 180},
+        {-100.0,100.0, RELEASE_RED, true, false, 180},
+        //{0.0,0.0,TURNPOINT},
+        {-1250.0,500.0,END, true, false, 180}
+        */
+        NullAction 
+    };
   
-
-    /* Ecocup écueils : Ecart de 75 mm entre chaque ecocup */
+/*
     //X = 850
     Action EcocupsTopLeft[10] = {
         //{700.f, 1980.f - sizeHalfLengthRobot, 90.f, &deployFrontServo, 3.0f}, //Going a little bit before the wall + deploy servo before arrival
@@ -63,6 +72,7 @@ namespace ActionList
 
 
     };
+*/
     
 
     //Doit être modifié par Get_To_Final dans match director avec les bonnes coords/angle
