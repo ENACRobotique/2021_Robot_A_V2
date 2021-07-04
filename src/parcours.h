@@ -61,11 +61,12 @@ public:
     float currentX_track(float x0, float y0);
     float currentX_angle(float x0, float y0);
     int pos;
-    void verifObstacles();//à appeler en cas de modification de position des concurrents
+    void modifieObstacle(int idAruco, Coords pos);//à appeler en cas de modification de position des concurrents
     void decideChemin();//ici on décide de l'action suivante. fonction cruciale, qui ne rend compte à personne
 
 private:
     std::vector<Waypoint> parcours;
+    void verifObstacles(int numObstacle);
 };
 
 extern Parcours traj1;

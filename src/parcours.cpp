@@ -52,13 +52,33 @@ Waypoint Parcours::get_current_WP()//deprecated?
     return parcours[pos];
 }
 
-void Parcours::verifObstacles(){
-    if(aetoile.verifChemin()){
+void Parcours::verifObstacles(int numObstacle){
+    if(aetoile.verifChemin(numObstacle)){
         //en cas de présence d'un concurrent sur le trajet, on en calcule un nouveau
         decideChemin();//recherche un autre itineraire
     }
 }
 
+void Parcours::modifieObstacle(int idAruco, Coords pt){
+    switch(idAruco){
+        case CONCURRENT1:
+            aetoile.definirConcurrent(0, pt);
+            verifObstacles(0);
+            break;
+        case CONCURRENT2:
+            aetoile.definirConcurrent(1, pt);
+            verifObstacles(1);
+            break;
+        case CONCURRENT3:
+            aetoile.definirConcurrent(1, pt);
+            verifObstacles(1);
+            break;
+        default://aruco non reconnu
+            aetoile.definirConcurrent(-1, pt);
+            verifObstacles(NB_CONCURRENTS-1);
+            break;
+    }
+}
 
 void Parcours::decideChemin(){
     static int nbEchecs;

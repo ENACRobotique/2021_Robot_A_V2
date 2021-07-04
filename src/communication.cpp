@@ -99,11 +99,10 @@ namespace Communication {
         else if(buffer[0] == 'i'){
            // Serial.println("truc");
             raspberryparser.parseData(buffer);
+            //mise à jour des concurrents dans raspberryparser
             kalmanFilter::update(raspberryparser.getX(),raspberryparser.getY(),raspberryparser.gettheta());            
             Serial1.printf("odometry : %f %f %f\n",Odometry::get_pos_x(),Odometry::get_pos_y(),Odometry::get_pos_theta());
             kalmanFilter::print_state();
-
-
         }
         else if(buffer[0]=='c') {
             fmsSupervisor.setNextState(&travel);

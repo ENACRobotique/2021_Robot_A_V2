@@ -1,4 +1,15 @@
 #pragma once
+#include "parcours.h"
+
+struct autre {
+    int id;
+    Coords pos;
+    // arguments suivants utile?
+    float z;
+    float theta;
+    int boussole;
+    float retard;
+};
 
 class raspberryParser{
 public:
@@ -11,6 +22,8 @@ public:
     void getPos();
     int getBoussole();
     float getRetard();
+    Coords getPosConcurrent();
+    int getIDConcurrent();
     void parseData(char* buffer);
 
 
@@ -21,6 +34,8 @@ private:
     float theta;
     int boussole;
     float retard;
+    float id;
+    struct autre concurrent; 
 
 };
 

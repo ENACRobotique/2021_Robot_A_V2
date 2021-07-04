@@ -17,10 +17,16 @@ void raspberryParser::parseData(char* buffer){
     int id;
     float u;
     int nb = sscanf(buffer, "i %d %d %f %f %f %f %f",&boussole, &id, &u, &u, &u, &u, &u);
-    if(id == ARUCO_ID && nb == 7){
-        sscanf(buffer, "i %d %d %f %f %f %f %f",&boussole, &id, &x, &y, &z, &theta, &retard);
-        //Serial.printf("val rasp : i %d %d %f %f %f %f %f\n",boussole, id, x, y, z, theta, retard);
-    }
+    if(nb == 7){
+        if (id == ARUCO_ID){
+            sscanf(buffer, "i %d %d %f %f %f %f %f",&boussole, &id, &x, &y, &z, &theta, &retard);
+            //Serial.printf("val rasp : i %d %d %f %f %f %f %f\n",boussole, id, x, y, z, theta, retard);
+        } else {
+            sscanf(buffer, "i %d %d %f %f %f %f %f",&u, &concurrent.id, &concurrent.pos.x, &concurrent.pos.y, &concurrent.z, &concurrent.theta, &concurrent.retard);
+            traj1.modifieObstacle(concurrent.id, concurrent.pos);
+        }
+    } 
+
 }
 
 
@@ -44,4 +50,13 @@ float raspberryParser::getRetard(){
     return retard;
 }
 void raspberryParser::getPos(){
+}
+
+
+Coords raspberryParser::getPosConcurrent(){
+    return concurrent.pos;
+}
+
+int raspberryParser::getIDConcurrent(){
+    return concurrent.id;
 }

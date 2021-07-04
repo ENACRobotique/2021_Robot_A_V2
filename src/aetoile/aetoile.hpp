@@ -24,7 +24,7 @@ public:
     int prepare();//calcule le chemin sans changer départ ou arrivée
     int sequence();//passe au noeud suivant
 
-    int verifChemin();//renvoie 1 si obstacle sur le chemin, 0 sinon -> 
+    bool verifChemin(int numObstacle);//renvoie non(cheminValable) 
     void definirConcurrent(int numero, Coords pos);
     void affichage();//affiche les noeud du chemin actuel et sa longueur
 };

@@ -8,7 +8,7 @@ float distance(Coords const &un, Coords const &deux){
     return sqrt(pow(un.x-deux.x,2) + pow(un.y-deux.y,2));
 }
 
-float mesure(Noeud &dep, Noeud &arr){
+float mesure(const Noeud &dep, const Noeud &arr){
     return distance(dep.coords, arr.coords);
 }
 

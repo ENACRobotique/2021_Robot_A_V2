@@ -1,10 +1,7 @@
 #include "grilnav.hpp"
 #include <vector>
 
-Coords _posAeviter[NB_CONCURRENTS] = {Coords(2,2), Coords(2,2)};
-
-
-Noeud _noeuds[NBNOEUDS]={
+const Noeud _noeuds[NBNOEUDS]={
     //chaque noeud a un id (Noeud.num) égal à sa place 
     // 0 pour le premier, 1 pour le 2ème ..
     Noeud(-1250.0,500.0), Noeud(-1250.0,0.0), Noeud(-1000.0,0.0), 
@@ -12,7 +9,7 @@ Noeud _noeuds[NBNOEUDS]={
     Noeud(-500, 0)
 };
 
-std::vector<int> _voisins[NBNOEUDS] = {
+const std::vector<int> _voisins[NBNOEUDS] = {
 /* id des noeuds */
 /* depart   arrivée */
 /* 0  */       {1,2,3},
@@ -23,3 +20,9 @@ std::vector<int> _voisins[NBNOEUDS] = {
 /* 5  */       {3,2,6,4},
 /* 6  */       {4,5,2,1}
 };
+
+/*
+posAeviter[NB_CONCURRENTS] : attribut de la classe aetoile
+choix discutable, mais ces positions doivent être modifiable, 
+et une modification doit nécessairement appeler une vérification de chemin
+*/

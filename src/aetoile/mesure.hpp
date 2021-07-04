@@ -3,12 +3,12 @@
 #include <cmath>
 #include "structures.hpp"
 
-
+/* définition de la mesure de tri dans A* */
 
 int succesChoixChemin();
 
 float distance(Coords const &un, Coords const &deux);
-float mesure(Noeud &dep, Noeud &arr);
+float mesure(const Noeud &dep, const Noeud &arr);
 
 Coords orthogonal(Coords un);
 

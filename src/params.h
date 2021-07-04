@@ -139,4 +139,7 @@ const uint16_t init_tab[8] = {
     180   // manche
 };
 // const int NB_US = 4;
+
+//paramètres de chemin, algorithme A*, noeuds, concurrents/adversaires, segments/arêtes 
+// voir aetoile/grilnav.hpp
 #endif /* PARAMS_H_ */

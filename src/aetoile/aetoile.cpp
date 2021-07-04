@@ -4,11 +4,25 @@
 
 Aetoile::Aetoile():idCourant(0), idArrivee(0), cheminValable(false){};
 
-int Aetoile::verifChemin(){
-/*****************************************************************************************************************/
-    // A FAIRE
-/*****************************************************************************************************************/
-    return 0;
+bool Aetoile::verifChemin(int numObstacle){
+    int nd1=-1;
+    int num;
+    
+    (numObstacle==-1) ? num=NB_CONCURRENTS-1 : num=numObstacle;//pour transformer -1 en dernier element de la liste.
+    //dans le cas d'un objectif non identifié
+    
+    for (int nd2 : chemins.front().id_nds){
+        if (nd1>-1){// il y a n noeuds dans le chemin, donc n-1 segment. Le premier segment est invalide
+            if (estSurLeTrajet(_noeuds[nd1], _noeuds[nd2], posAeviter[num])){
+                cheminValable=false;
+                break;
+            }
+        }
+        nd1=nd2;//on passe au segment suivant
+        if (!cheminValable)
+                break;
+    }
+    return !cheminValable;
 }
 
 void Aetoile::definirConcurrent(int numero, Coords pos){
