@@ -9,7 +9,6 @@
 #include "Reajustement.h"
 #include "../params.h"
 #include "etat_test.h"
-#include "trajectoryv2.h"
 #include "../navigator.h"
 #include "travel.h"
 
@@ -17,7 +16,7 @@ Pivot pivot = Pivot();
 
 Pivot::Pivot()
 {
-	currentWp=Waypoint(0.0,0.0,BEGIN);
+	currentWp=Waypoint(-3,0.0,0.0,BEGIN);//-3: pas d'id de point, ne correspon
 	time_start = 0;
 }
 

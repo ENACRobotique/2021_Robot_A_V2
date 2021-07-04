@@ -1,5 +1,5 @@
 /*
- * MoveToButtonPause.h
+ * 
  *
  *  Created on: 18 avr. 2018
  *      Author: Maxime
@@ -9,7 +9,7 @@
 #define STATEMACHINE_Travel_H_
 
 #include "AbstractState.h"
-#include "../trajectoryv2.h"
+#include "../parcours.h"
 
 class Travel : public AbstractState {
 public:

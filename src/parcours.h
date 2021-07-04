@@ -7,7 +7,8 @@
 
 #ifndef TRAJECTORY_H
 #define TRAJECTORY_H
-
+#include "aetoile/structures.hpp"
+#include "aetoile/grilnav.hpp"
 #include <vector>
 
 typedef enum
@@ -22,31 +23,25 @@ typedef enum
 } WP_type;
 
 typedef struct {
-    float x;
-    float y;
+    int idNoeud;
     WP_type type;
     bool bouger;//ne pas se déplacer
-    bool anglealeatoire;//prend en compte la suite
+    bool angleAleatoire;//prend en compte la suite
     float angle;
-}Coord;
+}Action;
 
-class Point
-{
-public:
-    Point();
-    Point(float x, float y);
-    float get_theta(Point p);
-    float get_dist(Point p);
-    float x, y;
-};
 
-class Waypoint : public Point
+
+class Waypoint : public Coords
 {
 public:
     Waypoint();
-    Waypoint(float x, float y, WP_type type);
-    Waypoint(float x, float y, WP_type type, bool bouger, bool angleAleatoire, float anglefinal);
+    Waypoint(int id);
+    Waypoint(int idPoint, float x, float y, WP_type type);
+    Waypoint(int idPoint, WP_type type, bool bouger, bool angleAleatoire, float anglefinal);
+    Waypoint(int idPoint, float x, float y, WP_type type, bool bouger, bool angleAleatoire, float anglefinal);
     int scalaire(float x, float y, float x2, float y2);
+    int idPoint;
     WP_type type;
     bool bouger;
     bool angleAleatoire;
@@ -56,21 +51,23 @@ private:
    
 };
 
-class Trajectory
+class Parcours
 {
 public:
-    Trajectory();
+    Parcours();
     Waypoint get_current_WP();
     Waypoint get_next_WP();
     float get_rad();
     float currentX_track(float x0, float y0);
     float currentX_angle(float x0, float y0);
     int pos;
+    void verifObstacles();//à appeler en cas de modification de position des concurrents
+    void decideChemin();//ici on décide de l'action suivante. fonction cruciale, qui ne rend compte à personne
 
 private:
-    std::vector<Waypoint> trajectory;
+    std::vector<Waypoint> parcours;
 };
 
-extern Trajectory traj1;
+extern Parcours traj1;
 
 #endif /* TRAJECTORY_H_ */

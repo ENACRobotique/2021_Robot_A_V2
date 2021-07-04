@@ -9,9 +9,9 @@
 #include "raspberryParser.h"
 #include <string.h>
 #include <kalmanFilter.h>
-#include "trajectoryv2.h"
 #include "lidar.h"
 #include "servoManager.h"
+#include "parcours.h"
 #include "ecocupManager.h"
 
 Metro controlTime = Metro((unsigned long)(CONTROL_PERIOD * 1000));

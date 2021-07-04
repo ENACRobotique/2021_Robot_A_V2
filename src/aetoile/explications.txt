@@ -1,0 +1,7 @@
+
+Parcours: ensemble des actions à réaliser
+Une Action est effectuée en un Noeud.
+Le Chemin est la liste des noeuds par lesquels le robot passera.
+Un Noeud est un point constitué de coordonnées identifié par un numéro unique
+
+Aetoile est la classe qui détermine le chemin à suivre, selon l'algorithme du même nom

@@ -11,7 +11,7 @@
 #include "etat_test.h"
 #include "../navigator.h"
 #include "etat_begin.h"
-#include "trajectoryv2.h"
+#include "parcours.h"
 
 Etat_end etat_end = Etat_end();
 

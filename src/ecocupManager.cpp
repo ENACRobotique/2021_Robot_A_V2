@@ -1,6 +1,6 @@
 #include "ecocupManager.h"
 #include "servoManager.h"
-#include "trajectoryv2.h" //pour IR_sel
+#include "parcours.h" //pour IR_sel
 #include "navigator.h" //pour le sens
 
 

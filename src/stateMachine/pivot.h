@@ -9,7 +9,7 @@
 #define STATEMACHINE_PIVOT_H_
 
 #include "AbstractState.h"
-#include "../trajectoryv2.h"
+#include "../parcours.h"
 
 class Pivot : public AbstractState {
 public:

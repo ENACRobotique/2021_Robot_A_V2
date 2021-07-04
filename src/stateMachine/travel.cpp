@@ -11,7 +11,6 @@
 #include "etat_test.h"
 #include "pivot.h"
 #include "etat_end.h"
-#include "trajectoryv2.h"
 #include "../navigator.h"
 #include "../ecocupManager.h"
 #include "ReleaseEcocup.h"
@@ -20,7 +19,7 @@ Travel travel = Travel();
 
 Travel::Travel()
 {
-	currentWp=Waypoint(0.0,0.0,BEGIN);
+	currentWp=Waypoint(-3,0.0,0.0,BEGIN);
 	time_start = 0;
 }
 
